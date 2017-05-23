@@ -1,0 +1,18 @@
+body {
+  display: inline-block;
+  padding-top: 50px; }
+
+.home-view {
+  background-color: yellow;
+  height: 200px;
+  width: 100%; }
+
+.login-background {
+  background-color: green;
+  height: 250px;
+  width: 100%; }
+
+.hood-background {
+  background-color: red;
+  height: 250px;
+  width: 100%; }
