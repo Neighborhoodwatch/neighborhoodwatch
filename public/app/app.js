@@ -40,4 +40,9 @@ angular.module('nWatch', ['ui.router'])
 			templateUrl: './app/views/editEvent/editEvent.html',
 			controller: 'editEventCtrl'
 		})
+		.state('signup', {
+			url: '/signup',
+			templateUrl: './app/views/signup/signup.html',
+			controller: 'signupCtrl'
+		})
 });

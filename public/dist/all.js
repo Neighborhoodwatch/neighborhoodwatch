@@ -32,6 +32,10 @@ angular.module('nWatch', ['ui.router']).config(function ($stateProvider, $urlRou
     url: '/events/edit',
     templateUrl: './app/views/editEvent/editEvent.html',
     controller: 'editEventCtrl'
+  }).state('signup', {
+    url: '/signup',
+    templateUrl: './app/views/signup/signup.html',
+    controller: 'signupCtrl'
   });
 });
 
@@ -151,6 +155,8 @@ angular.module('nWatch').controller('hoodCtrl', function ($scope, one) {
 });
 
 angular.module('nWatch').controller('newNeighborhoodCtrl', function ($scope, one) {});
+
+angular.module('nWatch').controller('signupCtrl', function ($scope) {});
 
 angular.module('nWatch').controller('userCtrl', function ($scope) {
 
