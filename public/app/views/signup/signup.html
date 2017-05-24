@@ -3,42 +3,90 @@
 
         <div class="col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1">
           <div class="panel panel-default">
-            <form>
-                <div class="form-group">
+            <form name="signupForm" novalidate>
+              <!--First Name Field -->
+                <div class="form-group" ng-class="{ 'has-error': signupForm.firstname.$touched && signupForm.firstname.$invalid}">
 
-                    <label for="">First Name</label>
-                    <input class="form-control" type="text" name="">
+                    <label for="firstname">First Name</label>
+                    <input class="form-control" type="text" name="firstname"
+                    ng-model="firstname"
+                    required>
+                    <div ng-messages="signupForm.firstname.$error" ng-show="signupForm.firstname.$touched">
+                      <p ng-message="required">First Name is required</p>
+                    </div>
                 </div>
-                <div class="form-group">
 
-                    <label for="">Last Name</label>
-                    <input class="form-control" type="text" name="">
-                </div>
-                <div class="form-group">
+                <!--Last Name Field -->
+                <div class="form-group" ng-class="{ 'has-error': signupForm.lastname.$touched && signupForm.lastname.$invalid}">
 
-                    <label for="">Email</label>
-                    <input class="form-control" type="text" name="">
+                    <label for="lastname">Last Name</label>
+                    <input class="form-control" type="text" name="lastname"
+                    ng-model="lastname"
+                    required>
+                    <div ng-messages="signupForm.lastname.$error" ng-show="signupForm.lastname.$touched">
+                      <p ng-message="required">Last Name is required</p>
+                    </div>
                 </div>
-                <div class="form-group">
+                <!--Email Field -->
+                <div class="form-group" ng-class="{ 'has-error': signupForm.email.$touched && signupForm.email.$invalid}">
 
-                    <label for="">Username</label>
-                    <input class="form-control" type="text" name="">
+                    <label for="email">Email</label>
+                    <input class="form-control" type="email" name="email"
+                    ng-model="email"
+                    required>
+                    <div ng-messages="signupForm.email.$error" ng-show="signupForm.email.$touched">
+                      <p ng-message="required">Email is required</p>
+                      <p ng-message="email">This is not a valid email</p>
+                    </div>
                 </div>
-                <div class="form-group">
+                <!--Username Field -->
+                <div class="form-group" ng-class="{ 'has-error': signupForm.username.$touched && signupForm.username.$invalid}">
 
-                    <label for="">Upload Profile Picture</label>
-                    <input class="form-control" type="text" name="">
+                    <label for="username">Username</label>
+                    <input class="form-control" type="text" name="username"
+                    ng-model="username"
+                    required>
+                    <div ng-messages="signupForm.username.$error" ng-show="signupForm.username.$touched">
+                      <p ng-message="required">Username is required</p>
+                    </div>
                 </div>
-                <div class="form-group">
+                <!--Profile Picture Field -->
+                <div class="form-group" ng-class="{ 'has-error': signupForm.picture.$touched && signupForm.picture.$invalid}">
 
-                    <label for="">Password</label>
-                    <input class="form-control" type="text" name="">
-                </div>
-                <div class="form-group">
+                  <label class="btn btn-primary" for="picture">
+                      <input name="picture" type="file" style="display:none;"
+                      ng-model="picture"
+                      required>
+                      Upload Profile Picture
+                      <div ng-messages="signupForm.picture.$error" ng-show="signupForm.picture.$touched">
+                        <p ng-message="required">Picture is required</p>
+                      </div>
+                  </label>
 
-                    <label for="">Confirm Password</label>
-                    <input class="form-control" type="text" name="">
                 </div>
+                <!--Password Field -->
+                <div class="form-group" ng-class="{ 'has-error': signupForm.password.$touched && signupForm.password.$invalid}">
+
+                    <label for="password">Password</label>
+                    <input class="form-control" type="password" name="password"
+                    ng-model="password"
+                    required>
+                    <div ng-messages="signupForm.password.$error" ng-show="signupForm.password.$touched">
+                      <p ng-message="required">Password is required</p>
+                    </div>
+                </div>
+                <!--Confirm Password Field -->
+                <div class="form-group" ng-class="{ 'has-error': signupForm.confirm.$touched && signupForm.confirm.$invalid}">
+
+                    <label for="confirm">Confirm Password</label>
+                    <input class="form-control" type="password" name="confirm"
+                    ng-model="confirm"
+                    required>
+                    <div ng-messages="signupForm.confirm.$error" ng-show="signupForm.confirm.$touched">
+                      <p ng-message="required">Confirm password is required</p>
+                    </div>
+                </div>
+                <!--Signup Button-->
                 <button ui-sref="login">Signup</button>
             </form>
           </div>
