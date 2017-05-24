@@ -1,0 +1,39 @@
+<!--
+CREATE TABLE users (
+    	first_name	varchar(20),
+    	last_name	varchar(20),
+    	username	varchar(20),
+	email       varchar(40),
+    	facebook_id	int,
+    	google_id	int,
+   	password	varchar(20),
+	user_id integer unique
+);
+CREATE TABLE events (
+	event_id integer unique,
+	lat int,
+	lon int,
+	details text,
+	title varchar(40),
+	date timestamp,
+	type_id int,
+	created_by int,
+);
+CREATE TABLE neighborhood (
+	neighborhood_id integer unique,
+	name varchar(40),
+	city text,
+	state text,
+);
+CREATE TABLE following (
+	event_id int,
+	user_id int
+);
+CREATE TABLE type (
+	name text,
+	type_id integer unique
+);
+
+-- note: no photo columns have been added yet.
+-- don’t allow duplicates
+-->
