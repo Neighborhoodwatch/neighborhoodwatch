@@ -1,8 +1,12 @@
 <div class="container-fluid">
-    <div class="row">
+    <div class="row" id="signup-row">
 
         <div class="col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1">
           <div class="panel panel-default">
+            <div class="panel-heading">
+            <h2 class="signup-title">Neighborhood Watch Signup</h2>
+          </div>
+            <div class="panel-body signup-panel">
             <form name="signupForm" novalidate>
               <!--First Name Field -->
                 <div class="form-group" ng-class="{ 'has-error': signupForm.firstname.$touched && signupForm.firstname.$invalid}">
@@ -89,6 +93,7 @@
                 <!--Signup Button-->
                 <button ui-sref="login">Signup</button>
             </form>
+          </div>
           </div>
         </div>
 

@@ -1,12 +1,13 @@
 <div class="container-fluid">
-    <div class="row">
+    <div class="row" id="neighborhood-row">
 
+      <div class="col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1">
 
         <nw-neighborhood-logged-out ng-hide="loggedIn"></nw-neighborhood-logged-out>
         <nw-neighborhood-logged-in ng-show="loggedIn && !noNeighborhood"></nw-neighborhood-logged-in>
         <nw-find-neighborhood ng-show="noNeighborhood"></nw-find-neighborhood>
 
-
+    </div>
 
 
 
