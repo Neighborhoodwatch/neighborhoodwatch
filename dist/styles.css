@@ -1,11 +1,43 @@
+
+#events-events-img {
+  height: 40vh;
+  width: 650px;
+  margin-left: 10px; }
+
+.events-event-name {
+  margin-top: 30px;
+  margin-left: 20px;
+  margin-bottom: 10px;
+  font-size: 30px;
+  font-weight: 500; }
+
+.events-event-text {
+  margin-bottom: 50px;
+  margin-left: 10px; }
+
+.events-button {
+  margin-top: 20px;
+  margin-left: 10px;
+  background-color: #80ff80;
+  height: 50px;
+  width: 150px; }
+
 body {
-  display: inline-block;
   padding-top: 50px; }
 
 .home-view {
   background-color: yellow;
-  height: 200px;
+  height: 30vh;
   width: 100%; }
+
+.home-events-box {
+  background-color: grey;
+  height: 65vh;
+  overflow-y: scroll; }
+
+.home-report {
+  background-color: orange;
+  height: 50vh; }
 
 .login-background {
   background-color: green;

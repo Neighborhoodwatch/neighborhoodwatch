@@ -19,4 +19,14 @@ angular.module('nWatch', ['ui.router'])
 			templateUrl: './app/views/login/login.html',
 			controller: 'loginCtrl'
 		})
+    .state('events', {
+			url: '/events',
+			templateUrl: './app/views/events/events.html',
+			controller: 'eventsCtrl'
+		})
+    .state('editEvents', {
+			url: '/events/edit',
+			templateUrl: './app/views/editEvent/editEvent.html',
+			controller: 'editEventCtrl'
+		})
 });

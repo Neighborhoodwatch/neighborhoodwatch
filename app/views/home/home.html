@@ -1,5 +1,42 @@
-<body>
-  <div class="home-view">
-    {{arr}}
+<div class="container-fluid">
+  <div class="row">
+    <div class=" col-xs-12 home-view">
+        {{arr}}
+    </div>
   </div>
-</body>
+  <div class="row">
+    <div class="col-sm-9 home-events-box">
+      <h3>EVENTS</h3>
+      <div class="row" ng-repeat="peep in people">
+        <div class="col-sm-7">
+          <div class="row">
+            <div class="col-sm-6">
+              <h3>{{peep.name}}</h3>
+            </div>
+            <div class="col-sm-6">
+              {{peep.date() | date : "medium"}}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <p>{{peep.text}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <img class="img-rounded" ng-src="{{peep.img}}" alt="" style="height:125px; width:125px;">
+        </div>
+        <div class="col-sm-1">
+          <button type="button" name="button" ui-sref="events">view more</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="row home-report">
+        <div class="col-sm-12">
+          <h3 style="padding-top:20px;">REPORT SOMETHING</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
