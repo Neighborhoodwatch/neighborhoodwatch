@@ -4,21 +4,21 @@ const babel = require('gulp-babel');
 const sass = require('gulp-sass');
 
 gulp.task('concat', function () {
-  gulp.src(['./app/**/*.js'])
+  gulp.src(['./public/**/*.js'])
   .pipe(concat('all.js'))
   .pipe(babel({
     presets: ['es2015']
   }))
-  .pipe(gulp.dest('./dist'))
+  .pipe(gulp.dest('./public/dist'))
 });
 gulp.task('sass', function () {
-  return gulp.src('./app/**/*.sass')
+  return gulp.src('./public/**/*.sass')
     .pipe(sass())
     .pipe(concat('styles.css'))
-    .pipe(gulp.dest('./dist'));
+    .pipe(gulp.dest('./public/dist'));
 });
 
 gulp.task('watch', function(){
-  gulp.watch('app/**/*.sass', ['sass']);
-  gulp.watch('./app/**/*.js', ['concat']);
+  gulp.watch('./public/**/*.sass', ['sass']);
+  gulp.watch('./public/**/*.js', ['concat']);
 })
