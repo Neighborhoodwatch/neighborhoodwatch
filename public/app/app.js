@@ -1,4 +1,4 @@
-angular.module('nWatch', ['ui.router'])
+angular.module('nWatch', ['ui.router', 'ngMessages'])
 	.config(function( $stateProvider, $urlRouterProvider ) {
 
 		$urlRouterProvider.otherwise('/');
