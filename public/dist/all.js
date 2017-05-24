@@ -36,6 +36,10 @@ angular.module('nWatch', ['ui.router']).config(function ($stateProvider, $urlRou
     url: '/signup',
     templateUrl: './app/views/signup/signup.html',
     controller: 'signupCtrl'
+  }).state('admin', {
+    url: '/admin',
+    templateUrl: './app/views/admin/admin.html',
+    controller: 'adminCtrl'
   });
 });
 
