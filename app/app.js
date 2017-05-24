@@ -19,6 +19,7 @@ angular.module('nWatch', ['ui.router'])
 			templateUrl: './app/views/login/login.html',
 			controller: 'loginCtrl'
 		})
+
 		.state('user', {
 			url: '/user',
 			templateUrl: './app/views/user/user.html',
@@ -28,5 +29,15 @@ angular.module('nWatch', ['ui.router'])
 			url: '/newneighborhood',
 			templateUrl: './app/views/newNeighborhood/newNeighborhood.html',
 			controller: 'newNeighborhoodCtrl'
+		})
+    .state('events', {
+			url: '/events',
+			templateUrl: './app/views/events/events.html',
+			controller: 'eventsCtrl'
+		})
+    .state('editEvents', {
+			url: '/events/edit',
+			templateUrl: './app/views/editEvent/editEvent.html',
+			controller: 'editEventCtrl'
 		})
 });
