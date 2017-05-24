@@ -1,6 +1,16 @@
 body
   padding-top: 50px
 
+@media (min-width: 768px)
+  .navbar .navbar-nav
+    display: inline-block
+    float: none
+    vertical-align: top
+
+  .navbar .navbar-collapse
+    text-align: center
+
+
 .home-view
   background-image: url(http://www.countrysidepest.com/wp-content/uploads/2015/05/neighborhood-houses.jpg)
   background-repeat: no-repeat
@@ -10,6 +20,8 @@ body
 
 .home-events-box
   background-color: grey
+  padding-left: 50px !important
+  padding-right: 50px !important
   height: 65vh
   overflow: scroll
 
@@ -18,4 +30,7 @@ body
   height: 50vh
 
 .home-event-personal-event
+  overflow: hidden
+  max-height: 150px
   border: 1px solid black
+  margin-bottom: 10px
