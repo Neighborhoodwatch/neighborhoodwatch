@@ -51,7 +51,7 @@ angular.module('nWatch', ['ui.router', 'ngMessages'])
 			controller: 'adminCtrl'
 		})
 		.state('createEvent', {
-			url: '/create-event',
+			url: '/event/create',
 			templateUrl: './app/views/createEvent/createEvent.html',
 			controller: 'createEventCtrl'
 		})
