@@ -13,7 +13,7 @@
       </div>
     </div>
     <div class="col-sm-8">
-      <div class="row">
+      <div class="row edit-event-describe">
         <div class="col-sm-3">
           <p>Describe the event/problem</p>
         </div>
@@ -21,7 +21,7 @@
           <input type="text" name="" value="">
         </div>
       </div>
-      <div class="row">
+      <div class="row edit-event-category">
         <div class="col-sm-3">
           <p>category</p>
         </div>
@@ -31,7 +31,7 @@
           </label>
         </div>
       </div>
-      <div class="row">
+      <div class="row edit-event-notified">
         <div class="col-sm-3">
           <p>How Would you like to be notified about your event?</p>
         </div>
@@ -46,13 +46,13 @@
             <label>Show Me On My Newsfeed:
               <input type="checkbox" ng-model="checkboxModel.value3">
             </label><br/>
-            <tt>value1 = {{checkboxModel.value1}}</tt><br/>
+            <!-- <tt>value1 = {{checkboxModel.value1}}</tt><br/>
             <tt>value2 = {{checkboxModel.value2}}</tt><br/>
-            <tt>value2 = {{checkboxModel.value3}}</tt><br/>
+            <tt>value2 = {{checkboxModel.value3}}</tt><br/> -->
           </form>
         </div>
       </div>
-      <div class="row">
+      <div class="row edit-event-location">
         <div class="col-sm-3">
           <p>Current Location:</p>
         </div>
@@ -75,12 +75,12 @@
           </div>
         </div>
       </div>
-      <div class="row">
+      <div class="row edit-event-buttons">
         <div class="col-sm-6">
-          <button type="button" name="button">Post Issue</button>
+          <button type="button" name="button" class="btn btn-primary">Post Issue</button>
         </div>
         <div class="col-sm-6">
-          <button type="button" name="button">Mark Resolved</button>
+          <button type="button" name="button" class="btn btn-success">Mark Resolved</button>
         </div>
       </div>
     </div>
