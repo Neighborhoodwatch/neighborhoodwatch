@@ -7,34 +7,38 @@
   <div class="row">
     <div class="col-sm-8 home-events-box">
       <h3 class="text-center">EVENTS</h3>
-      <div class="row home-event-personal-event" ng-repeat="peep in people">
-        <div class="col-sm-7">
+      <div class="row home-event-personal-event col-sm-12" ng-repeat="peep in people">
+        <div class="col-sm-8">
           <div class="row">
             <div class="col-sm-6">
               <h3>{{peep.name}}</h3>
             </div>
-            <div class="col-sm-6">
-              {{peep.date() | date : "medium"}}
+            <div class="col-sm-6 home-event-date">
+              {{peep.date() | date : "mediumDate"}}
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-12">
+            <div class="col-xs-12 home-event-text">
               <p>{{peep.text}}</p>
+            </div>
+            <div class="col-xs-12 text-center">
+              <a ui-sref="events"> view more</a>
             </div>
           </div>
         </div>
-        <div class="col-sm-3">
-          <img class="img-rounded" ng-src="{{peep.img}}" alt="" style="height:125px; width:125px;">
-        </div>
-        <div class="col-sm-1">
-          <a ui-sref="events"> view more</a>
+        <div class="col-xs-4 home-events-img text-center">
+          <img class="img-rounded" ng-src="{{peep.img}}" alt="" style="height:125px; max-width:125px;">
         </div>
       </div>
     </div>
     <div class="col-sm-4">
-      <div class="row home-report">
-        <div class="col-sm-12">
+      <div class="row home-report text-center">
+        <div class="col-sm-11 col-sm-offset-1">
           <h3 style="padding-top:20px;">REPORT SOMETHING</h3>
+          <div class="">
+
+            <img src="./app/img/event/Custom-Icon-Design-Mono-General-3-Camera.ico" alt="" class="img-responsive">
+          </div>
         </div>
       </div>
     </div>
