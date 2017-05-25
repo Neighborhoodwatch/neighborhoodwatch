@@ -12,13 +12,17 @@
         <!-- Ends Column Left -->
         <div class="col-xs-6">
             <h4>All Events</h4>
-            <div class="neighborhood-events">Neighbor Name</div>
-            </br>
-            <div class="neighborhood-events">Neighbor Name</div>
-            </br>
-            <div class="neighborhood-events">Neighbor Name</div>
-            </br>
+            <div ng-repeat="event in privateEvents">
+            <div class="panel panel-default neighborhood-panel">
+              {{event.name}}
+            {{event.date}}
+          {{event.description}}
+          {{event.time}}
+          <img ng-src="{{event.eventImage}}">
+          {{event.host}}</div>
+          </div>
             <button ng-click="leaveNeighborhood()">Leave Neighborhood</button>
         </div>
+        <!--Ends column right  -->
     </div>
 </div>
