@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser'); 
 var bodyParser = require('body-parser');
+var massive = require('massive');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -13,6 +14,22 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+
+//setup for massive and database//
+sslmode= require;
+
+//console.log(process.env.port)
+// connectionString needs to be tested still
+var connectionString = process.env.DATABASE_URL || "postgres://postgres:postgres@localhost/neighborhood" ;
+
+var massiveInstance = massive.connectSync({connectionString});
+app.set('db', massiveInstance);
+var db = app.get('db');
+console.log(connectionString)
+
+//pass db through mainCtrl on backend//
+//var mainCtrl = getMainCtrl(db);
+
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
