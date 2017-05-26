@@ -66,13 +66,16 @@ module.exports = {
         var event_location_lon = path.event_location_lon;
         var event_time = path.event_time;
         
-        db.create_event([lat, lon, details, title, type_id, created_by, event_location_lat, event_location_lon, event_time]), (err, resp) => {
+        
+        db.create_event([lat, lon, details, title, type_id, created_by, event_location_lat, event_location_lon, event_time], (err, resp) => {
             if (err) {
                 res.status(420).json(err);
             } else {
-                req.session.order = resp;
-                res.json(resp);
+                console.log('new event created:', path)
+                
+                req.session.order = resp
+                res.json(resp)
             }
-        }
+        })
     }        
 }
