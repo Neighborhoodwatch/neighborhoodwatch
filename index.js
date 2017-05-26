@@ -15,6 +15,7 @@ const users = require('./routes/users');
 const events = require('./routes/events');
 const neighborhoods = require('./routes/neighborhoods');
 
+
 //Application
 var app = module.exports = express();
 app.use(express.static('./public'));
