@@ -1,0 +1,203 @@
+.create-event-describe {
+  padding-top: 15px;
+  height: 100px; }
+  .create-event-describe input {
+    height: 77px;
+    width: 300px; }
+
+.create-event-category {
+  padding-top: 20px;
+  height: 75px; }
+
+.create-event-notified {
+  padding-top: 20px;
+  height: 125px; }
+
+.create-event-location {
+  padding-top: 20px;
+  height: 125px; }
+
+.create-event-buttons {
+  padding-top: 20px;
+  height: 75px; }
+  .create-event-buttons button {
+    height: 50px; }
+
+.edit-event-describe {
+  padding-top: 15px;
+  height: 100px; }
+  .edit-event-describe input {
+    height: 77px;
+    width: 300px; }
+
+.edit-event-category {
+  padding-top: 20px;
+  height: 75px; }
+
+.edit-event-notified {
+  padding-top: 20px;
+  height: 125px; }
+
+.edit-event-location {
+  padding-top: 20px;
+  height: 125px; }
+
+.edit-event-buttons {
+  padding-top: 20px;
+  height: 75px; }
+  .edit-event-buttons button {
+    height: 50px; }
+
+#events-events-img {
+  height: 40vh;
+  width: 650px;
+  margin-left: 10px; }
+
+.events-event-name {
+  margin-top: 30px;
+  margin-left: 20px;
+  margin-bottom: 10px;
+  font-size: 30px;
+  font-weight: 500; }
+
+.events-event-text {
+  margin-bottom: 50px;
+  margin-left: 10px; }
+
+.events-button {
+  margin-top: 20px;
+  margin-left: 10px;
+  background-color: #80ff80;
+  height: 50px;
+  width: 150px; }
+
+body {
+  padding-top: 50px; }
+
+@media (min-width: 768px) {
+  .navbar .navbar-nav {
+    display: inline-block;
+    float: none;
+    vertical-align: top; }
+  .navbar .navbar-collapse {
+    text-align: center; } }
+
+.home-view {
+  background-image: url(http://www.countrysidepest.com/wp-content/uploads/2015/05/neighborhood-houses.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  min-height: 350px; }
+
+.home-events-box {
+  background-color: grey;
+  padding-left: 50px !important;
+  padding-right: 50px !important;
+  height: 60vh;
+  overflow: scroll; }
+
+.home-report {
+  background-color: orange;
+  height: 50vh; }
+
+.home-event-personal-event {
+  overflow: hidden;
+  max-height: 150px;
+  min-height: 150px;
+  border: 1px solid black;
+  margin-bottom: 10px; }
+
+.home-event-date {
+  padding-top: 20px; }
+
+.home-event-text {
+  height: 70px;
+  overflow: hidden; }
+
+.home-events-img {
+  padding-top: 10px; }
+
+.home-report-img {
+  background-image: url(); }
+
+#neighborhood-camera {
+  font-size: 135px;
+  border: solid;
+  padding: 20px;
+  border-width: .5px; }
+
+#neighborhood-state {
+  display: inline;
+  float: left; }
+
+#neighborhood-show {
+  display: inline;
+  float: right; }
+
+#neighborhood-row {
+  margin-top: 60px; }
+
+.find-heading {
+  text-align: center; }
+
+.neighborhood-heading {
+  text-align: center; }
+
+.neighborhood-panel {
+  padding: 5px; }
+
+.new-row {
+  margin-top: 60px; }
+
+.new-heading {
+  text-align: center; }
+
+#signup-row {
+  margin-top: 60px; }
+
+.signup-panel {
+  padding: 25px; }
+
+.signup-title {
+  text-align: center; }
+
+.login-background {
+  background-color: green;
+  height: 250px;
+  width: 100%; }
+
+#login-panel {
+  height: 600px;
+  margin-top: 50px;
+  background-color: rgba(211, 211, 211, 0.2); }
+
+#login-login-button {
+  width: 100%; }
+
+.login-logo {
+  width: 140px; }
+
+.login-logo-outside {
+  width: 100%;
+  text-align: center; }
+
+.login-login {
+  text-align: center; }
+
+.user-events {
+  height: 150px;
+  width: 480px;
+  border: solid;
+  border-width: .5px; }
+
+.user-panel {
+  margin-top: 75px; }
+
+.user-title {
+  text-align: center; }
+
+.user-body {
+  padding: 10px; }
+
+.user-my-event {
+  padding: 5px; }
