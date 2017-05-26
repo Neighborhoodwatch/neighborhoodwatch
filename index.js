@@ -13,7 +13,7 @@ var app = module.exports = express();
 app.use(express.static('./public'));
 app.use(bodyParser.json());
 app.use(session({
-  secret: process.env.SESSIONSECRET,
+  secret: 'thisisasecret',
   resave: false,
   saveUninitialized: true
  }));
@@ -27,10 +27,13 @@ let testCtrl = require('./serverCtrls/testCtrl');
 // let cartCtrl = require('./controllers/cartCtrl');
 // let stripeCtrl = require('./controllers/stripeCtrl');
 // let orderCtrl = require('./controllers/orderCtrl');
+app.post('/createEvent', testCtrl.createEvent);
+app.post('/createUser', testCtrl.createUser);
+app.get('/getUsers', testCtrl.getUsers);
+app.get('/getEvents', testCtrl.getEvents);
 
-// app.post('/api/cart/', testCtrl.something );
 
-const port = 3000
+const port = 3000;
 app.listen(process.env.PORT || port, () => {
   console.log(`sup from port ${port}`);
 })
