@@ -1,16 +1,20 @@
 <!--
+-- reset and create a new database with a copy and paste job:
+drop table users, events, neighborhood, following, type;
+
 CREATE TABLE users (
     	first_name	varchar(20),
     	last_name	varchar(20),
     	username	varchar(20),
 	email       varchar(40),
-    	facebook_id	int,
-    	google_id	int,
+    	facebook_id	int unique,
+    	google_id	int unique,
    	password	varchar(20),
-	user_id integer unique
+	photo 	text,
+	user_id serial primary key
 );
 CREATE TABLE events (
-	event_id integer unique,
+	event_id serial primary key,
 	lat int,
 	lon int,
 	details text,
@@ -18,22 +22,24 @@ CREATE TABLE events (
 	date timestamp,
 	type_id int,
 	created_by int,
+	event_location_lat int,
+	event_location_lon int,
+	event_time int,
+	photo text,
 );
 CREATE TABLE neighborhood (
 	neighborhood_id integer unique,
 	name varchar(40),
 	city text,
-	state text,
+	state text
 );
 CREATE TABLE following (
 	event_id int,
 	user_id int
 );
+
 CREATE TABLE type (
 	name text,
-	type_id integer unique
+	type_id integer unique	
 );
-
--- note: no photo columns have been added yet.
--- don’t allow duplicates
 -->
