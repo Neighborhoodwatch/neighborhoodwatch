@@ -1,22 +1,31 @@
 angular.module('nWatch').controller('createEventCtrl', function($scope,) {
-  // $scope.lists = [
-  //   {
-  //     name: 'Lost Pet'
-  //   },
-  //   {
-  //     name: 'Damage'
-  //   },
-  //   {
-  //     name: 'Neighborhood Lurker'
-  //   },
-  //   {
-  //     name: 'Looking For'
-  //   },
-  //   {
-  //     name: 'BBQ'
-  //   }
-  // ]
-  // $scope.category = $scope.lists[0]
+  $scope.lists = [
+    {
+      name: 'Lost Pet'
+    },
+    {
+      name: 'Damage'
+    },
+    {
+      name: 'Misc'
+    },
+    {
+      name: 'Neighborhood Watch'
+    },
+    {
+      name: 'Clean-up'
+    },
+    {
+      name: 'Missing Person'
+    },
+    {
+      name: 'Meet Up'
+    },
+    {
+      name: 'Entertainment'
+    }
+  ]
+  $scope.category = $scope.lists[0]
 
   $scope.eventImg = "yoyoyo"
 
