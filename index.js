@@ -9,11 +9,11 @@ const massive = require('massive');
 let connectionString = process.env.DATABASE_URL || config.connectionString ||  "postgres://postgres:postgres@localhost/neighborhood";
 let massiveInstance = massive.connectSync({connectionString})
 
-//API Routes
+// API Routes
 const types = require('./routes/type');
 const users = require('./routes/users');
 const events = require('./routes/events');
-const neighborhoods = require('./routes/neighborhoods');
+const neighborhoods = require('./routes/neighborhood');
 
 
 //Application
@@ -32,7 +32,7 @@ app.set('db', massiveInstance);
 var db = app.get('db');
 
 //API will be http://localhost/api/types, http://localhost/api/users, http://localhost/api/events, http://localhost:3000/api/neighborhoods etc. by using the prefix
-// let testCtrl = require('./serverCtrls/testCtrl');
+let testCtrl = require('./serverCtrls/testCtrl');
 app.use('/api', types);
 app.use('/api', users);
 app.use('/api', events);
