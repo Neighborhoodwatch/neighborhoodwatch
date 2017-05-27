@@ -2,13 +2,24 @@
   <div class="row">
     <div class="col-sm-12">
       <div class="row">
-        <div class="col-sm-6 events-event-name">
-          <div class="">{{event.eventName}}</div>
+        <div class="col-sm-12 events-event-top text-center">
+          <div class="event-font-lg">{{event.name}}</div>
+          <div class="row">
+            <div class="col-sm-4 event-font-med">
+              Date: {{event.date}}
+            </div>
+            <div class="col-sm-4 event-font-med">
+            WHERE: {{event.location}}
+            </div>
+            <div class="col-sm-4 event-font-med">
+            Time: {{event.time}}
+            </div>
+          </div>
         </div>
       </div>
       <div class="row">
         <div class="col-sm-10 events-event-text">
-          <p>{{event.text}}</p>
+          <p>{{event.description}}</p>
         </div>
       </div>
     </div>
@@ -22,7 +33,7 @@
       <div class="row">
         <div class="col-sm-12">
 
-          <button type="button" class="events-button">Accept</button>
+          <button type="button" class="events-button" ng-click()>Accept</button>
 
         </div>
       </div>
