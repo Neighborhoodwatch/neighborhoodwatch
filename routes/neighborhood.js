@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 //Add direct routes here
-var neighborhoodCtrl = require('../neighborhoodCtrl');
+var neighborhoodCtrl = require('../serverCtrls/neighborhoodCtrl');
 
 router.get('/neighborhoods', neighborhoodCtrl.getNeighborhoods);
 //router.get('/neighborhoods/:id', neighborhoodCtrl.getNeighborhood);

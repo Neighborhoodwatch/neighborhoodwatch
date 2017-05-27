@@ -29,7 +29,7 @@ angular.module('nWatch', ['ui.router', 'ngMessages']).config(function ($statePro
     templateUrl: './app/views/events/events.html',
     controller: 'eventsCtrl'
   }).state('editEvents', {
-    url: '/events/edit',
+    url: '/event/edit',
     templateUrl: './app/views/editEvent/editEvent.html',
     controller: 'editEventCtrl'
   }).state('signup', {
@@ -79,6 +79,21 @@ angular.module('nWatch').directive('nwNeighborhoodLoggedOut', function () {
   };
 });
 
+angular.module('nWatch').service('eventSrvc', function ($http) {
+
+  this.event = {
+    name: 'BBQ with friends',
+    location: 'at my house',
+    date: "may 16th",
+    time: '7:00pm',
+    img: 'https://static1.squarespace.com/static/55db9fb4e4b09ddcb02196d5/t/56096153e4b003fe9c8e7ef6/1443455316469/BBQ2.jpg?format=2500w',
+    maps: 'http://med.stanford.edu/school/contacts/_jcr_content/main/panel_builder/panel_1/panel_builder_1/panel_0/image.img.620.high.png',
+    description: 'YOYOYOYOYOYO ITS BBQ TIME!!! Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+  };
+
+  // neighday
+});
+
 angular.module('nWatch').service('one', function () {
   this.words = function () {
     return "wow this is in a service";
@@ -95,21 +110,29 @@ angular.module('nWatch').controller('createEventCtrl', function ($scope) {
   }, {
     name: 'Damage'
   }, {
-    name: 'Neighborhood Lurker'
+    name: 'Misc'
   }, {
-    name: 'Looking For'
+    name: 'Neighborhood Watch'
+  }, {
+    name: 'Clean-up'
+  }, {
+    name: 'Missing Person'
+  }, {
+    name: 'Meet Up'
+  }, {
+    name: 'Entertainment'
   }];
   $scope.category = $scope.lists[0];
-  // console.log($scope.category);
-  // setTimeout(function(){
-  //   console.log($scope.category);
-  // }, 3000);
+
   $scope.eventImg = "yoyoyo";
 
-  $scope.checkboxModel = {
-    value1: false,
-    value2: false,
-    value3: false
+  $scope.event = {
+    check1: false,
+    check2: false,
+    check3: false
+  };
+  $scope.eventCreate = function (event) {
+    console.log(event);
   };
 });
 
@@ -129,21 +152,21 @@ angular.module('nWatch').controller('editEventCtrl', function ($scope) {
   //   console.log($scope.category);
   // }, 3000);
 
-  $scope.checkboxModel = {
-    value1: false,
-    value2: false,
-    value3: false
+  $scope.event = {
+    check1: false,
+    check2: false,
+    check3: false
+  };
+  $scope.eventEdit = function (event) {
+    console.log(event);
   };
 });
 
-angular.module('nWatch').controller('eventsCtrl', function ($scope) {
+angular.module('nWatch').controller('eventsCtrl', function ($scope, eventSrvc) {
 
-  $scope.event = {
-    eventName: 'BBQ AT THE HOUSE',
-    img: 'https://static1.squarespace.com/static/55db9fb4e4b09ddcb02196d5/t/56096153e4b003fe9c8e7ef6/1443455316469/BBQ2.jpg?format=2500w',
-    maps: 'http://med.stanford.edu/school/contacts/_jcr_content/main/panel_builder/panel_1/panel_builder_1/panel_0/image.img.620.high.png',
-    text: 'YOYOYOYOYOYO ITS BBQ TIME!!! Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
-  };
+  $scope.event = eventSrvc.event;
+  console.log($scope.event);
+  $scope.eventSignUp = function (id) {};
 });
 
 angular.module('nWatch').controller('homeCtrl', function ($scope, one) {
