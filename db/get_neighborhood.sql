@@ -1,1 +1,1 @@
-SELECT * FROM users WHERE neighborhood_id = $1;
+select * from neighborhood WHERE neighborhood_id=$1
