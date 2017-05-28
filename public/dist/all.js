@@ -90,8 +90,12 @@ angular.module('nWatch').service('eventSrvc', function ($http) {
     maps: 'http://med.stanford.edu/school/contacts/_jcr_content/main/panel_builder/panel_1/panel_builder_1/panel_0/image.img.620.high.png',
     description: 'YOYOYOYOYOYO ITS BBQ TIME!!! Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
   };
-
-  // neighday
+  this.getMaps = function (address) {
+    return $http({
+      method: "GET",
+      url: "https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=AIzaSyDygNCUy0c-ktsxgQh54x83Rdza88YjOYg"
+    });
+  };
 });
 
 angular.module('nWatch').service('one', function () {
@@ -104,7 +108,7 @@ angular.module('nWatch').controller('adminCtrl', function ($scope) {
   $scope.to = "argggghhhhh";
 });
 
-angular.module('nWatch').controller('createEventCtrl', function ($scope) {
+angular.module('nWatch').controller('createEventCtrl', function ($scope, eventSrvc) {
   $scope.lists = [{
     name: 'Lost Pet'
   }, {
@@ -133,6 +137,59 @@ angular.module('nWatch').controller('createEventCtrl', function ($scope) {
   };
   $scope.eventCreate = function (event) {
     console.log(event);
+  };
+
+  var myLatLng = { lat: -25.363, lng: 131.044 };
+
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 4,
+    center: myLatLng
+  });
+
+  var marker = new google.maps.Marker({
+    position: myLatLng,
+    map: map,
+    title: 'Hello World!'
+  });
+
+  var tA = '2787 E westerling way';
+  eventSrvc.getMaps(tA).then(function (res) {
+    var cordinates = res.data.results[0].geometry.location;
+    $scope.lat = cordinates.lat;
+    $scope.long = cordinates.lng;
+    console.log($scope.lat, $scope.long);
+  });
+
+  $scope.changeMap = function (map) {
+    if (map.address && map.city && map.state && map.zip) {
+      var mapA = map.address;
+      var mapC = map.city;
+      var mapS = map.state;
+      var mapZ = map.zip;
+      var address = mapA + ' ' + mapC + ', ' + mapS + ' ' + mapZ;
+      console.log(address);
+      eventSrvc.getMaps(address).then(function (res) {
+        var cordinates = res.data.results[0].geometry.location;
+        var lati = cordinates.lat;
+        var long = cordinates.lng;
+        console.log($scope.lat, $scope.long);
+
+        var myLatLng = { lat: lati, lng: long };
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 15,
+          center: myLatLng
+        });
+
+        var marker = new google.maps.Marker({
+          position: myLatLng,
+          map: map,
+          title: 'Hello World!'
+        });
+      });
+    } else {
+      alert('please fill out all boxes on from to generate a event map');
+    }
   };
 });
 
