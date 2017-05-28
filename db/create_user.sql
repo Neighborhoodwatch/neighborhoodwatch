@@ -1,3 +1,3 @@
-INSERT INTO users (first_name, last_name, username, email, facebook_id, google_id, password) 
-VALUES ($1, $2, $3, $4, $5, $6, $7) 
+INSERT INTO users (first_name, last_name, username, email, facebook_id, google_id, password, photo)
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
 ON CONFLICT(facebook_id) DO NOTHING RETURNING user_id;

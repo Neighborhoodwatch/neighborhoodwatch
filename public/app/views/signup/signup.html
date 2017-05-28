@@ -59,14 +59,14 @@
 
                   <label class="btn btn-primary" for="picture">
                       <input name="picture" type="file" style="display:none;" id="picture"
-                      ng-model="picture"
+                      ng-model="uploadme.src"
+                      fileread="uploadme.src"
                       required>
                       Upload Profile Picture
                       <div ng-messages="signupForm.picture.$error" ng-show="signupForm.picture.$touched">
                         <p ng-message="required">Picture is required</p>
                       </div>
                   </label>
-
                 </div>
                 <!--Password Field -->
                 <div class="form-group" ng-class="{ 'has-error': signupForm.password.$touched && signupForm.password.$invalid}">
@@ -91,7 +91,7 @@
                     </div>
                 </div>
                 <!--Signup Button-->
-                <button ui-sref="login">Signup</button>
+                <button ng-click="createUser(firstname, lastname, username, email, face, google, password, uploadme.src.name)">Signup</button>
             </form>
           </div>
           </div>

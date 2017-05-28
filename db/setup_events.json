@@ -1,14 +1,14 @@
 [
 	{
-		"lat": "-7.43048",
-		"lon": "-78.45693",
 		"details": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Curabitur sed tortor. Integer aliquam adipiscing lacus. Ut nec urna et arcu imperdiet ullamcorper.",
 		"title": "orci. Ut sagittis lobortis",
 		"type_id": 7,
 		"created_by": 65,
 		"event_location_lat": "-15.83664",
 		"event_location_lon": "139.77701",
-		"event_time": 4
+		"name of location": "Daves house",
+		"event_date": "some date",
+		"event_time": "7:00 pm"
 	},
 	{
 		"lat": "32.72301",
