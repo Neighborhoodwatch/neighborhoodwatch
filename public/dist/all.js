@@ -47,6 +47,23 @@ angular.module('nWatch', ['ui.router', 'ngMessages']).config(function ($statePro
   });
 });
 
+angular.module('nWatch').directive('fileread', function () {
+  return {
+    scope: {
+      fileread: "="
+    },
+    link: function link(scope, element, attributes) {
+      element.bind("change", function (changeEvent) {
+        scope.$apply(function () {
+          scope.fileread = changeEvent.target.files[0];
+          // or all selected files:
+          // scope.fileread = changeEvent.target.files;
+        });
+      });
+    }
+  };
+});
+
 angular.module('nWatch').directive('nwFindNeighborhood', function () {
   return {
     restrict: 'EA',
@@ -94,45 +111,89 @@ angular.module('nWatch').service('eventSrvc', function ($http) {
   // neighday
 });
 
+angular.module('nWatch').service('loginSrvc', function ($http) {
+
+  this.login = function () {
+    return $http({
+      method: 'GET',
+      url: '/api/users'
+    });
+  };
+});
+
 angular.module('nWatch').service('one', function () {
   this.words = function () {
     return "wow this is in a service";
   };
 });
 
-angular.module('nWatch').controller('adminCtrl', function ($scope) {
-  $scope.to = "argggghhhhh";
+angular.module('nWatch').service('signupSrvc', function ($http) {
+
+  this.createUser = function (first, last, username, email, face, google, password, photo) {
+    return $http({
+      method: 'POST',
+      url: '/api/users',
+      data: {
+        first: first,
+        last: last,
+        username: username,
+        email: email,
+        face: face,
+        google: google,
+        password: password,
+        photo: photo
+      }
+    });
+  };
 });
 
-angular.module('nWatch').controller('createEventCtrl', function ($scope) {
-  $scope.lists = [{
-    name: 'Lost Pet'
+angular.module('nWatch').service('userSrvc', function ($http) {
+
+  this.events = [{
+    name: 'Bar-B-Q',
+    date: '06/23/17',
+    time: '7:00 PM',
+    description: 'This is my description',
+    eventImage: 'app/img/logo/neighborhood-watch.png',
+    host: 'John Milwaukee'
   }, {
-    name: 'Damage'
+    name: 'Cookout',
+    date: '7/12/17',
+    time: '10:00 PM',
+    description: 'This is my cookout',
+    eventImage: 'app/img/logo/neighborhood-watch.png',
+    host: 'John Milwaukee'
+  }], this.attending = [{
+    name: 'Bar-B-Q',
+    date: '06/23/17',
+    time: '7:00 PM',
+    description: 'This is my description',
+    eventImage: 'app/img/logo/neighborhood-watch.png',
+    host: 'John Milwaukee'
   }, {
-    name: 'Misc'
-  }, {
-    name: 'Neighborhood Watch'
-  }, {
-    name: 'Clean-up'
-  }, {
-    name: 'Missing Person'
-  }, {
-    name: 'Meet Up'
-  }, {
-    name: 'Entertainment'
+    name: 'Cookout',
+    date: '7/12/17',
+    time: '10:00 PM',
+    description: 'This is my cookout',
+    eventImage: 'app/img/logo/neighborhood-watch.png',
+    host: 'John Milwaukee'
+  }], this.userInfo = [{
+    firstname: 'Zach',
+    lastname: 'Springer',
+    username: 'zachsss',
+    email: 'zaspringer@gmail.com'
   }];
-  $scope.category = $scope.lists[0];
 
-  $scope.eventImg = "yoyoyo";
-
-  $scope.event = {
-    check1: false,
-    check2: false,
-    check3: false
-  };
-  $scope.eventCreate = function (event) {
-    console.log(event);
+  this.myEvents = function (id) {
+    return $http({
+      method: 'GET',
+      url: '/api/events/:' + id
+    });
+  }, this.attendingEvents = function (id) {
+    return $http({
+      method: 'GET',
+      url: '/api/events/:' + id
+    });
   };
 });
 
@@ -200,8 +261,21 @@ angular.module('nWatch').controller('homeCtrl', function ($scope, one) {
   $scope.date = new Date();
 });
 
-angular.module('nWatch').controller('loginCtrl', function ($scope, one) {
-  $scope.arr = one.words();
+angular.module('nWatch').controller('loginCtrl', function ($scope, one, loginSrvc, $state) {
+
+  $scope.facebookLogin = function () {
+    console.log('Login with Facebook');
+  };
+  $scope.googleLogin = function () {
+    console.log('Login with Google');
+  };
+
+  $scope.login = function (username, password) {
+    $state.go('user');
+    loginSrvc.login(username, password).then(function (res) {
+      //Will finish up once api is connected
+    });
+  };
 });
 
 angular.module('nWatch').controller('hoodCtrl', function ($scope, one) {
@@ -260,28 +334,67 @@ angular.module('nWatch').controller('hoodCtrl', function ($scope, one) {
 
 angular.module('nWatch').controller('newNeighborhoodCtrl', function ($scope, one) {});
 
-angular.module('nWatch').controller('signupCtrl', function ($scope) {});
+angular.module('nWatch').controller('adminCtrl', function ($scope) {
+  $scope.to = "argggghhhhh";
+});
 
-angular.module('nWatch').controller('userCtrl', function ($scope) {
+angular.module('nWatch').controller('userCtrl', function ($scope, userSrvc) {
 
   $scope.hasInfo = true;
-  $scope.updateInfo = function () {
+  $scope.updateInfo = function (firstname, lastname, username, email, password, picture) {
     $scope.hasInfo = !$scope.hasInfo;
+    console.log(firstname, lastname, username, email, password, picture);
   };
 
-  $scope.myEvents = [{
-    name: 'Bar-B-Q',
-    date: '06/23/17',
-    time: '7:00 PM',
-    description: 'This is my description',
-    eventImage: 'app/img/logo/neighborhood-watch.png',
-    host: 'John Milwaukee'
+  $scope.myEvents = userSrvc.events;
+  $scope.attending = userSrvc.attending;
+  $scope.userInfo = userSrvc.userInfo[0];
+  // This will pull in events from the service
+
+});
+
+angular.module('nWatch').controller('signupCtrl', function ($scope, signupSrvc, $state) {
+  $scope.uploadme = {};
+  $scope.uploadme.src = "";
+  $scope.face = null;
+  $scope.google = null;
+  $scope.createUser = function (first, last, username, email, face, google, password, photo) {
+    $state.go('user');
+
+    signupSrvc.createUser(first, last, username, email, face, google, password, photo).then(function (res) {
+      //Will finish once api is set up. Code should be correct though
+    });
+  };
+});
+
+angular.module('nWatch').controller('createEventCtrl', function ($scope) {
+  $scope.lists = [{
+    name: 'Lost Pet'
   }, {
-    name: 'Cookout',
-    date: '7/12/17',
-    time: '10:00 PM',
-    description: 'This is my cookout',
-    eventImage: 'app/img/logo/neighborhood-watch.png',
-    host: 'John Milwaukee'
+    name: 'Damage'
+  }, {
+    name: 'Misc'
+  }, {
+    name: 'Neighborhood Watch'
+  }, {
+    name: 'Clean-up'
+  }, {
+    name: 'Missing Person'
+  }, {
+    name: 'Meet Up'
+  }, {
+    name: 'Entertainment'
   }];
+  $scope.category = $scope.lists[0];
+
+  $scope.eventImg = "yoyoyo";
+
+  $scope.event = {
+    check1: false,
+    check2: false,
+    check3: false
+  };
+  $scope.eventCreate = function (event) {
+    console.log(event);
+  };
 });
