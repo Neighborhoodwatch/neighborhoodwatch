@@ -19,12 +19,14 @@ angular.module('nWatch').controller('editEventCtrl', function ($scope) {
   //   console.log($scope.category);
   // }, 3000);
 
-  $scope.checkboxModel = {
-     value1: false,
-     value2:  false,
-     value3: false
+  $scope.event = {
+     check1: false,
+     check2:  false,
+     check3: false
   };
-
+  $scope.eventEdit = (event) => {
+    console.log(event);
+  }
 
 
 })

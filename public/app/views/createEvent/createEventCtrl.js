@@ -1,4 +1,4 @@
-angular.module('nWatch').controller('createEventCtrl', function($scope) {
+angular.module('nWatch').controller('createEventCtrl', function($scope,) {
   $scope.lists = [
     {
       name: 'Lost Pet'
@@ -7,22 +7,35 @@ angular.module('nWatch').controller('createEventCtrl', function($scope) {
       name: 'Damage'
     },
     {
-      name: 'Neighborhood Lurker'
+      name: 'Misc'
     },
     {
-      name: 'Looking For'
+      name: 'Neighborhood Watch'
+    },
+    {
+      name: 'Clean-up'
+    },
+    {
+      name: 'Missing Person'
+    },
+    {
+      name: 'Meet Up'
+    },
+    {
+      name: 'Entertainment'
     }
   ]
   $scope.category = $scope.lists[0]
-  // console.log($scope.category);
-  // setTimeout(function(){
-  //   console.log($scope.category);
-  // }, 3000);
+
   $scope.eventImg = "yoyoyo"
 
-  $scope.checkboxModel = {
-     value1: false,
-     value2:  false,
-     value3: false
+  $scope.event = {
+     check1: false,
+     check2:  false,
+     check3: false
   };
+  $scope.eventCreate = (event) => {
+    console.log(event);
+  }
+
 })

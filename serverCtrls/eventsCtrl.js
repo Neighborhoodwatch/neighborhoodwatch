@@ -45,7 +45,6 @@ module.exports = {
                 res.status(420).json(err);
             } else {
                 console.log('event created:', resp)
-
                 req.session.order = resp
                 res.send(resp)
             }
