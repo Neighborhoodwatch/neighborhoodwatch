@@ -1,28 +1,16 @@
-angular.module('nWatch').controller('userCtrl', function($scope) {
+angular.module('nWatch').controller('userCtrl', function($scope, userSrvc) {
 
   $scope.hasInfo = true
-  $scope.updateInfo = function() {
+  $scope.updateInfo = function(firstname, lastname, username, email, password, picture) {
       $scope.hasInfo = !$scope.hasInfo
+      console.log(firstname, lastname, username, email, password, picture)
   }
 
-  $scope.myEvents = [
-      {
-      name: 'Bar-B-Q',
-      date: '06/23/17',
-      time: '7:00 PM',
-      description: 'This is my description',
-      eventImage: 'app/img/logo/neighborhood-watch.png',
-      host: 'John Milwaukee'
-    },
-      {
-      name: 'Cookout',
-      date: '7/12/17',
-      time: '10:00 PM',
-      description: 'This is my cookout',
-      eventImage: 'app/img/logo/neighborhood-watch.png',
-      host: 'John Milwaukee'
-    }
-  ]
+  $scope.myEvents = userSrvc.events
+  $scope.attending = userSrvc.attending
+  $scope.userInfo = userSrvc.userInfo[0]
+  // This will pull in events from the service
+
 
 
 })
