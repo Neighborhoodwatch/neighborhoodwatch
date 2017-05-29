@@ -1,16 +1,38 @@
 module.exports = {
-    getUsers: (req, res, next) => {
-        var db = req.app.get('db');
-        db.get_users((err, resp) => {
-            if(err) {
-                res.status(420).json(err);
-            } else {
-                req.session.order = resp;
-                res.send(resp);
-            }
-        })
-    },
-    createUser: (req, res, next) => {
+  oauthCallback = function (strategy) {
+    return function (req, res, next) {
+      passport.authenticate(strategy, function (err, user, redirectURL) {
+        if(err || !user) {
+          return res.redirect('/#!/signin');
+        }
+
+        req.login(user, function (err) {
+          if(err) {
+            return res.redirect('/#!/signin');
+          }
+
+          return res.redirect(redirectURL || '/');
+        })(req, res, next);
+      };
+    };
+  },
+
+  saveOAuthUserProfile = function (req, providerUserProfile, done) {
+
+  },
+
+  getUsers: (req, res, next) => {
+      var db = req.app.get('db');
+      db.get_users((err, resp) => {
+          if(err) {
+              res.status(420).json(err);
+          } else {
+              req.session.order = resp;
+              res.send(resp);
+          }
+      })
+  },
+  createUser: (req, res, next) => {
       var db = req.app.get('db');
       var user = req.body;
 

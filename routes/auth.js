@@ -1,54 +1,38 @@
-module.exports = function(app, settings){
-	var url = require('url'),
-		express = require('express'),
-		passport = settings.passport,
-		router = express.Router();
+module.exports = function(app, passport){
+	var users = require('../serverCtrls/usersCtrl');
 
-	router.post('/login', passport.authenticate('local-login', {
-		successRedirect : '/profile',
-		failureRedirect : '/login',
-		failureFlash : true
+	app.route('/auth/signup', users.signup);
+	app.route('/auth/signin', users.signin);
+	app.route('/auth/signout', users.signout);
+
+	//Facebook routes
+	app.route('/auth/facebook').get(passport.authenticate('facebook', {scope: ['email']}));
+	app.route('/auth/facebook/callback').get(users.oauthCallback('facebook'));
+
+	//Twitter routes
+	app.route('/auth/twitter').get(passport.authenticate('twitter'));
+	app.route('/auth/twitter/callback').get(users.oauthCallback('twitter'));
+
+	//Google routes
+	app.route('/auth/google').get(passport.authenticate('google', {
+		scope: [
+			'https://www.googleapis.com/auth/userinfo.profile',
+			'https://www.googleapis.com/auth/userinfo.email'
+		]
 	}));
+	app.route('/auth/google/callback').get(users.oauthCallback('google'));
 
-	router.get('/profile', isLoggedIn, function(req, res) {
-		res.json({
-			message: 'Signed-in user. This is your profile.'
-		});
-	});
+	app.param('userid', users.userById);
 
-	router.get('/logout', function(req, res) {
-		req.logout();
-		res.redirect('/');
-	});
+	// used to serialize the user for the session
+  passport.serializeUser(function(user, done) {
+      done(null, user.id);
+  });
 
-	router.get('/github',passport.authenticate('github', { scope : 'email' }));
-
-	router.get('/facebook',passport.authenticate('facebook', { scope : 'email' }));
-
-	// GET /auth/github/callback
-  // Use passport.authenticate() as route middleware to authenticate the
-  // request.  If authentication fails, the user will be redirected back to the
-  // login page.  Otherwise, the primary route function function will be called,
-  // which, in this example, will redirect the user to the home page.
-	app.get('/github/callback',
-	  passport.authenticate('github', { failureRedirect: '/login' }),
-	  function(req, res) {
-	  	console.log('Github OAuth Callback');
-	    res.redirect('/profile');
-	  });
-
-	app.get('/facebook/callback',
-	  passport.authenticate('facebook', { failureRedirect: '/login' }),
-	  function(req, res) {
-	  	console.log('Facebook OAuth Callback');
-	    res.redirect('/profile');
-	  });
-
-	function isLoggedIn(req, res, next) {
-		if (req.isAuthenticated())
-			return next();
-		res.redirect('/login');
-	}
-
-	app.use('/auth',router);
+  // used to deserialize the user
+  passport.deserializeUser(function(id, done) {
+      User.findById(id, function(err, user) {
+          done(err, user);
+      });
+  });
 };
