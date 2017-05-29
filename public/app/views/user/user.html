@@ -48,8 +48,10 @@
                         </div>
                         <button
                         class="btn btn-success"
-                        ng-click="updateInfo(userInfo.firstname, userInfo.lastname, userInfo.username, userInfo.email, userInfo.password, uploadme.src)">Save Profile</button>
+                        ng-click="updateInfo(id, userInfo.firstname, userInfo.lastname, userInfo.username, userInfo.email, userInfo.password, uploadme.src)">Save Profile</button>
                     </form>
+                    <h4>Report Something</h4>
+                    <div><i class="fa fa-camera" aria-hidden="true" id="neighborhood-camera" ui-sref="createEvent"></i></div>
                 </div>
                 <!--Ends first column  -->
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -61,7 +63,7 @@
                   {{event.description}}
                   {{event.time}}
                   <img ng-src="{{event.eventImage}}">
-                  <button ui-sref="events">View More</button>
+                  <button ui-sref="editEvents(event.id)">Edit</button>
                   {{event.host}}</div>
                   </div>
                   <h4>Events I'm Attending</h4>
@@ -72,7 +74,7 @@
                 {{event.description}}
                 {{event.time}}
                 <img ng-src="{{event.eventImage}}">
-                <button ui-sref="events">View More</button>
+                <button ui-sref="events(event.id)">View More</button>
 
                 {{event.host}}</div>
                 </div>
