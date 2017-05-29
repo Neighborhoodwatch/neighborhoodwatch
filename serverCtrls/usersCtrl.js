@@ -49,6 +49,7 @@ module.exports = {
           if (err) {
           res.status(420).json(err)
       } else {
+
         req.session.user = resp
         res.send(resp)
       }
