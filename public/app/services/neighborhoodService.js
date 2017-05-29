@@ -1,86 +1,68 @@
-angular.module('nWatch').service('neighborhoodSrvc', function($http) {
 
-  this.openEvents = [
-      {
-      name: 'Bar-B-Q',
-      date: '06/23/17',
-      time: '7:00 PM',
-      description: 'This is my description',
-      eventImage: 'app/img/logo/neighborhood-watch.png',
-      host: 'John Milwaukee'
-    },
-      {
-      name: 'Cookout',
-      date: '7/12/17',
-      time: '10:00 PM',
-      description: 'This is my cookout',
-      eventImage: 'app/img/logo/neighborhood-watch.png',
-      host: 'John Milwaukee'
-    },
-     {
-       name: 'Cookout',
-       date: '7/12/17',
-       time: '10:00 PM',
-       description: 'This is my cookout',
-       eventImage: 'app/img/logo/neighborhood-watch.png',
-       host: 'John Milwaukee'
-    }
-  ],
-  this.privateEvents = [
-     {
-       name: 'Cookout',
-       date: '7/12/17',
-       time: '10:00 PM',
-       description: 'This is my cookout',
-       eventImage: 'app/img/logo/neighborhood-watch.png',
-       host: 'John Milwaukee'
-    },
-     {
-       name: 'Cookout',
-       date: '7/12/17',
-       time: '10:00 PM',
-       description: 'This is my cookout',
-       eventImage: 'app/img/logo/neighborhood-watch.png',
-       host: 'John Milwaukee'
-    },
-     {
-       name: 'Cookout',
-       date: '7/12/17',
-       time: '10:00 PM',
-       description: 'This is my cookout',
-       eventImage: 'app/img/logo/neighborhood-watch.png',
-       host: 'John Milwaukee'
-    }
-  ],
-  this.grabEvents = () => {
+angular.module('').service('neighborhoodSrvc', function($http) {
+  this.getNeighborhood = function (id) {
     return $http({
       method: 'GET',
-      url: '/api/neighborhoods'
-    })
-  },
-  this.createNeighborhood = (name, city, state) => {
-    return $http({
-      method: 'POST',
-      url: '/api/neighborhoods',
-      data: {
-        name,
-        city,
-        state
-      }
-    })
-  },
-  this.grabNeighborhoods = (state, city, sort) => {
-    return $http({
-      method: 'GET',
-      url: `/api/neighborhoods/:${state}/:${city}/:${sort}`
-    })
-  },
-  this.joinNeighborhood = (id) => {
-    return $http({
-      method: 'GET',
-      url: `/api/neighborhoods/${id}`
+      url: '/api/neighborhoods/' + id
+    }).then(function (response) {
+      return response.data;
     })
   }
 
+  this.getNeighborhoods = function () {
+    return $http({
+      method: 'GET',
+      url: '/api/neighboorhoods'
+    }).then(function (response) {
+      return response.data
+    })
+  }
 
+  this.saveNeighborhood = function (neighborhood) {
+    if(neighborhood.neighborhood_id) {
+      return $http({
+        method: 'POST',
+        url: '/api/neighborhoods/' + neighborhood.neighborhood_id,
+        body: neighborhood
+      }).then(function (response) {
+        return response.data
+      })
+    } else {
+      return $http({
+        method: 'PUT',
+        url: '/api/neighborhoods',
+        body: neighborhood
+      }).then(function (response) {
+        return response.data
+      })
+
+    }
+  }
+
+  this.deleteNeighborhood = function (id) {
+    return $http({
+      method: 'DELETE',
+      url: '/api/neighborhoods/' + id
+    }).then(function (response) {
+      return response.data;
+    })
+  }
+
+  this.getUsers = function (id) {
+    return $http({
+      method: 'GET',
+      url: '/api/neighborhoods/' + id + "/users"
+    }).then(function (response) {
+      return response.data;
+    })
+  }
+
+  this.getEvents = function (id) {
+    return $http({
+      method: 'GET'
+      url: '/api/neighborhoods/' + id + "/events"
+    }).then(function(response) {
+      return response.data;
+    })
+  }
 })

@@ -1,75 +1,59 @@
-angular.module('nWatch').service('userSrvc', function($http) {
 
-  this.events = [
-      {
-      name: 'Bar-B-Q',
-      date: '06/23/17',
-      time: '7:00 PM',
-      description: 'This is my description',
-      eventImage: 'app/img/logo/neighborhood-watch.png',
-      host: 'John Milwaukee'
-    },
-      {
-      name: 'Cookout',
-      date: '7/12/17',
-      time: '10:00 PM',
-      description: 'This is my cookout',
-      eventImage: 'app/img/logo/neighborhood-watch.png',
-      host: 'John Milwaukee'
-    }
-  ],
-  this.attending = [
-      {
-      name: 'Bar-B-Q',
-      date: '06/23/17',
-      time: '7:00 PM',
-      description: 'This is my description',
-      eventImage: 'app/img/logo/neighborhood-watch.png',
-      host: 'John Milwaukee'
-    },
-      {
-      name: 'Cookout',
-      date: '7/12/17',
-      time: '10:00 PM',
-      description: 'This is my cookout',
-      eventImage: 'app/img/logo/neighborhood-watch.png',
-      host: 'John Milwaukee'
-    }
-  ],
-  this.userInfo = [
-    {
-      firstname: 'Zach',
-      lastname: 'Springer',
-      username: 'zachsss',
-      email: 'zaspringer@gmail.com'
-    }
-  ]
-
-  this.myEvents = (id) => {
+angular.module('').service('userSrvc', function($http) {
+  this.getUsers = function () {
     return $http({
       method: 'GET',
-      url: `/api/events/:${id}`
-    })
-  },
-  this.attendingEvents = (id) => {
-    return $http({
-      method: 'GET',
-      url: `/api/events/:${id}`
-    })
-  },
-  this.updateInfo = (id, firstname, lastname, username, email, password, picture) => {
-    return $http({
-      method: 'PUT',
-      url: `/api/users/:${id}`,
-      data: {
-        firstname,
-        lastname,
-        username,
-        email,
-        password,
-        picture
-      }
+      url: '/api/users'
+    }).then(function (response) {
+      return response.data;
     })
   }
+
+  this.getUser = function (id) {
+    return $http({
+      method: 'GET',
+      url: '/api/users/' + id
+    }).then(function(response) {
+      return response.data;
+    })
+  }
+
+  this.save = function (user) {
+    if(user.user_id) {
+      return $http({
+        method: 'POST',
+        url: '/api/users',
+        data: user
+      }).then(function (response) {
+        return response.data;
+      })
+    } else {
+      return $http({
+        method: 'PUT',
+        url: '/api/users/' + id,
+        data: user
+      }).then(function (response) {
+        return response.data;
+      })
+    }
+  }
+
+  this.getEvents = function (id) {
+    return $http({
+      method: 'GET',
+      url: 'api/users/' + id + '/events'
+    }).then(function (response) {
+      return response.data;
+    })
+  }
+
+  this.authenticate = function() {
+    return $http({
+        method: 'GET',
+        url: '/whoami'
+      }).then(function(response) {
+        return response.data;
+      })
+  };
 
 })

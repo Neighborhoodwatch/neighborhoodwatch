@@ -37,6 +37,9 @@ app.use('/api', types);
 app.use('/api', users);
 app.use('/api', events);
 app.use('/api', neighborhoods);
+app.get('/whoami', function(req, res, done) {
+  return res.send(session.user);
+});
 
 const port = process.env.PORT || config.PORT || 3000;
 app.listen(port, () => {
