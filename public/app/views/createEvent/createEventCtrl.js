@@ -29,19 +29,48 @@ angular.module('nWatch').controller('createEventCtrl', function($scope, eventSrv
 
   $scope.eventImg = "yoyoyo"
 
-  $scope.event = {
-     check1: false,
-     check2:  false,
-     check3: false
-  };
-  $scope.eventCreate = (event, category) => {
+  $scope.event = {};
+  $scope.eventCreate = (event,) => {
+
+    if ($scope.category.name === 'Lost Pet') {
+      event.type_id = 1
+      console.log(event.type_id);
+    }
+    else if ($scope.category.name === 'Damage') {
+      event.type_id = 2
+      console.log(event.type_id);
+    }
+    else if ($scope.category.name === 'Misc') {
+      event.type_id = 3
+      console.log(event.type_id);
+    }
+    else if ($scope.category.name === 'Neighborhood Watch') {
+      event.type_id = 4
+      console.log(event.type_id);
+    }
+    else if ($scope.category.name === 'Clean-up') {
+      event.type_id = 5
+      console.log(event.type_id);
+    }
+    else if ($scope.category.name === 'Missing Person') {
+      event.type_id = 6
+      console.log(event.type_id);
+    }
+    else if ($scope.category.name === 'Meet Up') {
+      event.type_id = 7
+      console.log(event.type_id);
+    }
+    else if ($scope.category.name === 'Entertainment') {
+      event.type_id = 8
+      console.log(event.type_id);
+    }
+
     event.event_location_lat = $scope.lat
     event.event_location_lon = $scope.long
     event.date = $scope.dt.toDateString()
     event.photo = ''
-    event.category = $scope.category.name
     console.log(event);
-    eventSrvc.createdEvent(event)
+    // eventSrvc.createdEvent(event)
   }
   // ui--bootstrap date js
   $scope.today = function() {

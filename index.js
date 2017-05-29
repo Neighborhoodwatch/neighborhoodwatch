@@ -13,7 +13,7 @@ const neighborhoods = require('./routes/neighborhood');
 
 //Database
 const massive = require('massive');
-let connectionString = process.env.DATABASE_URL || config.connectionString ||  "postgres://postgres:postgres@localhost/neighborhood";
+let connectionString = config.connectionString ||  "postgres://postgres:postgres@localhost/neighborhood";
 let massiveInstance = massive.connectSync({connectionString})
 
 //Application

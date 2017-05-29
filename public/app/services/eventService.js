@@ -60,9 +60,9 @@ angular.module('nWatch').service('eventSrvc', function($http) {
       url: "https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=AIzaSyDygNCUy0c-ktsxgQh54x83Rdza88YjOYg"
     })
   }
-/*
-angular.module('nWatch').service('eventSrvc', function ($http) {
-
+  this.createdEvent = (eventObj) => {
+    console.log("im in a service" , eventObj);
+  }
   this.event = {
     title: 'BBQ with friends',
     location: 'at my house',
@@ -72,9 +72,9 @@ angular.module('nWatch').service('eventSrvc', function ($http) {
     maps: 'http://med.stanford.edu/school/contacts/_jcr_content/main/panel_builder/panel_1/panel_builder_1/panel_0/image.img.620.high.png',
     details: 'YOYOYOYOYOYO ITS BBQ TIME!!! Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
   }
-  this.createdEvent = (eventObj) => {
-    console.log("im in a service" , eventObj);
-  }
+/*
+angular.module('nWatch').service('eventSrvc', function ($http) {
+
   this.editEvent = (eventObj) => {
     console.log("im in a service" , eventObj);
   }
