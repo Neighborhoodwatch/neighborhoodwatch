@@ -3,11 +3,7 @@ const session = require('express-session')
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const config = require('./config');
-
-//Database
-const massive = require('massive');
-let connectionString = process.env.DATABASE_URL || config.connectionString ||  "postgres://postgres:postgres@localhost/neighborhood";
-let massiveInstance = massive.connectSync({connectionString})
+// const passport = require('passport');
 
 // API Routes
 const types = require('./routes/type');
@@ -15,6 +11,10 @@ const users = require('./routes/users');
 const events = require('./routes/events');
 const neighborhoods = require('./routes/neighborhood');
 
+//Database
+const massive = require('massive');
+let connectionString = process.env.DATABASE_URL || config.connectionString ||  "postgres://postgres:postgres@localhost/neighborhood";
+let massiveInstance = massive.connectSync({connectionString})
 
 //Application
 var app = module.exports = express();
@@ -30,6 +30,11 @@ app.use(cors());
 
 app.set('db', massiveInstance);
 var db = app.get('db');
+
+//Authentication
+// app.use(passport.initialize());
+// app.use(passport.session());
+// const auth = require('.routes/auth')(app, passport);
 
 //API will be http://localhost/api/types, http://localhost/api/users, http://localhost/api/events, http://localhost:3000/api/neighborhoods etc. by using the prefix
 let testCtrl = require('./serverCtrls/testCtrl');
