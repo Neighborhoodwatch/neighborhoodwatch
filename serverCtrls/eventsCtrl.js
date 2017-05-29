@@ -27,8 +27,7 @@ module.exports = {
        var db = req.app.get('db');
         var event = req.body;
 
-        var lat = event.lat;
-        var lon = event.lon;
+
         var details = event.details;
         var title = event.title;
         var type_id = event.type_id;
@@ -37,10 +36,12 @@ module.exports = {
         var event_location_lon = event.event_location_lon;
         var event_time = event.event_time;
         var photo = event.photo;
-        var curdate = event.date;
-        var neighborhoodid = event.neighborhood_id;
-
-        db.create_event([lat, lon, details, title, type_id, created_by, event_location_lat, event_location_lon, event_time, photo, curdate, neighborhood_id], (err, resp) => {
+        var date = event.date;
+        var neighborhood_id = event.neighborhood_id;
+        //make sure to add ^ this back in this temp change
+        console.log(event);
+        db.create_event([details, title, type_id, created_by, event_location_lat, event_location_lon, event_time, photo, date, neighborhood_id], (err, resp) => {
+          console.log("func is runnung");
             if (err) {
                 res.status(420).json(err);
             } else {

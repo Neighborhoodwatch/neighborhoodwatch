@@ -1,4 +1,4 @@
-<!--
+ty<!--
 -- reset and create a new database with a copy and paste job:
 drop table users, events, neighborhood, following, type;
 
@@ -24,7 +24,7 @@ CREATE TABLE events (
 	event_location_lon numeric,
 	event_time timestamp,
 	photo text
-
+  neighborhood_id int REFERENCES neighborhood(neighborhood_id)
 );
 CREATE TABLE neighborhood (
 	neighborhood_id serial primary key,

@@ -1,7 +1,7 @@
 module.exports = {
   sessionSecret: "My Secret",
   PORT: 3005,
-  connectionString : "postgres://postgres:admin@localhost/neighborhood",
+  connectionString: "postgres://ryanbryce@localhost/neighborhood",
   facebook: {
 		clientID: '277945136009785',
 	  clientSecret: '2f9ad1d3ed4c2bc4e538e469e3e16b57',
