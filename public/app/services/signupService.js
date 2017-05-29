@@ -1,16 +1,16 @@
 angular.module('nWatch').service('signupSrvc', function($http) {
 
-  this.createUser = (first, last, username, email, face, google, password, photo) => {
+  this.createUser = (first_name, last_name, username, email, facebook_id, google_id, password, photo) => {
     return $http({
       method: 'POST',
       url: '/api/users',
       data: {
-        first,
-        last,
+        first_name,
+        last_name,
         username,
         email,
-        face,
-        google,
+        facebook_id,
+        google_id,
         password,
         photo
       }

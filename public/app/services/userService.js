@@ -9,12 +9,10 @@ angular.module('nWatch').service('userSrvc', function($http) {
     })
   }
 
-  this.getUser = function (id) {
+  this.getUser = function () {
     return $http({
       method: 'GET',
-      url: '/api/users/' + id
-    }).then(function(response) {
-      return response.data;
+      url: '/api/current'
     })
   }
 
