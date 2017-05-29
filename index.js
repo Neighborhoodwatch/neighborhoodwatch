@@ -33,6 +33,17 @@ var db = app.get('db');
 
 var uploader = require('./serverCtrls/uploadCtrl')(app);
 
+// app.use('/images', express.static(path.join(__dirname, 'uploads')));
+
+
+
+//Middleware for putting user on express sessionSecret
+function userSession(req, res, next) {
+  if(!req.user) {
+    req.user = {}
+  }
+  next()
+}
 //Authentication
 // app.use(passport.initialize());
 // app.use(passport.session());
@@ -40,10 +51,10 @@ var uploader = require('./serverCtrls/uploadCtrl')(app);
 
 //API will be http://localhost/api/types, http://localhost/api/users, http://localhost/api/events, http://localhost:3000/api/neighborhoods etc. by using the prefix
 let testCtrl = require('./serverCtrls/testCtrl');
-app.use('/api', types);
-app.use('/api', users);
-app.use('/api', events);
-app.use('/api', neighborhoods);
+app.use('/api', userSession, types);
+app.use('/api', userSession, users);
+app.use('/api', userSession, events);
+app.use('/api', userSession, neighborhoods);
 app.get('/whoami', function(req, res, done) {
   return res.send(session.user);
 });

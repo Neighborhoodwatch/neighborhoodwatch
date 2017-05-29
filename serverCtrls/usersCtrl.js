@@ -37,7 +37,7 @@ module.exports = {
       var user = req.body;
 
       var first_name = user.first_name;
-      var last_name = user.last_Name;
+      var last_name = user.last_name;
       var username = user.username;
       var email = user.email;
       var facebook_id = user.facebook_id;
@@ -49,7 +49,8 @@ module.exports = {
           if (err) {
           res.status(420).json(err)
       } else {
-        req.session.order = resp
+
+        req.session.user = resp
         res.send(resp)
       }
     })
@@ -61,23 +62,27 @@ module.exports = {
         if(err) {
             res.status(420).json(err);
         } else {
-            req.session.order = resp;
+            req.session.user = resp;
             res.send(resp);
         }
     })
+  },
+  getCurrentUser: (req, res, next) => {
+    res.send(req.session)
   },
   updateUser: (req, res, next) => {
     var db = req.app.get('db');
     var id = req.params.id;
     var user = req.body;
+      console.log('updateUser user:', user)
 
-    db.update_neighborhood([user.first_name, user.last_name, user.username, user.email, user.facebook_id, user.google_id, user.password, user.photo, id], (err, resp) => {
+    db.update_user([user.first_name, user.last_name, user.username, user.email, user.facebook_id, user.google_id, user.password, user.photo, id], (err, resp) => {
         if (err) {
             res.status(420).json(err);
         } else {
             console.log('user updated:', resp)
 
-            req.session.order = resp
+            req.session.user = resp
             res.send(resp)
         }
     })
@@ -89,7 +94,8 @@ module.exports = {
         if(err) {
             res.status(420).json(err);
         } else {
-            req.session.order = resp;
+            console.log('Deleted user with id:', id)
+            req.session.user = {};
             res.send(resp);
         }
     })

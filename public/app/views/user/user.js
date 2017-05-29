@@ -8,7 +8,12 @@ angular.module('nWatch').controller('userCtrl', function($scope, userSrvc) {
       //will move $scope.hasInfo = !$scope.hasInfo to here after the database updates and resets the session object with the updated user info
     })
   }
-
+  $scope.getUser = () => {
+    userSrvc.getUser().then(function(res) {
+      console.log(res)
+    })
+  }
+  $scope.getUser()
   $scope.myEvents = userSrvc.events
   $scope.attending = userSrvc.attending
   $scope.userInfo = userSrvc.userInfo[0]
