@@ -49,8 +49,8 @@ module.exports = {
           if (err) {
           res.status(420).json(err)
       } else {
-          console.log(resp)
-        req.session.order = resp
+
+        req.session.user = resp
         res.send(resp)
       }
     })
@@ -62,10 +62,13 @@ module.exports = {
         if(err) {
             res.status(420).json(err);
         } else {
-            req.session.order = resp;
+            req.session.user = resp;
             res.send(resp);
         }
     })
+  },
+  getCurrentUser: (req, res, next) => {
+    res.send(req.session)
   },
   updateUser: (req, res, next) => {
     var db = req.app.get('db');
@@ -78,7 +81,7 @@ module.exports = {
         } else {
             console.log('user updated:', resp)
 
-            req.session.order = resp
+            req.session.user = resp
             res.send(resp)
         }
     })
@@ -90,7 +93,7 @@ module.exports = {
         if(err) {
             res.status(420).json(err);
         } else {
-            req.session.order = resp;
+            req.session.user = {};
             res.send(resp);
         }
     })
