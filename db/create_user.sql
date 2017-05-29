@@ -2,3 +2,4 @@ INSERT INTO users (first_name, last_name, username, email, facebook_id, google_i
 VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
 ON CONFLICT(facebook_id) DO NOTHING RETURNING user_id
 ON CONFLICT(google_id) DO NOTHING RETURNING user_id;
+

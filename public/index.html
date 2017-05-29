@@ -10,7 +10,7 @@
     <title></title>
   </head>
   <body>
-    <header class="">
+    <header class="" ng-controller="navCtrl">
       <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
           <div class="navbar-header">
@@ -23,9 +23,9 @@
           </div>
           <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav ">
-              <li class="active"><a ui-sref="home">HOME</a></li>
-              <li><a ui-sref="hood">MY NEIGHBORHOOD</a></li>
-              <li><a ui-sref="login">LOGIN</a></li>
+              <li ng-class="classActive('/')"><a ui-sref="home">HOME</a></li>
+              <li ng-class="classActive('/hood')"><a ui-sref="hood">MY NEIGHBORHOOD</a></li>
+              <li ng-class="classActive('/login')"><a ui-sref="login">LOGIN</a></li>
               <!-- <li>
                 <form class="navbar-form">
                   <div class="form-group">
@@ -43,11 +43,15 @@
     <ui-view></ui-view>
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.3/angular-animate.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-messages.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-touch/1.6.4/angular-touch.min.js" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.min.js" charset="utf-8"></script>
+    <script
+     src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.js"></script>
-
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDygNCUy0c-ktsxgQh54x83Rdza88YjOYg"></script>
     <!-- should be compiling all the js files with gulp. (from command line run  gulp watch    to concat all of the .js/sass files into dist master file-->
 
     <!-- <script src="./app/app.js"></script>

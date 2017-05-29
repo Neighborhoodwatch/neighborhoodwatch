@@ -1,4 +1,5 @@
-angular.module('').service('userService', function($http) {
+
+angular.module('').service('userSrvc', function($http) {
   this.getUsers = function () {
     return $http({
       method: 'GET',
@@ -54,4 +55,5 @@ angular.module('').service('userService', function($http) {
         return response.data;
       })
   };
+
 })
