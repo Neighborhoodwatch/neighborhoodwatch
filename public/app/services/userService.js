@@ -56,6 +56,20 @@ angular.module('nWatch').service('userSrvc', function($http) {
       method: 'GET',
       url: `/api/events/:${id}`
     })
+  },
+  this.updateInfo = (id, firstname, lastname, username, email, password, picture) => {
+    return $http({
+      method: 'PUT',
+      url: `/api/users/:${id}`,
+      data: {
+        firstname,
+        lastname,
+        username,
+        email,
+        password,
+        picture
+      }
+    })
   }
 
 })
