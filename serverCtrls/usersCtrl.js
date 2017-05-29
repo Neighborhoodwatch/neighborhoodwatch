@@ -1,26 +1,26 @@
 module.exports = {
-  oauthCallback = function (strategy) {
-    return function (req, res, next) {
-      passport.authenticate(strategy, function (err, user, redirectURL) {
-        if(err || !user) {
-          return res.redirect('/#!/signin');
-        }
+  // oauthCallback = function (strategy) {
+  //   return function (req, res, next) {
+  //     passport.authenticate(strategy, function (err, user, redirectURL) {
+  //       if(err || !user) {
+  //         return res.redirect('/#!/signin');
+  //       }
+  //
+  //       req.login(user, function (err) {
+  //         if(err) {
+  //           return res.redirect('/#!/signin');
+  //         }
+  //
+  //         return res.redirect(redirectURL || '/');
+  //       })(req, res, next);
+  //     })
+  //   };
+  // },
 
-        req.login(user, function (err) {
-          if(err) {
-            return res.redirect('/#!/signin');
-          }
-
-          return res.redirect(redirectURL || '/');
-        })(req, res, next);
-      };
-    };
-  },
-
-  saveOAuthUserProfile = function (req, providerUserProfile, done) {
-
-  },
-
+  // saveOAuthUserProfile = function (req, providerUserProfile, done) {
+  //
+  // },
+))
   getUsers: (req, res, next) => {
       var db = req.app.get('db');
       db.get_users((err, resp) => {

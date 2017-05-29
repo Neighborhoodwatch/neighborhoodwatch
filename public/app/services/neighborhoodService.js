@@ -59,7 +59,7 @@ angular.module('').service('neighborhoodSrvc', function($http) {
 
   this.getEvents = function (id) {
     return $http({
-      method: 'GET'
+      method: 'GET',
       url: '/api/neighborhoods/' + id + "/events"
     }).then(function(response) {
       return response.data;

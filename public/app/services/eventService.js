@@ -235,7 +235,7 @@ angular.module('nWatch').service('eventSrvc', function ($http) {
   		"event_time": 7
   	}
   ]
-
+*/
 
 
 })
