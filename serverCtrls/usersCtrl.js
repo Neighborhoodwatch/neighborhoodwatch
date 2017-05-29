@@ -20,7 +20,7 @@ module.exports = {
   // saveOAuthUserProfile = function (req, providerUserProfile, done) {
   //
   // },
-))
+
   getUsers: (req, res, next) => {
       var db = req.app.get('db');
       db.get_users((err, resp) => {
