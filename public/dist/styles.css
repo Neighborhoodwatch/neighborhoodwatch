@@ -10,6 +10,9 @@
   padding-top: 20px;
   height: 75px; }
 
+.create-event-date {
+  height: 300px; }
+
 .create-event-notified {
   padding-top: 20px;
   height: 125px; }
@@ -27,6 +30,16 @@
 .maps {
   height: 250px;
   width: 250px; }
+
+.full button span {
+  background-color: limegreen;
+  border-radius: 32px;
+  color: black; }
+
+.partially button span {
+  background-color: orange;
+  border-radius: 32px;
+  color: black; }
 
 .edit-event-describe {
   padding-top: 15px;
@@ -81,6 +94,13 @@
   height: 50px;
   width: 150px; }
 
+.events-map {
+  width: auto;
+  height: 400px; }
+
+.events-nav-color {
+  border-bottom: 4px solid #14b0ff; }
+
 body {
   padding-top: 50px; }
 
@@ -131,29 +151,6 @@ body {
   max-width: 100%;
   height: auto; }
 
-.login-background {
-  background-color: green;
-  height: 250px;
-  width: 100%; }
-
-#login-panel {
-  height: 600px;
-  margin-top: 50px;
-  background-color: rgba(211, 211, 211, 0.2); }
-
-#login-login-button {
-  width: 100%; }
-
-.login-logo {
-  width: 140px; }
-
-.login-logo-outside {
-  width: 100%;
-  text-align: center; }
-
-.login-login {
-  text-align: center; }
-
 #neighborhood-camera {
   font-size: 135px;
   border: solid;
@@ -180,19 +177,33 @@ body {
 .neighborhood-panel {
   padding: 5px; }
 
+.login-background {
+  background-color: green;
+  height: 250px;
+  width: 100%; }
+
+#login-panel {
+  height: 600px;
+  margin-top: 50px;
+  background-color: rgba(211, 211, 211, 0.2); }
+
+#login-login-button {
+  width: 100%; }
+
+.login-logo {
+  width: 140px; }
+
+.login-logo-outside {
+  width: 100%;
+  text-align: center; }
+
+.login-login {
+  text-align: center; }
+
 .new-row {
   margin-top: 60px; }
 
 .new-heading {
-  text-align: center; }
-
-#signup-row {
-  margin-top: 60px; }
-
-.signup-panel {
-  padding: 25px; }
-
-.signup-title {
   text-align: center; }
 
 .user-events {
@@ -212,3 +223,12 @@ body {
 
 .user-my-event {
   padding: 5px; }
+
+#signup-row {
+  margin-top: 60px; }
+
+.signup-panel {
+  padding: 25px; }
+
+.signup-title {
+  text-align: center; }
