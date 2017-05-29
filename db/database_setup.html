@@ -3,10 +3,10 @@
 drop table users, events, neighborhood, following, type;
 
 CREATE TABLE users (
-    	first_name	varchar(20),
-    	last_name	varchar(20),
-    	username	varchar(20),
-	email       varchar(40),
+    	first_name	varchar,
+    	last_name	varchar,
+    	username	varchar,
+	email       varchar,
     	facebook_id	int unique,
     	google_id	int unique,
    	password	varchar(20),
@@ -15,33 +15,32 @@ CREATE TABLE users (
 );
 CREATE TABLE events (
 	event_id serial primary key,
-	lat int,
-	lon int,
 	details text,
-	title varchar(40),
+	title varchar,
 	date timestamp,
-	type_id int,
-	created_by int,
-	event_location_lat int,
-	event_location_lon int,
-	event_time int,
+	type_id INT REFERENCES type(type_id),
+	created_by INT REFERENCES users(user_id),
+	event_location_lat numeric,
+	event_location_lon numeric,
+	event_time timestamp,
 	photo text
 
 );
 CREATE TABLE neighborhood (
-	neighborhood_id integer unique,
-	name varchar(40),
+	neighborhood_id serial primary key,
+	name varchar,
 	city text,
-	state text
+	state varchar(2)
 );
 CREATE TABLE following (
-	event_id int,
-	user_id int,
+following_id serial primary key,
+	event_id int references events(event_id),
+	user_id int references users(user_id),
     attending text
 );
 
 CREATE TABLE type (
 	name text,
-	type_id integer unique	
+	type_id serial primary key
 );
 -->

@@ -1,5 +1,5 @@
 
-angular.module('').service('userSrvc', function($http) {
+angular.module('nWatch').service('userSrvc', function($http) {
   this.getUsers = function () {
     return $http({
       method: 'GET',

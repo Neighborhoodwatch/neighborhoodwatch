@@ -1,5 +1,5 @@
 
-angular.module('').service('neighborhoodSrvc', function($http) {
+angular.module('nWatch').service('neighborhoodSrvc', function($http) {
   this.getNeighborhood = function (id) {
     return $http({
       method: 'GET',
