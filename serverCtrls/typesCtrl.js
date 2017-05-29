@@ -2,6 +2,7 @@ module.exports = {
   getTypes : function(req, res, next) {
     var db = req.app.get('db');
     db.get_types(function(err, resp) {
+
       if (err) {
         res.send(err);
         return;

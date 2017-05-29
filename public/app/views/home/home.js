@@ -31,4 +31,5 @@ angular.module('nWatch').controller('homeCtrl', function($scope, one) {
     }
   ];
   $scope.date = new Date();
+  
 })

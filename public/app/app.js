@@ -1,4 +1,4 @@
-angular.module('nWatch', ['ui.router', 'ngMessages'])
+angular.module('nWatch', ['ui.router', 'ngAnimate', 'ngMessages', 'ui.bootstrap', 'ngTouch'])
 	.config(function( $stateProvider, $urlRouterProvider ) {
 
 		$urlRouterProvider.otherwise('/');
@@ -36,7 +36,7 @@ angular.module('nWatch', ['ui.router', 'ngMessages'])
 			controller: 'eventsCtrl'
 		})
     .state('editEvents', {
-			url: '/events/edit',
+			url: '/event/edit',
 			templateUrl: './app/views/editEvent/editEvent.html',
 			controller: 'editEventCtrl'
 		})

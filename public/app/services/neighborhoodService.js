@@ -1,4 +1,5 @@
-angular.module('').service('neighborhoodService', function($http) {
+
+angular.module('').service('neighborhoodSrvc', function($http) {
   this.getNeighborhood = function (id) {
     return $http({
       method: 'GET',

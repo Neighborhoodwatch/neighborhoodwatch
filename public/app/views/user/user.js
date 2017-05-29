@@ -1,28 +1,19 @@
-angular.module('nWatch').controller('userCtrl', function($scope) {
-
+angular.module('nWatch').controller('userCtrl', function($scope, userSrvc) {
+  $scope.id = 1
   $scope.hasInfo = true
-  $scope.updateInfo = function() {
-      $scope.hasInfo = !$scope.hasInfo
+  $scope.update = () => {$scope.hasInfo = !$scope.hasInfo}
+  $scope.updateInfo = function(id, firstname, lastname, username, email, password, picture) {
+    $scope.hasInfo = !$scope.hasInfo
+    userSrvc.updateInfo(id, firstname, lastname, username, email, password, picture).then(function(res) {
+      //will move $scope.hasInfo = !$scope.hasInfo to here after the database updates and resets the session object with the updated user info
+    })
   }
 
-  $scope.myEvents = [
-      {
-      name: 'Bar-B-Q',
-      date: '06/23/17',
-      time: '7:00 PM',
-      description: 'This is my description',
-      eventImage: 'app/img/logo/neighborhood-watch.png',
-      host: 'John Milwaukee'
-    },
-      {
-      name: 'Cookout',
-      date: '7/12/17',
-      time: '10:00 PM',
-      description: 'This is my cookout',
-      eventImage: 'app/img/logo/neighborhood-watch.png',
-      host: 'John Milwaukee'
-    }
-  ]
+  $scope.myEvents = userSrvc.events
+  $scope.attending = userSrvc.attending
+  $scope.userInfo = userSrvc.userInfo[0]
+  // This will pull in events from the service
+
 
 
 })
