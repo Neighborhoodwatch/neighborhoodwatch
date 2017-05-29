@@ -1,4 +1,4 @@
-angular.module('nWatch', ['ui.router', 'ngMessages'])
+angular.module('nWatch', ['ui.router', 'ngAnimate', 'ngMessages', 'ui.bootstrap', 'ngTouch'])
 	.config(function( $stateProvider, $urlRouterProvider ) {
 
 		$urlRouterProvider.otherwise('/');
