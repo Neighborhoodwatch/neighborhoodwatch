@@ -74,8 +74,9 @@ module.exports = {
     var db = req.app.get('db');
     var id = req.params.id;
     var user = req.body;
+      console.log('updateUser user:', user)
 
-    db.update_neighborhood([user.first_name, user.last_name, user.username, user.email, user.facebook_id, user.google_id, user.password, user.photo, id], (err, resp) => {
+    db.update_user([user.first_name, user.last_name, user.username, user.email, user.facebook_id, user.google_id, user.password, user.photo, id], (err, resp) => {
         if (err) {
             res.status(420).json(err);
         } else {
@@ -93,6 +94,7 @@ module.exports = {
         if(err) {
             res.status(420).json(err);
         } else {
+            console.log('Deleted user with id:', id)
             req.session.user = {};
             res.send(resp);
         }
