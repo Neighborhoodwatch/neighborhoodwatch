@@ -37,7 +37,7 @@ module.exports = {
       var user = req.body;
 
       var first_name = user.first_name;
-      var last_name = user.last_Name;
+      var last_name = user.last_name;
       var username = user.username;
       var email = user.email;
       var facebook_id = user.facebook_id;
@@ -49,6 +49,7 @@ module.exports = {
           if (err) {
           res.status(420).json(err)
       } else {
+          console.log(resp)
         req.session.order = resp
         res.send(resp)
       }

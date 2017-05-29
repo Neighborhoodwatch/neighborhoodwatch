@@ -31,7 +31,7 @@ app.use(cors());
 app.set('db', massiveInstance);
 var db = app.get('db');
 
-var uploader = require('../serverCtrls/uploadCtrl')(app);
+var uploader = require('./serverCtrls/uploadCtrl')(app);
 
 //Authentication
 // app.use(passport.initialize());
