@@ -14,24 +14,28 @@
                         <div class="form-group">
                             <label>First Name</label>
                             <input class="form-control"
-                            ng-model="userInfo.firstname"></input>
+                            ng-model="user.first_name"
+                            placeholder="{{user.first_name}}"></input>
                         </div>
                         <div class="form-group">
                             <label>Last Name</label>
                             <input class="form-control"
-                            ng-model="userInfo.lastname"></input>
+                            ng-model="user.last_name"
+                            placeholder="{{user.last_name}}"></input>
                         </div>
                         <div class="form-group">
                             <label>Username</label>
                             <input class="form-control"
-                            ng-model="userInfo.username"></input>
+                            ng-model="user.username"
+                            placeholder="{{user.username}}"></input>
                         </div>
                         <div class="form-group">
                             <label>Email</label>
                             <input class="form-control"
-                            ng-model="userInfo.email"></input>
+                            ng-model="user.email"
+                            placeholder="{{user.email}}"></input>
                         </div>
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label>Password</label>
                             <input class="form-control"
                             ng-model="userInfo.password"></input>
@@ -40,15 +44,15 @@
                             <label>Confirm Password</label>
                             <input class="form-control"
                             ng-model="confirm"></input>
-                        </div>
+                        </div> -->
                         <div class="form-group">
                             <label>Upload New Profile Picture</label>
-                            <input class="form-control" type="file" ng-model="uploadme.src"
-                            fileread="uploadme.src"></input>
+                            <input class="form-control" type="file" ng-model="user.photo"
+                            fileread="user.photo"></input>
                         </div>
                         <button
                         class="btn btn-success"
-                        ng-click="updateInfo(id, userInfo.firstname, userInfo.lastname, userInfo.username, userInfo.email, userInfo.password, uploadme.src)">Save Profile</button>
+                        ng-click="updateInfo(user.user_id, user.first_name, user.last_name, user.username, user.email, user.photo, getUser)">Save Profile</button>
                     </form>
                     <h4>Report Something</h4>
                     <div><i class="fa fa-camera" aria-hidden="true" id="neighborhood-camera" ui-sref="createEvent"></i></div>

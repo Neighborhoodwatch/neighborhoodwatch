@@ -2,9 +2,12 @@ angular.module('nWatch').controller('newNeighborhoodCtrl', function($scope, neig
 
 
   $scope.saveNeighborhood = (name, city, state) => {
-    $state.go('hood')
     neighborhoodSrvc.createNeighborhood(name, city, state).then(function(res) {
-      //if response is 200, will navigate to my neighborhood and show new neighborhood view
+      if(res.status === 200) {
+        $state.go('user')
+      } else {
+        alert('Failed to create neighborhood')
+      }
     })
   }
 

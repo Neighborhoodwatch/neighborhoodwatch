@@ -100,5 +100,29 @@ module.exports = {
               res.send(resp)
           }
       })
+    },
+    getCreatedEvents: (req, res, next) => {
+      var db = req.app.get('db');
+      var user_id = req.params.id
+      db.get_created_events([user_id], (err, resp) => {
+        if(err) {
+          res.status(420).json(err);
+        } else {
+          req.session.createdEvents = resp
+          res.send(resp)
+        }
+      })
+    },
+    getFollowedEvents: (req, res, next) => {
+      var db = req.app.get('db')
+      var user_id = req.params.id
+      db.get_events_followed([user_id], (err, resp) => {
+        if(err) {
+          res.status(420).json(err)
+        } else {
+          req.session.followedEvents = resp
+          res.send(resp)
+        }
+      })
     }
 }

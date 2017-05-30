@@ -33,7 +33,7 @@ module.exports = {
         } else {
             console.log('neighborhood created:', resp)
 
-            req.session.order = resp
+            // req.session.order = resp
             res.send(resp)
         }
     })
@@ -97,6 +97,18 @@ module.exports = {
             req.session.order = resp
             res.send(resp)
         }
+    })
+  },
+  getUsersNeighborhood: (req, res, next) => {
+    var db = req.app.get('db')
+    var user_id = req.params.id
+    db.get_users_neighborhood([user_id], (err, resp) => {
+      if(err) {
+        res.status(420).json(err)
+      } else {
+        req.session.neighborhood = resp
+        res.send(resp)
+      }
     })
   }
 }
