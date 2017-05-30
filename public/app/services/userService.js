@@ -68,5 +68,29 @@ angular.module('nWatch').service('userSrvc', function($http) {
         return response.data;
       })
   };
-
+  //Will grab all the info for the user
+  this.getCreatedEvents = (id) => {
+    return $http({
+      method: 'GET',
+      url: `/api/created/${id}`
+    })
+  }
+  this.getFollowedEvents = (id) => {
+    return $http({
+      method: 'GET',
+      url: `/api/followed/${id}`
+    })
+  }
+  this.getUserNeighborhood = (id) => {
+    return $http({
+      method: 'GET',
+      url: `/api/users/neighborhood/${id}`
+    })
+  }
+  this.getSession = () => {
+    return $http({
+      method: 'GET',
+      url: '/whoami'
+    })
+  }
 })
