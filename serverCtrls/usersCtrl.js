@@ -63,6 +63,7 @@ module.exports = {
             res.status(420).json(err);
         } else {
             req.session.user = resp;
+            req.session.isLoggedIn = true
             res.send(resp);
         }
     })
@@ -154,8 +155,12 @@ module.exports = {
         res.status(420).json(err)
       } else {
         req.session.user = resp
+        req.session.isLoggedIn = true
         res.send(req.session)
       }
     })
+  },
+  checkLoggedIn: (req, res, next) => {
+    res.send(req.session.isLoggedIn)
   }
 }

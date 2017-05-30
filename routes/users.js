@@ -20,6 +20,7 @@ router.get('/users/:id/events', usersCtrl.getEvents);
 //router.get('/users/:id/auth', usersCtrl.getInternalUser);
 router.get('/current', usersCtrl.getCurrentUser);
 router.get('/login/:username/:password', usersCtrl.signin)
+router.get('/auth/checklogin', usersCtrl.checkLoggedIn)
 
 
 module.exports = router;
