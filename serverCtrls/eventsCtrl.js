@@ -93,7 +93,23 @@ module.exports = {
     getFollowers: (req, res, next) => {
       var db = req.app.get('db');
       var event_Id = req.params.id;
-      db.get_event_followers([event_id], (err, resp) => {
+      db.get_event_followers([event_Id], (err, resp) => {
+          if (err) {
+              res.status(420).json(err);
+          } else {
+              console.log('followers for event:', resp)
+              res.send(resp)
+          }
+      })
+    },
+    createFollowers: (req, res, next) => {
+      var db = req.app.get('db');
+      console.log(req.params);
+      console.log(req.body);
+      var user = req.body.user_id;
+      var attending = req.body.attending
+      var event_Id = req.params.id;
+      db.create_event_followers([event_Id, user, attending ], (err, resp) => {
           if (err) {
               res.status(420).json(err);
           } else {

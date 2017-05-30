@@ -9,6 +9,7 @@ router.get('/events/:id', eventsCtrl.getEvent);
 
 router.get('/events/:id/followers', eventsCtrl.getFollowers);
 router.post('/events', eventsCtrl.createEvent);
+router.post('/events/:id/following', eventsCtrl.createFollowers);
 router.put('/events/:id', eventsCtrl.updateEvent);
 router.delete('/events/:id', eventsCtrl.deleteEvent);
 router.get('/created/:id', eventsCtrl.getCreatedEvents)

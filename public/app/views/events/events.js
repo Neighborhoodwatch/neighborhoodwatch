@@ -1,5 +1,5 @@
-angular.module('nWatch').controller('eventsCtrl', ($scope, eventSrvc, event) => {
-  console.log('this is event', event);
+angular.module('nWatch').controller('eventsCtrl', ($scope, eventSrvc, event, $stateParams) => {
+  const eventId = $stateParams.eventId
   $scope.event = event[0]
   // console.log($scope.event);
   var lat = Number(event[0].event_location_lat)
@@ -17,4 +17,10 @@ angular.module('nWatch').controller('eventsCtrl', ($scope, eventSrvc, event) => 
     map: map,
     title: 'Hello World!'
   });
+
+  eventSrvc.getFollowers(eventId).then((res) => {
+    console.log('this is response', res);
+    $scope.followers = res
+  })
+
 })
