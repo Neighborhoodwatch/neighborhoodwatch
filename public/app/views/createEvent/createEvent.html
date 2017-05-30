@@ -8,18 +8,6 @@
       </div>
       <div class="row">
         <div class="col-sm-12">
-          <!-- <img ng-src="app/img/event/Custom-Icon-Design-Mono-General-3-Camera.ico" alt="" style="height:30vh" class="img-responsive">
-          <div class="">
-            <label class="btn btn-primary" for="my-file-selector">
-                <input id="my-file-selector" ng-model="eventImg" type="file" style="display:none;">
-                Upload img
-            </label>
-            {{eventImg}}
-            <div class="">
-              <p>or img url</p>
-              <input type="text" name="" value="">
-            </div>
-          </div> -->
           <div class="row text-center">
             <div class="col-sm-12">
               <div class="thumbnail">
@@ -71,6 +59,7 @@
           <p>Time</p>
         </div>
         <div class="col-sm-9">
+          <div uib-timepicker ng-model="mytime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></div>
           <input type="text" ng-model="event.event_time">
         </div>
       </div>

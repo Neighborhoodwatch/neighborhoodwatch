@@ -28,8 +28,8 @@ CREATE TABLE events (
 	event_location_lon numeric,
 	event_time timestamp,
 	photo text,
-    event_place text,
-    neighborhood_id int REFERENCES neighborhood(neighborhood_id)
+  event_place text,
+  neighborhood_id int REFERENCES neighborhood(neighborhood_id)
 );
 CREATE TABLE neighborhood (
 	neighborhood_id serial primary key,
