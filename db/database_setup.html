@@ -5,8 +5,8 @@ drop table users, events, neighborhood, following, type;
 CREATE TABLE users (
     	first_name	varchar,
     	last_name	varchar,
-    	username	varchar,
-	email       varchar,
+    	username	varchar unique,
+	     email varchar,
     	facebook_id	bigint unique,
     	google_id	bigint unique,
    	password	varchar(20),

@@ -1,9 +1,9 @@
 angular.module('nWatch').service('loginSrvc', function($http) {
 
-  this.login = function() {
+  this.login = function(username, password) {
     return $http({
       method: 'GET',
-      url: '/api/users'
+      url: `/api/login/${username}/${password}`
     })
   }
 
