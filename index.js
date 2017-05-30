@@ -59,7 +59,7 @@ function userEandN(req, res, next) {
   next()
 }
 
-app.use(userEandN)
+
 //Authentication
 // app.use(passport.initialize());
 // app.use(passport.session());
@@ -67,11 +67,11 @@ app.use(userEandN)
 
 //API will be http://localhost/api/types, http://localhost/api/users, http://localhost/api/events, http://localhost:3000/api/neighborhoods etc. by using the prefix
 let testCtrl = require('./serverCtrls/testCtrl');
-app.use('/api', userSession, types);
-app.use('/api', userSession, users);
-app.use('/api', userSession, events);
-app.use('/api', userSession, neighborhoods);
-app.use('/auth', userSession, auth)
+app.use('/api', userSession, userEandN, types);
+app.use('/api', userSession, userEandN, users);
+app.use('/api', userSession, userEandN, events);
+app.use('/api', userSession, userEandN, neighborhoods);
+app.use('/auth', userSession, userEandN, auth)
 app.get('/whoami', function(req, res, done) {
   return res.send(req.session);
 });
