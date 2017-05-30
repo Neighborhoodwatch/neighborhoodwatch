@@ -14,7 +14,7 @@ module.exports = {
     var db = req.app.get('db');
      var id = req.params.id;
 
-     db.getNeighborhood([id], (err, resp) => {
+     db.get_neighborhood([id], (err, resp) => {
          if (err) {
              res.status(420).json(err);
          } else {
