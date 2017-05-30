@@ -10,10 +10,11 @@ const types = require('./routes/type');
 const users = require('./routes/users');
 const events = require('./routes/events');
 const neighborhoods = require('./routes/neighborhood');
+const auth = require('./routes/auth');
 
 //Database
 const massive = require('massive');
-let connectionString = config.connectionString ||  "postgres://postgres:postgres@localhost/neighborhood";
+let connectionString = config.connectionString ||  "postgres://zacharyryanspringer@localhost/neighborhoodwatch";
 let massiveInstance = massive.connectSync({connectionString})
 
 //Application
@@ -55,6 +56,7 @@ app.use('/api', userSession, types);
 app.use('/api', userSession, users);
 app.use('/api', userSession, events);
 app.use('/api', userSession, neighborhoods);
+app.use('/auth', userSession, auth)
 app.get('/whoami', function(req, res, done) {
   return res.send(session.user);
 });

@@ -15,5 +15,7 @@ router.get('/users/:id/facebook', usersCtrl.getFacebookUser);
 router.get('/users/:id/google', usersCtrl.getGoogleUser);
 router.get('/users/:id/auth', usersCtrl.getInternalUser);
 router.get('/current', usersCtrl.getCurrentUser);
+router.get('/login/:username/:password', usersCtrl.signin)
+
 
 module.exports = router;

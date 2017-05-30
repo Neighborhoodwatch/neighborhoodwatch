@@ -147,5 +147,18 @@ module.exports = {
             res.send(resp);
         }
     })
+  },
+  signin: (req, res, next) => {
+    var db = req.app.get('db')
+    var username = req.params.username
+    var password = req.params.password
+    db.get_user_login([password, username], (err, resp) => {
+      if(err) {
+        res.status(420).json(err)
+      } else {
+        req.session.user = resp
+        res.send(req.session)
+      }
+    })
   }
 }

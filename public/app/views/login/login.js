@@ -5,9 +5,13 @@ angular.module('nWatch').controller('loginCtrl', function($scope, one, loginSrvc
 
 
   $scope.login = (username, password) => {
-    $state.go('user')
+    // $state.go('user')
     loginSrvc.login(username, password).then(function(res) {
-      //Will finish up once api is connected
+      if(res.status === 200) {
+        $state.go('user')
+      } else {
+        alert('Username and password did not match')
+      }
     })
   }
 

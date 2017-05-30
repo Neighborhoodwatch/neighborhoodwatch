@@ -1,8 +1,10 @@
 module.exports = function(app, passport){
 	var users = require('../serverCtrls/usersCtrl');
+	var express = require('express');
+	var router = express.Router();
 
 	app.route('/auth/signup', users.signup);
-	app.route('/auth/signin', users.signin);
+	app.route('/auth/signin/:username/:password', users.signin);
 	app.route('/auth/signout', users.signout);
 
 	//Facebook routes
