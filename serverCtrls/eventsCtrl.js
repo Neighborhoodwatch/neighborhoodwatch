@@ -7,7 +7,6 @@ module.exports = {
          if (err) {
              res.status(420).json(err);
          } else {
-             req.session.order = resp;
              res.send(resp);
          }
      })
@@ -18,7 +17,6 @@ module.exports = {
            if(err) {
            res.send(420).json(err);
            } else {
-               req.session.order = resp;
                res.send(resp);
            }
        })
@@ -26,7 +24,6 @@ module.exports = {
    createEvent: (req, res, next) => {
        var db = req.app.get('db');
         var event = req.body;
-
 
         var details = event.details;
         var title = event.title;
@@ -46,7 +43,6 @@ module.exports = {
                 res.status(420).json(err);
             } else {
                 console.log('event created:', resp)
-                req.session.order = resp
                 res.send(resp)
             }
         })
@@ -75,7 +71,6 @@ module.exports = {
           } else {
               console.log('event updated:', resp)
 
-              req.session.order = resp
               res.send(resp)
           }
       })
@@ -90,7 +85,6 @@ module.exports = {
           } else {
               console.log('deleted event:', resp)
 
-              req.session.order = resp
               res.send(resp)
           }
       })
@@ -103,8 +97,6 @@ module.exports = {
               res.status(420).json(err);
           } else {
               console.log('followers for event:', resp)
-
-              req.session.order = resp
               res.send(resp)
           }
       })
