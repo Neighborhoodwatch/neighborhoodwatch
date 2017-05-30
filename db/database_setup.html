@@ -3,45 +3,45 @@ ty<!--
 drop table users, events, neighborhood, following, type;
 
 CREATE TABLE users (
-    	first_name	varchar,
-    	last_name	varchar,
-    	username	varchar unique,
-	     email varchar,
-    	facebook_id	bigint unique,
-    	google_id	bigint unique,
-   	password	varchar(20),
-	photo 	text,
-	user_id serial primary key,
+        first_name    varchar,
+        last_name    varchar,
+        username    varchar unique,
+         email varchar,
+        facebook_id    bigint unique,
+        google_id    bigint unique,
+       password    varchar(20),
+    photo     text,
+    user_id serial primary key,
   neighborhood_id int references neighborhood(neighborhood_id)
 );
 CREATE TABLE type (
-	name text,
-	type_id serial primary key
+    name text,
+    type_id serial primary key
 );
 CREATE TABLE events (
-	event_id serial primary key,
-	details text,
-	title varchar,
-	date timestamp,
-	type_id INT REFERENCES type(type_id),
-	created_by INT REFERENCES users(user_id),
-	event_location_lat numeric,
-	event_location_lon numeric,
-	event_time timestamp,
-	photo text,
+    event_id serial primary key,
+    details text,
+    title varchar,
+    date timestamp,
+    type_id INT REFERENCES type(type_id),
+    created_by INT REFERENCES users(user_id),
+    event_location_lat numeric,
+    event_location_lon numeric,
+    event_time timestamp,
+    photo text,
   event_place text,
   neighborhood_id int REFERENCES neighborhood(neighborhood_id)
 );
 CREATE TABLE neighborhood (
-	neighborhood_id serial primary key,
-	name varchar,
-	city text,
-	state varchar(2)
+    neighborhood_id serial primary key,
+    name varchar,
+    city text,
+    state varchar(2)
 );
 CREATE TABLE following (
 following_id serial primary key,
-	event_id int references events(event_id),
-	user_id int references users(user_id),
+    event_id int references events(event_id),
+    user_id int references users(user_id),
     attending text
 );
 -->
