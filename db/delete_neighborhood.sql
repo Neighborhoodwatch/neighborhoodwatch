@@ -1,2 +1,2 @@
 DELETE FROM neighborhood
-	WHERE neighborhood_id=$4;
+	WHERE neighborhood_id=$1;

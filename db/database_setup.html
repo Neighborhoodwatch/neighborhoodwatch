@@ -1,7 +1,13 @@
-ty<!--
+<!--
 -- reset and create a new database with a copy and paste job:
 drop table users, events, neighborhood, following, type;
 
+CREATE TABLE neighborhood (
+	neighborhood_id serial primary key,
+	name varchar not null,
+	city text not null,
+	state varchar(2) not null
+);
 CREATE TABLE users (
     	first_name	varchar,
     	last_name	varchar,
@@ -22,7 +28,7 @@ CREATE TABLE events (
 	event_id serial primary key,
 	details text,
 	title varchar,
-	date timestamp,
+	-- date timestamp,
 	type_id INT REFERENCES type(type_id),
 	created_by INT REFERENCES users(user_id),
 	event_location_lat numeric,
@@ -32,16 +38,11 @@ CREATE TABLE events (
   event_place text,
   neighborhood_id int REFERENCES neighborhood(neighborhood_id)
 );
-CREATE TABLE neighborhood (
-	neighborhood_id serial primary key,
-	name varchar,
-	city text,
-	state varchar(2)
-);
 CREATE TABLE following (
 following_id serial primary key,
 	event_id int references events(event_id),
 	user_id int references users(user_id),
     attending text
 );
+create unique index unique_neighborhood on neighborhood (name, city, state);
 -->
