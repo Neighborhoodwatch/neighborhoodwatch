@@ -3,8 +3,8 @@ angular.module('nWatch').directive('nwGetMap', function() {
       restrict: 'EA',
       templateUrl: './app/directives/getMap.html',
       controller: function($scope, eventSrvc) {
-        var lat = parseFloat(eventSrvc.grabEvent[4].event_location_lat)
-        var long = parseFloat(eventSrvc.grabEvent[4].event_location_lon)
+        // var lat = parseFloat(eventSrvc.grabEvent[4].event_location_lat)
+        // var long = parseFloat(eventSrvc.grabEvent[4].event_location_lon)
         console.log(lat, long);
         var myLatLng = {lat: lat, lng: long};
 

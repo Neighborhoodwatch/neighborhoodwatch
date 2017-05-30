@@ -34,10 +34,11 @@ module.exports = {
         var event_time = event.event_time;
         var photo = event.photo;
         var date = event.date;
+        var event_place = event.event_place
         var neighborhood_id = event.neighborhood_id;
         //make sure to add ^ this back in this temp change
         console.log(event);
-        db.create_event([details, title, type_id, created_by, event_location_lat, event_location_lon, event_time, photo, date, neighborhood_id], (err, resp) => {
+        db.create_event([details, title, type_id, created_by, event_location_lat, event_location_lon, event_time,  photo, event_place, date, neighborhood_id], (err, resp) => {
           console.log("func is runnung");
             if (err) {
                 res.status(420).json(err);

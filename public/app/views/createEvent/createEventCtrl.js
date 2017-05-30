@@ -1,4 +1,4 @@
-angular.module('nWatch').controller('createEventCtrl', function($scope, eventSrvc ) {
+angular.module('nWatch').controller('createEventCtrl', function($scope, eventSrvc, $log ) {
   $scope.lists = [
     {
       name: 'Lost Pet'
@@ -67,9 +67,9 @@ angular.module('nWatch').controller('createEventCtrl', function($scope, eventSrv
 
     event.event_location_lat = $scope.lat
     event.event_location_lon = $scope.long
+    event.event_time = $scope.mytime.toJSON()
     event.date = $scope.dt.toDateString()
     event.photo = ''
-    console.log(event);
     // eventSrvc.save(event)
   }
   // ui--bootstrap date js
@@ -132,11 +132,6 @@ angular.module('nWatch').controller('createEventCtrl', function($scope, eventSrv
   $scope.hstep = 1;
   $scope.mstep = 15;
 
-  $scope.options = {
-    hstep: [1, 2, 3],
-    mstep: [1, 5, 10, 15, 25, 30]
-  };
-
   $scope.ismeridian = true;
   $scope.toggleMode = function() {
     $scope.ismeridian = ! $scope.ismeridian;
@@ -151,10 +146,6 @@ angular.module('nWatch').controller('createEventCtrl', function($scope, eventSrv
 
   $scope.changed = function () {
     $log.log('Time changed to: ' + $scope.mytime);
-  };
-
-  $scope.clear = function() {
-    $scope.mytime = null;
   };
 
 })

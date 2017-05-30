@@ -4,13 +4,14 @@
   </div>
   <div class="row text-center">
     <div class="col-sm-4 event-font-med">
-      Date: {{event.date}}
+      Date:
+      {{event.date | date : "mediumDate"}}
     </div>
     <div class="col-sm-4 event-font-med">
-    WHERE: {{event.location}}
+    WHERE: {{event.event_place}}
     </div>
     <div class="col-sm-4 event-font-med">
-    Time: {{event.event_time}}
+    Time: {{event.event_time | date : 'shortTime'}}
     </div>
   </div>
   <div class="row">
@@ -20,12 +21,12 @@
   </div>
   <div class="row">
     <div class="col-sm-4">
-      <img ng-src="{{event.img}}" alt="" class="img-responsive" id="events-events-img">
+      <img ng-src="{{event.photo}}" alt="" class="img-responsive" id="events-events-img">
     </div>
     <div class="col-sm-4">
       <div class="row">
         <div class="col-sm-12">
-          <nw-get-map></nw-get-map>
+          <div id="map" class="events-map"></div>
         </div>
       </div>
     </div>
