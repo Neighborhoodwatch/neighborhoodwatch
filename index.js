@@ -47,18 +47,24 @@ function userSession(req, res, next) {
 }
 //middleware for putting users created and followed events and neighborhood on session
 function userEandN(req, res, next) {
-  if(!req.createdEvents) {
-    req.createdEvents = {}
+  if(!req.session.createdEvents) {
+    req.session.createdEvents = {}
   }
-  if(!req.followedEvents) {
-    req.followedEvents = {}
+  if(!req.session.followedEvents) {
+    req.session.followedEvents = {}
   }
-  if(!req.neighborhood) {
-    req.neighborhood = {}
+  if(!req.session.neighborhood) {
+    req.session.neighborhood = {}
   }
   next()
 }
-
+//Middleware for checking if logged in
+function isLoggedIn(req, res, next) {
+  if(!req.session.isLoggedIn) {
+    req.session.isLoggedIn = false
+  }
+  next()
+}
 
 //Authentication
 // app.use(passport.initialize());
@@ -67,11 +73,11 @@ function userEandN(req, res, next) {
 
 //API will be http://localhost/api/types, http://localhost/api/users, http://localhost/api/events, http://localhost:3000/api/neighborhoods etc. by using the prefix
 let testCtrl = require('./serverCtrls/testCtrl');
-app.use('/api', userSession, userEandN, types);
-app.use('/api', userSession, userEandN, users);
-app.use('/api', userSession, userEandN, events);
-app.use('/api', userSession, userEandN, neighborhoods);
-app.use('/auth', userSession, userEandN, auth)
+app.use('/api', userSession, userEandN, isLoggedIn, types);
+app.use('/api', userSession, userEandN, isLoggedIn, users);
+app.use('/api', userSession, userEandN, isLoggedIn, events);
+app.use('/api', userSession, userEandN, isLoggedIn, neighborhoods);
+app.use('/auth', userSession, userEandN, isLoggedIn, auth)
 app.get('/whoami', function(req, res, done) {
   return res.send(req.session);
 });

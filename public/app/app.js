@@ -17,13 +17,52 @@ angular.module('nWatch', ['ui.router', 'ngAnimate', 'ngMessages', 'ui.bootstrap'
     .state('login', {
 			url: '/login',
 			templateUrl: './app/views/login/login.html',
-			controller: 'loginCtrl'
+			controller: 'loginCtrl',
+			resolve: {
+				checkLogin: function(authSrvc, $q, adminAuth, $state) {
+					var deferred = $q.defer()
+					if(adminAuth.checkClientPermission()) {
+						$state.go('user')
+					}
+					authSrvc.checkLoggedIn().then(function(res) {
+						let data = res.data
+						if(data === false) {
+							deferred.resolve()
+						} else {
+							adminAuth.getClientPermission()
+							deferred.resolve()
+							$state.go('user')
+						}
+						})
+					return deferred.promise
+				}
+			}
 		})
 
 		.state('user', {
 			url: '/user',
 			templateUrl: './app/views/user/user.html',
-			controller: 'userCtrl'
+			controller: 'userCtrl',
+			resolve: {
+				checkLogin: function(authSrvc, $q, adminAuth, $state) {
+					var deferred = $q.defer()
+					if(adminAuth.checkClientPermission()) {
+						deferred.resolve()
+					} else {
+						authSrvc.checkLoggedIn().then(function(res) {
+							let data = res.data
+							if(data === true) {
+								adminAuth.getClientPermission()
+								deferred.resolve()
+							} else {
+								deferred.reject()
+								$state.go('login')
+							}
+						})
+					}
+					return deferred.promise
+				}
+			}
 		})
 		.state('newNeighborhood', {
 			url: '/newneighborhood',
