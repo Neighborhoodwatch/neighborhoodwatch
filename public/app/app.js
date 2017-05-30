@@ -31,9 +31,18 @@ angular.module('nWatch', ['ui.router', 'ngAnimate', 'ngMessages', 'ui.bootstrap'
 			controller: 'newNeighborhoodCtrl'
 		})
     .state('events', {
-			url: '/events',
+			url: '/events/:eventId',
 			templateUrl: './app/views/events/events.html',
-			controller: 'eventsCtrl'
+			controller: 'eventsCtrl',
+			resolve: {
+					event: function(eventSrvc, $stateParams){
+						const eventId = $stateParams.eventId
+						console.log(eventId);
+					return eventSrvc.getEvent(eventId).then(function(response){
+						return response
+					})
+				}
+			}
 		})
     .state('editEvents', {
 			url: '/event/edit',

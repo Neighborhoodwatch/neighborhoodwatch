@@ -31,9 +31,7 @@ angular.module('nWatch').service('eventSrvc', function($http) {
       return $http({
         method: 'POST',
         url: 'api/events',
-        data: {
-          event
-        }
+        data: event
       }).then(function (response) {
         return response.data;
       })
@@ -62,6 +60,7 @@ angular.module('nWatch').service('eventSrvc', function($http) {
       url: "https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=AIzaSyDygNCUy0c-ktsxgQh54x83Rdza88YjOYg"
     })
   }
+
 /*
 angular.module('nWatch').service('eventSrvc', function ($http) {
 
