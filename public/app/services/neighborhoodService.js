@@ -76,4 +76,10 @@ angular.module('nWatch').service('neighborhoodSrvc', function($http) {
       return response.data;
     })
   }
+  this.getSession = () => {
+    return $http({
+      method: 'GET',
+      url: '/whoami'
+    })
+  }
 })

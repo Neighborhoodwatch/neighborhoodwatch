@@ -13,6 +13,7 @@ angular.module('nWatch').controller('userCtrl', function($scope, userSrvc) {
   $scope.getSession = () => {
     userSrvc.getSession().then(function(res) {
       let data = res.data
+      console.log(data)
       $scope.user = data.user[0]
       $scope.neighborhood = data.neighborhood[0]
       $scope.followedEvents = data.followedEvents

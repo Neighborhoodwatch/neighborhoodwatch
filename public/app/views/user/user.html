@@ -35,16 +35,6 @@
                             ng-model="user.email"
                             placeholder="{{user.email}}"></input>
                         </div>
-                        <!-- <div class="form-group">
-                            <label>Password</label>
-                            <input class="form-control"
-                            ng-model="userInfo.password"></input>
-                        </div>
-                        <div class="form-group">
-                            <label>Confirm Password</label>
-                            <input class="form-control"
-                            ng-model="confirm"></input>
-                        </div> -->
                         <div class="form-group">
                             <label>Upload New Profile Picture</label>
                             <input class="form-control" type="file" ng-model="user.photo"
@@ -60,27 +50,28 @@
                 <!--Ends first column  -->
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                     <h4>My Events</h4></br>
-                    <div ng-repeat="event in myEvents">
+                    <div ng-repeat="event in createdEvents">
                     <div class="panel panel-default user-my-event">
-                      {{event.name}}
+                      {{event.title}}
                     {{event.date}}
-                  {{event.description}}
-                  {{event.time}}
-                  <img ng-src="{{event.eventImage}}">
-                  <button ui-sref="editEvents(event.id)">Edit</button>
-                  {{event.host}}</div>
+                  {{event.details}}
+                  {{event.event_place}}
+                  <img ng-src="{{event.photo}}" placeholder="Event Photo">
+                  <button ui-sref="editEvents(event.event_id)">Edit</button>
+                  </div>
                   </div>
                   <h4>Events I'm Attending</h4>
-                  <div ng-repeat="event in attending">
+                  <div ng-repeat="event in followedEvents">
                   <div class="panel panel-default user-my-event">
-                    {{event.name}}
+                    {{event.title}}
                   {{event.date}}
-                {{event.description}}
-                {{event.time}}
-                <img ng-src="{{event.eventImage}}">
-                <button ui-sref="events(event.id)">View More</button>
+                {{event.details}}
+                {{event.event_time}}
+                {{event.event_place}}
+                <img ng-src="{{event.photo}}" placeholder="Event Photo">
+                <button ui-sref="events({ eventId: event.event_id })">View More</button>
 
-                {{event.host}}</div>
+                </div>
                 </div>
 
                 </div>

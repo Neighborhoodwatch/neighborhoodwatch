@@ -15,7 +15,12 @@ angular.module('nWatch').controller('hoodCtrl', function($scope, neighborhoodSrv
       //Will assign neighborhoods to scope then ng repeat and display the events
     })
   }
-
+  $scope.getSession = () => {
+    neighborhoodSrvc.getSession().then(function(res) {
+      console.log(res)
+    })
+  }
+  $scope.getSession()
 
 
 
