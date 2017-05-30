@@ -1,5 +1,20 @@
 
 angular.module('nWatch').service('userSrvc', function($http) {
+
+  this.updateInfo = (user_id, first_name, last_name, username, email, photo) => {
+    return $http({
+      method: 'PUT',
+      url: `/api/users/${user_id}`,
+      data: {
+        first_name,
+        last_name,
+        username,
+        email,
+        photo
+      }
+    })
+  }
+
   this.getUsers = function () {
     return $http({
       method: 'GET',

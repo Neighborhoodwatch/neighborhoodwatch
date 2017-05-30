@@ -72,16 +72,13 @@ module.exports = {
   },
   updateUser: (req, res, next) => {
     var db = req.app.get('db');
-    var id = req.params.id;
+    var user_id = req.params.id;
     var user = req.body;
-      console.log('updateUser user:', user)
 
-    db.update_user([user.first_name, user.last_name, user.username, user.email, user.facebook_id, user.google_id, user.password, user.photo, id], (err, resp) => {
+    db.update_user([user.first_name, user.last_name, user.username, user.email, user.photo, user_id], (err, resp) => {
         if (err) {
             res.status(420).json(err);
         } else {
-            console.log('user updated:', resp)
-
             req.session.user = resp
             res.send(resp)
         }

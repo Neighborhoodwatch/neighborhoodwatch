@@ -38,13 +38,28 @@ var uploader = require('./serverCtrls/uploadCtrl')(app);
 
 
 
-//Middleware for putting user on express sessionSecret
+//Middleware for putting user on express session
 function userSession(req, res, next) {
   if(!req.user) {
     req.user = {}
   }
   next()
 }
+//middleware for putting users created and followed events and neighborhood on session
+function userEandN(req, res, next) {
+  if(!req.createdEvents) {
+    req.createdEvents = {}
+  }
+  if(!req.followedEvents) {
+    req.followedEvents = {}
+  }
+  if(!req.neighborhood) {
+    req.neighborhood = {}
+  }
+  next()
+}
+
+app.use(userEandN)
 //Authentication
 // app.use(passport.initialize());
 // app.use(passport.session());
@@ -58,7 +73,7 @@ app.use('/api', userSession, events);
 app.use('/api', userSession, neighborhoods);
 app.use('/auth', userSession, auth)
 app.get('/whoami', function(req, res, done) {
-  return res.send(session.user);
+  return res.send(req.session);
 });
 
 const port = process.env.PORT || config.PORT || 3000;

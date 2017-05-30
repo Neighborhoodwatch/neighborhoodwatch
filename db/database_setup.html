@@ -11,7 +11,8 @@ CREATE TABLE users (
     	google_id	bigint unique,
    	password	varchar(20),
 	photo 	text,
-	user_id serial primary key
+	user_id serial primary key,
+  neighborhood_id int references neighborhood(neighborhood_id)
 );
 CREATE TABLE type (
 	name text,

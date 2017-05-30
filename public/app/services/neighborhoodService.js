@@ -1,5 +1,16 @@
 
 angular.module('nWatch').service('neighborhoodSrvc', function($http) {
+  this.createNeighborhood = (name, city, state) => {
+    return $http({
+      method: 'POST',
+      url: '/api/neighborhoods',
+      data: {
+        name,
+        city,
+        state
+      }
+    })
+  }
   this.getNeighborhood = function (id) {
     return $http({
       method: 'GET',
