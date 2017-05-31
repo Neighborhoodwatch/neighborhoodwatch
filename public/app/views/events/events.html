@@ -32,31 +32,31 @@
     </div>
     <div class="col-sm-4">
       <div class="row text-center">
-        <h4>Event Status</h4>
+        <h4>Who's Going</h4>
       </div>
       <div class="row">
-        <div class="alert alert-success" ng-repeat="fol in followers" role="alert">
+        <div class="alert" ng-class="attStatus(fol)" ng-repeat="fol in followers" role="alert">
           <div class="col-xs-4">
-            name: Rick
+            name: {{fol.username}}
           </div>
           <div class="col-xs-4">
             asdfas
           </div>
           <div class="col-xs-4">
-            Status: Going
+            Status: {{fol.attending}}
           </div>
         </div>
       </div>
 
       <div class="row text-center">
         <div class="col-xs-4">
-            <button type="button" class="btn btn-success" ng-click()>Yes</button>
+            <button type="button" class="btn btn-success" ng-click="yes()">Yes</button>
         </div>
         <div class="col-xs-4">
-            <button type="button" class="btn btn-warning" ng-click()>Maybe</button>
+            <button type="button" class="btn btn-warning" ng-click="maybe()">Maybe</button>
         </div>
         <div class="col-xs-4">
-            <button type="button" class="btn btn-danger" ng-click()> No</button>
+            <button type="button" class="btn btn-danger" ng-click="no()"> No</button>
         </div>
       </div>
     </div>

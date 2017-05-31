@@ -27,7 +27,7 @@ angular.module('nWatch').service('userSrvc', function($http) {
   this.getUser = function (id) {
     return $http({
       method: 'GET',
-      url: '/api/users/'+ id
+      url: '/api/users/' + id
     })
   }
 
