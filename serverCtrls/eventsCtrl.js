@@ -52,8 +52,6 @@ module.exports = {
       var event_id = req.params.id;
       var event = req.body;
 
-      var lat = event.lat;
-      var lon = event.lon;
       var details = event.details;
       var title = event.title;
       var type_id = event.type_id;
@@ -63,9 +61,10 @@ module.exports = {
       var event_time = event.event_time;
       var photo = event.photo;
       var curdate = event.date;
-      var neighborhoodid = event.neighborhood_id;
+      var neighborhood_id = event.neighborhood_id;
+      var event_place = event.event_place;
 
-      db.update_event([lat, lon, details, title, curdate, type_id, created_by, event_location_lat, event_location_lon, event_time, photo, neighborhoodid, event_id], (err, resp) => {
+      db.update_event([details, title, type_id, created_by, event_location_lat, event_location_lon, event_time, photo, event_place, curdate, neighborhood_id, event_id], (err, resp) => {
           if (err) {
               res.status(420).json(err);
           } else {

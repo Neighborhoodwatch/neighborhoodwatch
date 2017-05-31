@@ -1,4 +1,4 @@
 UPDATE events
-	SET  lat=$1, lon=$2, details=$3, title=$4, date=$5, type_id=$6, created_by=$7, event_location_lat=$8, event_location_lon=$9, event_time=$10, photo=$11, neighborhood_id=$12
-	WHERE event_id=$13
+SET details=$1, title=$2, type_id=$3, created_by=$4, event_location_lat=$5, event_location_lon=$6, event_time=$7, photo=$8, event_place=$9, date=$10, neighborhood_id=$11
+WHERE event_id=$12
 RETURNING (details, title, type_id, created_by, event_location_lat, event_location_lon, event_time, photo, event_place, date, neighborhood_id, event_id)

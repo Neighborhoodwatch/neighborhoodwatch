@@ -26,7 +26,7 @@ module.exports = {
     var data = req.body;
 
     var id = req.params.id;
-    db.update_type([data.name, id], (err, resp) => {
+    db.update_type([data.name, data.isscheduled, id], (err, resp) => {
         if (err) {
             res.status(420).json(err);
         } else {
@@ -41,7 +41,7 @@ module.exports = {
     var db = req.app.get('db');
     var data = req.body;
 
-    db.create_type([data.name], (err, resp) => {
+    db.create_type([data.name, data.isscheduled], (err, resp) => {
         if (err) {
             res.status(420).json(err);
         } else {
