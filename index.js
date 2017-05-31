@@ -38,8 +38,8 @@ var uploader = require('./serverCtrls/uploadCtrl')(app);
 
 //Middleware for putting user on express session
 function userSession(req, res, next) {
-  if(!req.user) {
-    req.user = {}
+  if(!req.session.user) {
+    req.session.user = {}
   }
   next()
 }

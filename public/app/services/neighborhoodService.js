@@ -19,13 +19,11 @@ angular.module('nWatch').service('neighborhoodSrvc', function($http) {
       return response.data;
     })
   }
-
-  this.getNeighborhoods = function () {
+  //Used to get neighborhoods based on state passed in
+  this.getNeighborhoods = function (state) {
     return $http({
       method: 'GET',
-      url: '/api/neighboorhoods'
-    }).then(function (response) {
-      return response.data
+      url: `/api/neighborhoods?state=${state}`
     })
   }
 
@@ -72,8 +70,6 @@ angular.module('nWatch').service('neighborhoodSrvc', function($http) {
     return $http({
       method: 'GET',
       url: '/api/neighborhoods/' + id + "/events"
-    }).then(function(response) {
-      return response.data;
     })
   }
   this.getSession = () => {
@@ -96,6 +92,16 @@ angular.module('nWatch').service('neighborhoodSrvc', function($http) {
     return $http({
       method: 'GET',
       url: `/api/users/neighborhood/${id}`
+    })
+  }
+  this.joinNeighborhood = (neighborhood_id, user_id) => {
+    return $http({
+      method: 'PUT',
+      url: `/api/join/neighborhood`,
+      data: {
+        neighborhood_id,
+        user_id
+      }
     })
   }
 })
