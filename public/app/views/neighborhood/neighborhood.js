@@ -1,8 +1,12 @@
 angular.module('nWatch').controller('hoodCtrl', function($scope, neighborhoodSrvc, authSrvc) {
 
 
-  $scope.leaveNeighborhood = function() {
-    $scope.noNeighborhood = true
+  $scope.leaveNeighborhood = function(id) {
+    var neighborhood_id = 0
+    neighborhoodSrvc.updateUserNeighborhood(id, neighborhood_id).then(function(res) {
+      $scope.noNeighborhood = true
+
+    })
   }
   // Will delete these two calls once I can actually grab data from the database
   //Sets whether or not user is logged in and whether or not user has neighborhood
@@ -13,12 +17,6 @@ angular.module('nWatch').controller('hoodCtrl', function($scope, neighborhoodSrv
         $scope.noNeighborhood = true
       } else if(data.neighborhood.length > 0) {
         $scope.noNeighborhood = false
-      }
-
-      if(data.isLoggedIn === true) {
-        $scope.loggedIn = true
-      } else if (data.isLoggedIn === false){
-        $scope.loggedIn = false
       }
     })
   }

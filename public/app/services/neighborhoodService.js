@@ -82,4 +82,14 @@ angular.module('nWatch').service('neighborhoodSrvc', function($http) {
       url: '/whoami'
     })
   }
+  this.updateUserNeighborhood = (id, neighborhood_id) => {
+    return $http({
+
+      method: 'PUT',
+      url: `/users/${id}/neighborhood`,
+      data: {
+        neighborhood_id
+      }
+    })
+  }
 })
