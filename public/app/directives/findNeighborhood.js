@@ -45,25 +45,6 @@ angular.module('nWatch').directive('nwFindNeighborhood', function() {
               $('#sortBy').text(param)
             }
 
-
-            $scope.joinNeighborhood = (id) => {
-              neighborhoodSrvc.joinNeighborhood(id).then(function(response) {
-                //Will then redirect to my neighborhood view and display correct neighborhood-watch...Also this call will add user to neighborhood
-              })
-            }
-            $scope.getLocation = () => {
-                if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(showPosition);
-                } else {
-                    x.innerHTML = "Geolocation is not supported by this browser.";
-                }
-            }
-
-            function showPosition(position) {
-              console.log(position)
-                    $scope.lat = position.coords.latitude
-                    $scope.long = position.coords.longitude
-            }
         }
     }
 })

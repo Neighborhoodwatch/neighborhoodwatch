@@ -56,9 +56,8 @@ module.exports = {
       var google_id = user.google_id;
       var password = user.password;
       var photo = user.photo;
-      var neighborhood_id = user.neighborhood_id;
 
-      db.create_user([first_name, last_name, username, email, facebook_id, google_id, password, photo, neighborhood_id], (err, resp) => {
+      db.create_user([first_name, last_name, username, email, facebook_id, google_id, password, photo], (err, resp) => {
           if (err) {
           res.status(420).json(err)
       } else {
