@@ -101,34 +101,12 @@
                         <tr>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody ng-repeat="neighborhood in neighborhoods | limitTo:quantity">
                         <tr>
-                            <td>Need to discuss something</td>
-                            <td><button class="btn btn-success" ng-click="leaveNeighborhood()">Join</button></td>
-                        </tr>
-                        <tr>
-                            <td>Need to discuss something</td>
-                            <td><button class="btn btn-success" ng-click="leaveNeighborhood()">Join</button></td>
-                        </tr>
-                        <tr>
-                            <td>Need to discuss something</td>
-                            <td><button class="btn btn-success" ng-click="leaveNeighborhood()">Join</button></td>
-                        </tr>
-                        <tr>
-                            <td>Need to discuss something</td>
-                            <td><button class="btn btn-success" ng-click="leaveNeighborhood()">Join</button></td>
-                        </tr>
-                        <tr>
-                            <td>Need to discuss something</td>
-                            <td><button class="btn btn-success" ng-click="leaveNeighborhood()">Join</button></td>
-                        </tr>
-                        <tr>
-                            <td>Need to discuss something</td>
-                            <td><button class="btn btn-success" ng-click="leaveNeighborhood()">Join</button></td>
-                        </tr>
-                        <tr>
-                            <td>Need to discuss something</td>
-                            <td><button class="btn btn-success" ng-click="leaveNeighborhood()">Join</button></td>
+                            <td>{{neighborhood.name}}</td>
+                            <td>{{neighborhood.city}}</td>
+                            <td>{{neighborhood.state}}</td>
+                            <td><button class="btn btn-success" ng-click="joinNeighborhood(neighborhood.neighborhood_id, user.user_id)">Join</button></td>
                         </tr>
                     </tbody>
                 </table>

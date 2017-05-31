@@ -74,7 +74,6 @@ module.exports = {
         if(err) {
             res.status(420).json(err);
         } else {
-          console.log(resp);
             req.session.user = resp;
             req.session.isLoggedIn = true
             res.send(resp);

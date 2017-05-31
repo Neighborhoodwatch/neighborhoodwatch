@@ -13,5 +13,6 @@ router.delete('/neighborhoods/:id', neighborhoodCtrl.deleteNeighborhood);
 router.get('/neighborhoods/:id/users', neighborhoodCtrl.getUsers);
 router.get('/neighborhoods/:id/events', neighborhoodCtrl.getEvents);
 router.get('/users/neighborhood/:id', neighborhoodCtrl.getUsersNeighborhood)
+router.put('/join/neighborhood', neighborhoodCtrl.joinNeighborhood)
 
 module.exports = router;

@@ -11,16 +11,17 @@
         </div>
         <!-- Ends Column Left -->
         <div class="col-xs-6">
-            <h4>All Events</h4>
-            <div ng-repeat="event in privateEvents">
+            <h4>Neighborhood Events</h4>
+            <div ng-repeat="event in neighborhoodEvents">
             <div class="panel panel-default neighborhood-panel">
-              {{event.name}}
+              {{event.title}}
             {{event.date}}
-          {{event.description}}
-          {{event.time}}
-          <img ng-src="{{event.eventImage}}">
-          {{event.host}}
-          <button ui-sref="events(event.id)">View More</button>
+          {{event.details}}
+          {{event.event_time}}
+          <img ng-src="{{event.photo}}">
+          {{event.first_name}}
+          {{event.last_name}}
+          <button ui-sref="events({eventId: event.event_id})">View More</button>
           </div>
           </div>
             <button ng-click="leaveNeighborhood(user.user_id)">Leave Neighborhood</button>

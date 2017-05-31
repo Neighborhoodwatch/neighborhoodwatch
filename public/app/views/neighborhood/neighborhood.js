@@ -18,6 +18,17 @@ angular.module('nWatch').controller('hoodCtrl', function($scope, neighborhoodSrv
       } else if(data.neighborhood.length > 0) {
         $scope.noNeighborhood = false
       }
+      if($scope.user.neighborhood_id) {
+
+        let id = $scope.user.neighborhood_id
+        var getNeighborhoodEvents = (id) => {
+          neighborhoodSrvc.getEvents(id).then(function(res) {
+            let data = res.data
+            $scope.neighborhoodEvents = data
+          })
+        }
+        getNeighborhoodEvents(id)
+      }
     })
   }
   $scope.getSession()

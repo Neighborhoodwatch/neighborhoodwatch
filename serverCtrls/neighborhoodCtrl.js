@@ -2,14 +2,10 @@ module.exports = {
   getNeighborhoods: (req, res, next) => {
     var db = req.app.get('db');
     var state = req.query.state;
-    var city = req.query.city;
-    var name = req.query.name;
-
-    db.get_neighborhoods([state, city, name], (err, resp) => {
+    db.get_neighborhoods([state], (err, resp) => {
         if(err) {
           res.send(420).json(err);
         } else {
-            req.session.order = resp;
             res.send(resp);
         }
     })
@@ -96,9 +92,7 @@ module.exports = {
         if (err) {
             res.status(420).json(err);
         } else {
-            console.log('neighborhood events:', resp)
 
-            req.session.order = resp
             res.send(resp)
         }
     })
@@ -112,6 +106,19 @@ module.exports = {
       } else {
         req.session.neighborhood = resp
         res.send(resp)
+      }
+    })
+  },
+  joinNeighborhood: (req, res, next) => {
+    var db = req.app.get('db')
+    var neighborhood_id = req.body.neighborhood_id
+    var user_id = req.body.user_id
+    db.set_users_neighborhood([neighborhood_id, user_id], (err, resp) => {
+      if(err) {
+        res.status(420).json(err)
+      } else {
+        req.session.neighborhood = resp
+        res.send(req.session)
       }
     })
   }
