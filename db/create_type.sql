@@ -1,3 +1,2 @@
-INSERT INTO type(
-	name)
+INSERT INTO type(name)
 	VALUES ($1);
