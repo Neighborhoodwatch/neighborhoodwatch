@@ -37,6 +37,16 @@ angular.module('nWatch').service('eventSrvc', function($http) {
       response.data;
     })
   }
+  this.updateFollowers = function (id, uId, att) {
+    return $http({
+      method: 'PUT',
+      url: 'api/events/' + id + '/following',
+      data: {
+        user_id: uId,
+        attending: att
+      }
+    })
+  }
 
   this.save = function (event) {
     if (event.event_id ) {
