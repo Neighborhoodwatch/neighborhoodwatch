@@ -105,7 +105,23 @@ module.exports = {
       var attending = req.body.attending
       var event_Id = req.params.id;
       db.create_event_followers([event_Id, user, attending], (err, resp) => {
-        console.log('followers for event:', resp)
+        console.log('followers for event:', resp[0])
+        req.session.followedEvents.push(resp[0])
+        console.log(req.session);
+          if (err) {
+              res.status(420).json(err);
+          } else {
+              res.send(resp)
+          }
+      })
+    },
+    updateFollowers: (req, res, next) => {
+      var db = req.app.get('db');
+      var user = req.body.user_id;
+      var attending = req.body.attending
+      var event_Id = req.params.id;
+      db.update_event_followers([event_Id, user, attending], (err, resp) => {
+        console.log('update followers for event:', resp)
           if (err) {
               res.status(420).json(err);
           } else {

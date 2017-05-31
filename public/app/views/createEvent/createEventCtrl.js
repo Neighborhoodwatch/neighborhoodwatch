@@ -40,7 +40,7 @@ angular.module('nWatch').controller('createEventCtrl', function($scope, eventSrv
       event.type_id = 2
       console.log(event.type_id);
     }
-    else if ($scope.category.name === 'Misc') {
+    else if ($scope.category.name === 'Other') {
       event.type_id = 3
       console.log(event.type_id);
     }

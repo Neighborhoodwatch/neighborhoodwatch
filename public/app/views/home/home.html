@@ -5,29 +5,38 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-sm-8 home-events-box">
+    <div class="col-sm-8">
       <h3 class="text-center">EVENTS</h3>
-      <div class="row home-event-personal-event col-sm-12" ng-repeat="peep in events">
-        <div class="col-sm-8">
-          <div class="row">
-            <div class="col-sm-6">
-              <h3>{{peep.title}}</h3>
-            </div>
-            <div class="col-sm-6 home-event-date">
-              {{peep.date | date : "mediumDate"}}
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-xs-12 home-event-text">
-              <p>{{peep.details}}</p>
-            </div>
-            <div class="col-xs-12 text-center">
-              <a <a ui-sref="events({ eventId: peep.event_id })">> view more</a>
-            </div>
-          </div>
+      <div class="row">
+        <div class="col-sm-4 col-sm-offset-8">
+          <label>Filter By
+            <select ng-model="category" ng-options="name.name for name in lists"></select>
+          </label>
         </div>
-        <div class="col-xs-4 home-events-img text-center">
-          <img class="img-rounded" ng-src="{{peep.photo}}" alt="" style="height:125px; max-width:125px;">
+      </div>
+      <div class="home-events-box">
+        <div class="row home-event-personal-event col-sm-12" ng-repeat="peep in events | filter: {type_id: category.type_id }: true">
+          <div class="col-sm-8">
+            <div class="row">
+              <div class="col-sm-6">
+                <h3>{{peep.title}}</h3>
+              </div>
+              <div class="col-sm-6 home-event-date">
+                {{peep.date | date : "mediumDate"}}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12 home-event-text">
+                <p>{{peep.details}}</p>
+              </div>
+              <div class="col-xs-12 text-center">
+                <a <a ui-sref="events({ eventId: peep.event_id })">> view more</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-4 home-events-img text-center">
+            <img class="img-rounded" ng-src="{{peep.photo}}" alt="" style="height:125px; max-width:125px;">
+          </div>
         </div>
       </div>
     </div>

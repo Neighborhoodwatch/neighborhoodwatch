@@ -18,10 +18,13 @@ angular.module('nWatch').controller('eventsCtrl', ($scope, eventSrvc, event, $st
     title: 'Hello World!'
   });
 
-  eventSrvc.getFollowers(eventId).then((res) => {
-    console.log(res);
-    $scope.followers = res
-    $scope.attStatus = (res) => {
+  var getFol = () => {
+    eventSrvc.getFollowers(eventId).then((res) => {
+
+      console.log("rhis is getfollowers res", res);
+      $scope.followers = res
+
+      $scope.attStatus = (res) => {
         if (res.attending === "yes") {
           return "alert-success"
         }
@@ -31,33 +34,52 @@ angular.module('nWatch').controller('eventsCtrl', ($scope, eventSrvc, event, $st
         else if (res.attending === "no") {
           return "alert-danger"
         }
-    }
-  })
-  sessionSrv.session().then((res) => {
-    console.log(res);
-  })
+      }
+    })
+  }
+  var session = () => {
+    sessionSrv.session().then((res) => {
+      console.log("this is session", res);
+
+      console.log("this is user session", res.user[0].user_id)
+      $scope.userId = res.user[0].user_id
+      console.log(res.followedEvents);
+      $scope.attending = res.followedEvents
+      console.log("this is attending", $scope.attending);
+    })
+  }
 
   $scope.yes = () => {
     const yes = {
-      user_id: 1,
+      user_id: $scope.userId,
       attending: "yes"
     }
-    eventSrvc.postFollowers(eventId, yes.user_id, yes.attending)
+    eventSrvc.postFollowers(eventId, yes.user_id, yes.attending).then((res) => {
+      session()
+      getFol()
+    })
   }
   $scope.maybe = () => {
     const maybe = {
-      user_id: 1,
+      user_id: $scope.userId,
       attending: "maybe"
     }
-    eventSrvc.postFollowers(eventId, maybe.user_id, maybe.attending)
+    eventSrvc.postFollowers(eventId, maybe.user_id, maybe.attending).then((res) => {
+      session()
+      getFol()
+    })
   }
   $scope.no = () => {
     const no = {
-      user_id: 1,
+      user_id: $scope.userId,
       attending: "no"
     }
-    eventSrvc.postFollowers(eventId, no.user_id, no.attending)
+    eventSrvc.postFollowers(eventId, no.user_id, no.attending).then((res) => {
+      session()
+      getFol()
+    })
   }
-
+  session()
+  getFol()
 
 })
