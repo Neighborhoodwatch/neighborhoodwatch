@@ -19,8 +19,42 @@ angular.module('nWatch').controller('eventsCtrl', ($scope, eventSrvc, event, $st
   });
 
   eventSrvc.getFollowers(eventId).then((res) => {
-    console.log('this is response', res);
+    console.log(res);
     $scope.followers = res
+    $scope.attStatus = (res) => {
+        if (res.attending === "yes") {
+          return "alert-success"
+        }
+        else if (res.attending === "maybe") {
+          return "alert-warning"
+        }
+        else if (res.attending === "no") {
+          return "alert-danger"
+        }
+    }
   })
+
+  $scope.yes = () => {
+    const yes = {
+      user_id: 1,
+      attending: "yes"
+    }
+    eventSrvc.postFollowers(eventId, yes.user_id, yes.attending)
+  }
+  $scope.maybe = () => {
+    const maybe = {
+      user_id: 1,
+      attending: "maybe"
+    }
+    eventSrvc.postFollowers(eventId, maybe.user_id, maybe.attending)
+  }
+  $scope.no = () => {
+    const no = {
+      user_id: 1,
+      attending: "no"
+    }
+    eventSrvc.postFollowers(eventId, no.user_id, no.attending)
+  }
+
 
 })
