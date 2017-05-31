@@ -37,7 +37,6 @@ module.exports = {
         var event_place = event.event_place
         var neighborhood_id = event.neighborhood_id;
         //make sure to add ^ this back in this temp change
-        console.log(event);
         db.create_event([details, title, type_id, created_by, event_location_lat, event_location_lon, event_time,  photo, event_place, date, neighborhood_id], (err, resp) => {
           console.log("func is runnung");
             if (err) {
@@ -97,15 +96,12 @@ module.exports = {
           if (err) {
               res.status(420).json(err);
           } else {
-              console.log('followers for event:', resp)
               res.send(resp)
           }
       })
     },
     createFollowers: (req, res, next) => {
       var db = req.app.get('db');
-      console.log(req.params);
-      console.log(req.body);
       var user = req.body.user_id;
       var attending = req.body.attending
       var event_Id = req.params.id;

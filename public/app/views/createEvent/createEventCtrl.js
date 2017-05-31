@@ -7,9 +7,6 @@ angular.module('nWatch').controller('createEventCtrl', function($scope, eventSrv
       name: 'Damage'
     },
     {
-      name: 'Misc'
-    },
-    {
       name: 'Neighborhood Watch'
     },
     {
@@ -23,6 +20,9 @@ angular.module('nWatch').controller('createEventCtrl', function($scope, eventSrv
     },
     {
       name: 'Entertainment'
+    },
+    {
+      name: 'Other'
     }
   ]
   $scope.category = $scope.lists[0]

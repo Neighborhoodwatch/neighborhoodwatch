@@ -25,12 +25,13 @@ angular.module('nWatch').service('eventSrvc', function($http) {
       return response.data;
     })
   }
-  this.postFollowers = function (id, obj) {
+  this.postFollowers = function (id, uId, att) {
     return $http({
       method: 'POST',
       url: 'api/events/' + id + '/following',
       data: {
-        obj
+        user_id: uId,
+        attending: att
       }
     }).then(function (response) {
       response.data;
