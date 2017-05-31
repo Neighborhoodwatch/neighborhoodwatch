@@ -1,14 +1,18 @@
 module.exports = {
   getNeighborhoods: (req, res, next) => {
     var db = req.app.get('db');
-      db.get_neighborhoods((err, resp) => {
-          if(err) {
-            res.send(420).json(err);
-          } else {
-              req.session.order = resp;
-              res.send(resp);
-          }
-      })
+    var state = req.query.state;
+    var city = req.query.city;
+    var name = req.query.name;
+
+    db.get_neighborhoods([state, city, name], (err, resp) => {
+        if(err) {
+          res.send(420).json(err);
+        } else {
+            req.session.order = resp;
+            res.send(resp);
+        }
+    })
   },
   getNeighborhood: (req, res, next) => {
     var db = req.app.get('db');
