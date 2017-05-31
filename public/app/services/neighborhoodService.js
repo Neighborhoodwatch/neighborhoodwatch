@@ -86,10 +86,16 @@ angular.module('nWatch').service('neighborhoodSrvc', function($http) {
     return $http({
 
       method: 'PUT',
-      url: `/users/${id}/neighborhood`,
+      url: `/api/users/${id}/neighborhood`,
       data: {
         neighborhood_id
       }
+    })
+  }
+  this.getUserNeighborhood = (id) => {
+    return $http({
+      method: 'GET',
+      url: `/api/users/neighborhood/${id}`
     })
   }
 })

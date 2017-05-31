@@ -2,10 +2,9 @@ angular.module('nWatch').controller('hoodCtrl', function($scope, neighborhoodSrv
 
 
   $scope.leaveNeighborhood = function(id) {
-    var neighborhood_id = 0
+    var neighborhood_id = null
     neighborhoodSrvc.updateUserNeighborhood(id, neighborhood_id).then(function(res) {
       $scope.noNeighborhood = true
-
     })
   }
   // Will delete these two calls once I can actually grab data from the database
@@ -13,6 +12,7 @@ angular.module('nWatch').controller('hoodCtrl', function($scope, neighborhoodSrv
   $scope.getSession = () => {
     neighborhoodSrvc.getSession().then(function(res) {
       let data = res.data
+      $scope.user = data.user[0]
       if(data.neighborhood.length === 0) {
         $scope.noNeighborhood = true
       } else if(data.neighborhood.length > 0) {
