@@ -20,7 +20,19 @@ module.exports = {
   // saveOAuthUserProfile = function (req, providerUserProfile, done) {
   //
   // },
+  updateNeighborhood: (req, res, next) => {
+    var db = req.app.get('db');
+    var id = req.params.id;
+    var neighborhood_id = req.body.neighborhood_id;
 
+    db.update_user_neighborhood([neighborhood_id, id], (err, resp) => {
+        if(err) {
+            res.status(420).json(err);
+        } else {
+            res.send(resp);
+        }
+    })
+  },
   getUsers: (req, res, next) => {
       var db = req.app.get('db');
       db.get_users((err, resp) => {
@@ -44,8 +56,9 @@ module.exports = {
       var google_id = user.google_id;
       var password = user.password;
       var photo = user.photo;
+      var neighborhood_id = user.neighborhood_id;
 
-      db.create_user([first_name, last_name, username, email, facebook_id, google_id, password, photo], (err, resp) => {
+      db.create_user([first_name, last_name, username, email, facebook_id, google_id, password, photo, neighborhood_id], (err, resp) => {
           if (err) {
           res.status(420).json(err)
       } else {
@@ -76,7 +89,7 @@ module.exports = {
     var user_id = req.params.id;
     var user = req.body;
 
-    db.update_user([user.first_name, user.last_name, user.username, user.email, user.photo, user_id], (err, resp) => {
+    db.update_user([user.first_name, user.last_name, user.username, user.email, user.photo, neighborhood_id, user_id], (err, resp) => {
         if (err) {
             res.status(420).json(err);
         } else {

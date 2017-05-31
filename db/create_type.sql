@@ -1,3 +1,2 @@
-INSERT INTO type(
-	name)
-	VALUES ($1);
+INSERT INTO type(name, isscheduled)
+	VALUES ($1, $2);
