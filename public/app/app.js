@@ -55,6 +55,7 @@ angular.module('nWatch', ['ui.router', 'ngAnimate', 'ngMessages', 'ui.bootstrap'
 								adminAuth.getClientPermission()
 								deferred.resolve()
 							} else {
+								console.log("Is rejecting")
 								deferred.reject()
 								$state.go('login')
 							}

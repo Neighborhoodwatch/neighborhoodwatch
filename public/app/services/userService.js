@@ -30,7 +30,12 @@ angular.module('nWatch').service('userSrvc', function($http) {
       url: '/api/users/'+ id
     })
   }
-
+  this.getCurrentUser = () => {
+    return $http({
+      method: 'GET',
+      url: '/api/current'
+    })
+  }
   this.save = function (user) {
     if(user.user_id) {
       return $http({
