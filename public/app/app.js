@@ -12,7 +12,25 @@ angular.module('nWatch', ['ui.router', 'ngAnimate', 'ngMessages', 'ui.bootstrap'
     .state('hood', {
 			url: '/hood',
 			templateUrl: './app/views/neighborhood/neighborhood.html',
-			controller: 'hoodCtrl'
+			controller: 'hoodCtrl',
+			resolve: {
+				checkLogin: function(authSrvc, $q, adminAuth, $state) {
+					var deferred = $q.defer()
+					if(adminAuth.checkClientPermission()) {
+						deferred.resolve()
+					}
+					authSrvc.checkLoggedIn().then(function(res) {
+						let data = res.data
+						if(data === false) {
+							deferred.reject()
+							$state.go('login')
+						} else {
+							deferred.resolve()
+						}
+					})
+					return deferred.promise
+				}
+			}
 		})
     .state('login', {
 			url: '/login',
@@ -55,7 +73,6 @@ angular.module('nWatch', ['ui.router', 'ngAnimate', 'ngMessages', 'ui.bootstrap'
 								adminAuth.getClientPermission()
 								deferred.resolve()
 							} else {
-								console.log("Is rejecting")
 								deferred.reject()
 								$state.go('login')
 							}
