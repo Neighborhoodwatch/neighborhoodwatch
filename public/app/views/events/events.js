@@ -1,4 +1,4 @@
-angular.module('nWatch').controller('eventsCtrl', ($scope, eventSrvc, event, $stateParams) => {
+angular.module('nWatch').controller('eventsCtrl', ($scope, eventSrvc, event, $stateParams, sessionSrv) => {
   const eventId = $stateParams.eventId
   $scope.event = event[0]
   // console.log($scope.event);
@@ -32,6 +32,9 @@ angular.module('nWatch').controller('eventsCtrl', ($scope, eventSrvc, event, $st
           return "alert-danger"
         }
     }
+  })
+  sessionSrv.session().then((res) => {
+    console.log(res);
   })
 
   $scope.yes = () => {

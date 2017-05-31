@@ -104,11 +104,11 @@ module.exports = {
       var user = req.body.user_id;
       var attending = req.body.attending
       var event_Id = req.params.id;
-      db.create_event_followers([event_Id, user, attending ], (err, resp) => {
+      db.create_event_followers([event_Id, user, attending], (err, resp) => {
+        console.log('followers for event:', resp)
           if (err) {
               res.status(420).json(err);
           } else {
-              console.log('followers for event:', resp)
               res.send(resp)
           }
       })

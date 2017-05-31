@@ -21,7 +21,9 @@ angular.module('nWatch').controller('userCtrl', function($scope, userSrvc) {
   }
   $scope.getUser = (cb1, cb2) => {
     userSrvc.getCurrentUser().then(function(res) {
+
       let data = res.data.user[0]
+      console.log(data);
       var user_id = data.user_id
         cb1(user_id, cb2)
     })
