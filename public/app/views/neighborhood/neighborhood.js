@@ -1,27 +1,28 @@
-angular.module('nWatch').controller('hoodCtrl', function($scope, neighborhoodSrvc) {
+angular.module('nWatch').controller('hoodCtrl', function($scope, neighborhoodSrvc, authSrvc) {
 
 
-  $scope.loggedIn = true
-  $scope.noNeighborhood = false
   $scope.leaveNeighborhood = function() {
-    $scope.noNeighborhood = !$scope.noNeighborhood
+    $scope.noNeighborhood = true
   }
-  $scope.openEvents = neighborhoodSrvc.openEvents
-  $scope.privateEvents = neighborhoodSrvc.privateEvents
   // Will delete these two calls once I can actually grab data from the database
-  $scope.grabEvents = () => {
-    neighborhoodSrvc.grabEvents().then(function(res) {
-      let data = response.data
-      //Will assign neighborhoods to scope then ng repeat and display the events
-    })
-  }
+  //Sets whether or not user is logged in and whether or not user has neighborhood
   $scope.getSession = () => {
     neighborhoodSrvc.getSession().then(function(res) {
-      console.log(res)
+      let data = res.data
+      if(data.neighborhood.length === 0) {
+        $scope.noNeighborhood = true
+      } else if(data.neighborhood.length > 0) {
+        $scope.noNeighborhood = false
+      }
+
+      if(data.isLoggedIn === true) {
+        $scope.loggedIn = true
+      } else if (data.isLoggedIn === false){
+        $scope.loggedIn = false
+      }
     })
   }
   $scope.getSession()
-
 
 
 })
