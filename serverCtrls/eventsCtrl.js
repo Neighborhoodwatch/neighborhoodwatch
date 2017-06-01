@@ -95,6 +95,7 @@ module.exports = {
           if (err) {
               res.status(420).json(err);
           } else {
+            console.log("i am the response from get followers" , resp);
               res.send(resp)
           }
       })
@@ -105,23 +106,54 @@ module.exports = {
       var user = req.body.user_id;
       var attending = req.body.attending
       var event_Id = req.params.id;
-      db.create_event_followers([event_Id, user, attending], (err, resp) => {
-        req.session.followedEvents.push(resp[0])
-        console.log('followers for event:', resp[0])
-        console.log(req.session);
+      // function contains(a, user) {
+      //   for (var i = 0; i < a.length; i++) {
+      //     console.log("i'm hte userid in server contain", a[i].user_id);
+      //       if (a[i].user_id === user) {
+      //         console.log("i am the found ", a[i]);
+      //           return true;
+      //       }
+      //   }
+      //   return false;
+      // }
+      // function dedupe(arr) {
+      //   return arr.reduce(function (p, c) {
+      //     var key = [c.x, c.y].join('|');
+      //     if (p.temp.indexOf(key) === -1) {
+      //       p.out.push(c);
+      //       p.temp.push(key);
+      //     }
+      //     return p;
+      //   }, { temp: [], out: [] }).out;
+      // }
+      // console.log(dedupe(resp));
+      db.get_event_followers([event_Id], (err, resp) => {
           if (err) {
-              res.status(420).json(err);
+              console.log(err);
           } else {
-            for (var i = 0; i < upfol.length; i++) {
-              console.log("in for");
-              if (upfol[i].event_id != resp[0].event_id) {
+            console.log("i am the response from get followers" , resp);
+            // if (contains(resp, user) != true || resp.length == 0) {
+              console.log("i'm in if");
+              db.create_event_followers([event_Id, user, attending], (err, resp) => {
                 req.session.followedEvents.push(resp[0])
-                  upfol[i].attending = resp[0].attending
-                if (upfol.attending !== resp[0].attending) {
+                console.log('followers for event:', resp[0])
+                console.log(req.session);
+                if (err) {
+                  res.status(420).json(err);
+                } else {
+                  for (var i = 0; i < upfol.length; i++) {
+                    console.log("in for");
+                    if (upfol[i].event_id != resp[0].event_id) {
+                      req.session.followedEvents.push(resp[0])
+                      upfol[i].attending = resp[0].attending
+                      if (upfol.attending !== resp[0].attending) {
+                      }
+                    }
+                  }
+                  res.send(resp)
                 }
-              }
-            }
-              res.send(resp)
+              })
+            // }
           }
       })
     },
@@ -168,7 +200,7 @@ module.exports = {
         if(err) {
           res.status(420).json(err)
         } else {
-          req.session.followedEvents = resp[0]
+          req.session.followedEvents = resp
           res.send(resp)
         }
       })

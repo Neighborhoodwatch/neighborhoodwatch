@@ -1,4 +1,4 @@
-SELECT attending, username, first_name, last_name, u.user_id, event_id, f.following_id 
+SELECT attending, username, first_name, last_name, u.user_id, event_id, f.following_id
 FROM following f
 inner join users u on u.user_id = f.user_id
-WHERE event_id = $1;
+WHERE event_id = $1
