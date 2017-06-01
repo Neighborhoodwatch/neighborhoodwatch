@@ -10,20 +10,32 @@
               <img ng-src="app/img/logo/neighborhood-watch.png" class="img-circle login-logo">
             </div>
 
-                <form>
+                <form name="loginForm" novalidate>
                   <div class="col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1">
                     <h2 class="login-login">Login</h2>
-                        <div class="form-group">
+                        <div class="form-group" ng-class="{ 'has-error': loginForm.username.$touched && loginForm.username.$invalid}">
                         <input class="form-control" placeholder="Username/Email" id="username"
-                        ng-model="username"></input>
+                        name="username"
+                        ng-model="username"
+                        required></input>
+                        <div ng-messages="loginForm.username.$error" ng-show="loginForm.username.$touched">
+                          <p ng-message="required">Username is required</p>
+                        </div>
                       </div>
-                          <div class="form-group">
+                          <div class="form-group" ng-class="{ 'has-error': loginForm.password.$touched && loginForm.password.$invalid}">
                         <input class="form-control" placeholder="Password" type="password"
                         id="password"
-                        ng-model="password"></input>
+                        name="password"
+                        ng-model="password"
+                        required></input>
+                        <div ng-messages="loginForm.password.$error" ng-show="loginForm.password.$touched">
+                          <p ng-message="required">Password is required</p>
+                        </div>
                       </div>
                       <div class="form-group">
-                        <button class="btn btn-success" id="login-login-button" ng-click="login(username, password)">Login</button>
+                        <button class="btn btn-success" id="login-login-button"
+                        ng-disabled="loginForm.$invalid"
+                         ng-click="login(username, password, reset, loginForm)">Login</button>
                       </div>
                     <hr>
                     <a href="/auth/facebook"><div class="form-group">
@@ -37,6 +49,7 @@
                     </div>
                   </div>
                 </form>
+
               </div>
             </div>
         </div>
