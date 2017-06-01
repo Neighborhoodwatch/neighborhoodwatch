@@ -12,6 +12,7 @@ angular.module('nWatch').controller('eventsCtrl', ($scope, eventSrvc, event, $st
     center: myLatLng
   });
 
+
   var marker = new google.maps.Marker({
     position: myLatLng,
     map: map,
@@ -50,34 +51,108 @@ angular.module('nWatch').controller('eventsCtrl', ($scope, eventSrvc, event, $st
   }
 
   $scope.yes = () => {
+    console.log(eventId);
+    console.log();
+    console.log($scope.attending);
+    var atten = $scope.attending
     const yes = {
       user_id: $scope.userId,
       attending: "yes"
     }
-    eventSrvc.postFollowers(eventId, yes.user_id, yes.attending).then((res) => {
-      session()
-      getFol()
-    })
+    if (atten === undefined || atten.length == 0) {
+      eventSrvc.postFollowers(eventId, yes.user_id, yes.attending).then((res) => {
+        session()
+        getFol()
+      })
+    }
+    // for (var i = 0; i < atten.length; i++) {
+    //   if (atten[i].event_id == eventId) {
+    //     console.log("this is the shiz", atten[i]);
+    //   }
+    // }
+    for (var i = 0; i < atten.length; i++) {
+      if(atten[i].event_id == eventId) {
+        if (atten.attending !== "yes") {
+          console.log(atten[i].following_id);
+          eventSrvc.updateFollowers(eventId, yes.user_id, yes.attending, atten[i].following_id).then((res) => {
+            session()
+            getFol()
+          })
+        }
+      }
+    }
+    // eventSrvc.postFollowers(eventId, yes.user_id, yes.attending).then((res) => {
+    //   session()
+    //   getFol()
+    // })
   }
   $scope.maybe = () => {
+    console.log(eventId);
+    console.log();
+    console.log($scope.attending);
+    var atten = $scope.attending
     const maybe = {
       user_id: $scope.userId,
       attending: "maybe"
     }
-    eventSrvc.postFollowers(eventId, maybe.user_id, maybe.attending).then((res) => {
-      session()
-      getFol()
-    })
+    if (atten === undefined || atten.length == 0) {
+      eventSrvc.postFollowers(eventId, maybe.user_id, maybe.attending).then((res) => {
+        session()
+        getFol()
+      })
+    }
+    for (var i = 0; i < atten.length; i++) {
+      if(atten[i].event_id == eventId) {
+        if (atten.attending !== "maybe") {
+          console.log(atten[i].following_id);
+          eventSrvc.updateFollowers(eventId, maybe.user_id, maybe.attending, atten[i].following_id).then((res) => {
+            session()
+            getFol()
+          })
+        }
+      }
+    }
   }
   $scope.no = () => {
+    console.log(eventId);
+    console.log($scope.attending);
+    var atten = $scope.attending
     const no = {
       user_id: $scope.userId,
       attending: "no"
     }
-    eventSrvc.postFollowers(eventId, no.user_id, no.attending).then((res) => {
-      session()
-      getFol()
-    })
+    if (atten === undefined || atten.length == 0) {
+      eventSrvc.postFollowers(eventId, no.user_id, no.attending).then((res) => {
+        session()
+        getFol()
+      })
+    }
+    for (var i = 0; i < atten.length; i++) {
+      console.log('inside for');
+      console.log("i am in no atten id", atten[i].event_id);
+      for (var i = 0; i < atten.length; i++) {
+        if(atten[i].event_id == eventId) {
+          if (atten.attending !== "no") {
+            console.log(atten[i].following_id);
+            eventSrvc.updateFollowers(eventId, no.user_id, no.attending, atten[i].following_id).then((res) => {
+              session()
+              getFol()
+            })
+          }
+        }
+        else if (atten[i].event_id != eventId ) {
+          // if (atten[i].event_id == eventId) 
+          if (true) {
+
+          }
+            eventSrvc.postFollowers(eventId, no.user_id, no.attending).then((res) => {
+              session()
+              getFol()
+            })
+          // }
+        }
+      }
+    }
   }
   session()
   getFol()

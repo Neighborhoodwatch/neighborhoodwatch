@@ -52,7 +52,7 @@ function userEandN(req, res, next) {
     req.session.createdEvents = {}
   }
   if(!req.session.followedEvents) {
-    req.session.followedEvents = {}
+    req.session.followedEvents = []
   }
   if(!req.session.neighborhood) {
     req.session.neighborhood = {}
@@ -110,14 +110,14 @@ app.use(passport.session({
     clientSecret: 'cc01914586c904f7ecdef4daa544c066',
     callbackURL: 'http://localhost:3005/auth/facebook/callback',
     profileFields: ['id', 'displayName']
-    }, 
+    },
     function(token, refreshToken, profile, done) {
         console.log('facebook profile', profile)
         db.get_facebook_user({facebook_id: profile.id}, function(err, user) {
             if (!user) {
                 console.log('CREATING USER:');
-                db.create_facebook_user([profile.displayName, profile.id], 
-                                        
+                db.create_facebook_user([profile.displayName, profile.id],
+
                 function(err, user) {
                     return done(err, user, {scope: 'all'});
                 })
@@ -129,7 +129,7 @@ app.use(passport.session({
 
     app.get('/auth/facebook', passport.authenticate('facebook'));
     app.get('/auth/facebook/callback',
-        passport.authenticate('facebook', { 
+        passport.authenticate('facebook', {
                               failureRedirect: '/#/failureLogin'
     }), function(req, res, next) {
             res.redirect('/')
