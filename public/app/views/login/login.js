@@ -5,7 +5,6 @@ angular.module('nWatch').controller('loginCtrl', function($scope, one, loginSrvc
 
 
   $scope.login = (username, password) => {
-    // $state.go('user')
     loginSrvc.login(username, password).then(function(res) {
       if(res.status === 200) {
         $state.go('user')
