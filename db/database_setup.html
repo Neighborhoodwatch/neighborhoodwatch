@@ -4,7 +4,7 @@ drop table users, events, neighborhood, following, type;
 
 CREATE TABLE neighborhood (
 	neighborhood_id serial primary key,
-	name varchar not null,
+	name varchar not null unique,
 	city text not null,
 	state varchar(2) not null
 );
