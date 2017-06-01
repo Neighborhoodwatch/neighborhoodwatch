@@ -88,7 +88,7 @@ module.exports = {
     var user_id = req.params.id;
     var user = req.body;
 
-    db.update_user([user.first_name, user.last_name, user.username, user.email, user.photo, neighborhood_id, user_id], (err, resp) => {
+    db.update_user([user.first_name, user.last_name, user.username, user.email, user.photo, user_id], (err, resp) => {
         if (err) {
             res.status(420).json(err);
         } else {

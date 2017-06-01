@@ -3,81 +3,74 @@
 
         <div class="col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1">
             <div class="panel panel-default user-panel">
-              <div class="panel-heading user-title">
-                <h2>My Profile</h2>
-              </div>
-              <div class="panel-body user-body">
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                  <nw-my-info ng-show="hasInfo"></nw-my-info>
+                <div class="panel-heading user-title">
+                    <h2>My Profile</h2>
+                </div>
+                <div class="panel-body user-body">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <nw-my-info ng-show="hasInfo"></nw-my-info>
 
-                    <form ng-hide="hasInfo">
-                        <div class="form-group">
-                            <label>First Name</label>
-                            <input class="form-control"
-                            ng-model="user.first_name"
-                            placeholder="{{user.first_name}}"></input>
+                        <form ng-hide="hasInfo">
+                            <div class="form-group">
+                                <label>First Name</label>
+                                <input class="form-control" ng-model="user.first_name" placeholder="{{user.first_name}}"></input>
+                            </div>
+                            <div class="form-group">
+                                <label>Last Name</label>
+                                <input class="form-control" ng-model="user.last_name" placeholder="{{user.last_name}}"></input>
+                            </div>
+                            <div class="form-group">
+                                <label>Username</label>
+                                <input class="form-control" ng-model="user.username" placeholder="{{user.username}}"></input>
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input class="form-control" ng-model="user.email" placeholder="{{user.email}}"></input>
+                            </div>
+                            <div class="form-group">
+                                <label>Upload New Profile Picture</label>
+                                <input class="form-control" type="file" ng-model="user.photo" fileread="user.photo"></input>
+                            </div>
+                            <button class="btn btn-success" ng-click="updateInfo(user.user_id, user.first_name, user.last_name, user.username, user.email, user.photo, getUser)">Save Profile</button>
+                        </form>
+                        <h4>Report Something</h4>
+                        <div><i class="fa fa-camera" aria-hidden="true" id="neighborhood-camera" ui-sref="createEvent"></i></div>
+                    </div>
+                    <!--Ends first column  -->
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <h4>My Events</h4></br>
+                        <!--Will show if there are user created events  -->
+                        <div ng-repeat="event in createdEvents" ng-show="hasCreated">
+                            <div class="panel panel-default user-my-event">
+                                {{event.title}} {{event.date}} {{event.details}} {{event.event_place}}
+                                <img ng-src="{{event.photo}}" placeholder="Event Photo">
+                                <button ui-sref="editEvents(event.event_id)">Edit</button>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label>Last Name</label>
-                            <input class="form-control"
-                            ng-model="user.last_name"
-                            placeholder="{{user.last_name}}"></input>
+                        <!-- Will show if there are no user created Events -->
+                        <div class="panel panel-default" ng-hide="hasCreated">
+                          <h3>It looks like you haven't created any events!</h3>
                         </div>
-                        <div class="form-group">
-                            <label>Username</label>
-                            <input class="form-control"
-                            ng-model="user.username"
-                            placeholder="{{user.username}}"></input>
-                        </div>
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input class="form-control"
-                            ng-model="user.email"
-                            placeholder="{{user.email}}"></input>
-                        </div>
-                        <div class="form-group">
-                            <label>Upload New Profile Picture</label>
-                            <input class="form-control" type="file" ng-model="user.photo"
-                            fileread="user.photo"></input>
-                        </div>
-                        <button
-                        class="btn btn-success"
-                        ng-click="updateInfo(user.user_id, user.first_name, user.last_name, user.username, user.email, user.photo, getUser)">Save Profile</button>
-                    </form>
-                    <h4>Report Something</h4>
-                    <div><i class="fa fa-camera" aria-hidden="true" id="neighborhood-camera" ui-sref="createEvent"></i></div>
-                </div>
-                <!--Ends first column  -->
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                    <h4>My Events</h4></br>
-                    <div ng-repeat="event in createdEvents">
-                    <div class="panel panel-default user-my-event">
-                      {{event.title}}
-                    {{event.date}}
-                  {{event.details}}
-                  {{event.event_place}}
-                  <img ng-src="{{event.photo}}" placeholder="Event Photo">
-                  <button ui-sref="editEvents(event.event_id)">Edit</button>
-                  </div>
-                  </div>
-                  <h4>Events I'm Attending</h4>
-                  <div ng-repeat="event in followedEvents">
-                  <div class="panel panel-default user-my-event">
-                    {{event.title}}
-                  {{event.date}}
-                {{event.details}}
-                {{event.event_time}}
-                {{event.event_place}}
-                <img ng-src="{{event.photo}}" placeholder="Event Photo">
-                <button ui-sref="events({ eventId: event.event_id })">View More</button>
+                        <!--Will show if there are events user is attending -->
+                        <h4>Events I'm Attending</h4>
+                        <div ng-repeat="event in followedEvents" ng-show="isFollowing">
+                            <div class="panel panel-default user-my-event">
+                                {{event.title}} {{event.date}} {{event.details}} {{event.event_time}} {{event.event_place}}
+                                <img ng-src="{{event.photo}}" placeholder="Event Photo">
+                                <button ui-sref="events({ eventId: event.event_id })">View More</button>
 
-                </div>
-                </div>
+                            </div>
+                        </div>
+                        <!--Will show if user is not following any events  -->
+                        <div class="panel panel-default" ng-hide="isFollowing">
+                          <h3>It looks like you aren't following any events!</h3>
+                        </div>
 
+                        </div>
+                      </div>
+                    <!--Ends second column  -->
                 </div>
-                <!--Ends second column  -->
             </div>
-          </div>
             <!-- Ends panel -->
         </div>
     </div>
