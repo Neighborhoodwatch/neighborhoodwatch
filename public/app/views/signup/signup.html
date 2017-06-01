@@ -55,7 +55,7 @@
                     </div>
                 </div>
                 <!--Profile Picture Field -->
-                <div class="form-group" ng-class="{ 'has-error': signupForm.picture.$touched && signupForm.picture.$invalid}">
+                <!-- <div class="form-group" ng-class="{ 'has-error': signupForm.picture.$touched && signupForm.picture.$invalid}">
 
                   <label class="btn btn-primary" for="picture">
                       <input name="picture" type="file" style="display:none;" id="picture"
@@ -67,7 +67,7 @@
                         <p ng-message="required">Picture is required</p>
                       </div>
                   </label>
-                </div>
+                </div> -->
                 <!--Password Field -->
                 <div class="form-group" ng-class="{ 'has-error': signupForm.password.$touched && signupForm.password.$invalid}">
 
@@ -91,7 +91,9 @@
                     </div>
                 </div>
                 <!--Signup Button-->
-                <button ng-disabled="signupForm.$invalid" ng-click="createUser(firstname, lastname, username, email, face, google, password, uploadme.src.name)">Signup</button>
+                <button class="btn btn-success"
+                ng-disabled="signupForm.$invalid"
+                ng-click="createUser(firstname, lastname, username, email, face, google, password, uploadme.src.name, reset, signupForm)">Signup</button>
             </form>
           </div>
           </div>

@@ -165,7 +165,10 @@ module.exports = {
     db.get_user_login([password, username], (err, resp) => {
       if(err) {
         res.status(420).json(err)
-      } else {
+      } else if (resp.length === 0) {
+        res.send("User did not exist")
+      }
+      else {
         req.session.user = resp
         req.session.isLoggedIn = true
         res.send(req.session)

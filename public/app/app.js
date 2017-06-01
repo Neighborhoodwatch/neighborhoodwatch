@@ -24,6 +24,7 @@ angular.module('nWatch', ['ui.router', 'ngAnimate', 'ngMessages', 'ui.bootstrap'
 						if(data === false) {
 							deferred.reject()
 							$state.go('login')
+							alert('Please login')
 						} else {
 							deferred.resolve()
 						}
@@ -75,6 +76,7 @@ angular.module('nWatch', ['ui.router', 'ngAnimate', 'ngMessages', 'ui.bootstrap'
 							} else {
 								deferred.reject()
 								$state.go('login')
+								alert('Please login')
 							}
 						})
 					}
@@ -85,7 +87,28 @@ angular.module('nWatch', ['ui.router', 'ngAnimate', 'ngMessages', 'ui.bootstrap'
 		.state('newNeighborhood', {
 			url: '/newneighborhood',
 			templateUrl: './app/views/newNeighborhood/newNeighborhood.html',
-			controller: 'newNeighborhoodCtrl'
+			controller: 'newNeighborhoodCtrl',
+			resolve: {
+				checkLogin: function(authSrvc, $q, adminAuth, $state) {
+					var deferred = $q.defer()
+					if(adminAuth.checkClientPermission()) {
+						deferred.resolve()
+					} else {
+						authSrvc.checkLoggedIn().then(function(res) {
+							let data = res.data
+							if(data === true) {
+								adminAuth.getClientPermission()
+								deferred.resolve()
+							} else {
+								deferred.reject()
+								$state.go('login')
+								alert('Please login')
+							}
+						})
+					}
+					return deferred.promise
+				}
+			}
 		})
     .state('events', {
 			url: '/events/:eventId',

@@ -27,10 +27,10 @@
                                 <label>Email</label>
                                 <input class="form-control" ng-model="user.email" placeholder="{{user.email}}"></input>
                             </div>
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <label>Upload New Profile Picture</label>
                                 <input class="form-control" type="file" ng-model="user.photo" fileread="user.photo"></input>
-                            </div>
+                            </div> -->
                             <button class="btn btn-success" ng-click="updateInfo(user.user_id, user.first_name, user.last_name, user.username, user.email, user.photo, getUser)">Save Profile</button>
                         </form>
                         <h4>Report Something</h4>

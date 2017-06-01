@@ -49,7 +49,7 @@ function userSession(req, res, next) {
 //middleware for putting users created and followed events and neighborhood on session
 function userEandN(req, res, next) {
   if(!req.session.createdEvents) {
-    req.session.createdEvents = {}
+    req.session.createdEvents = []
   }
   if(!req.session.followedEvents) {
     req.session.followedEvents = []
@@ -156,7 +156,7 @@ app.use(passport.session({
 //app.get('/auth/google',
 //  passport.authenticate('google', { scope: ['profile'] }));
 //
-//app.get('/auth/google/callback', 
+//app.get('/auth/google/callback',
 //  passport.authenticate('google', { failureRedirect: '/login' }),
 //  function(req, res) {
 //    // Successful authentication, redirect home.

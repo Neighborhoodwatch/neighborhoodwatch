@@ -165,10 +165,11 @@ module.exports = {
       var db = req.app.get('db')
       var user_id = req.params.id
       db.get_events_followed([user_id], (err, resp) => {
+        console.log(resp)
         if(err) {
           res.status(420).json(err)
         } else {
-          req.session.followedEvents = resp[0]
+          req.session.followedEvents = resp
           res.send(resp)
         }
       })
