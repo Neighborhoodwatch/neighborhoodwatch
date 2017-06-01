@@ -3,6 +3,7 @@ const session = require('express-session')
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const FacebookStrategy = require('passport-facebook').Strategy;
+var GoogleStrategy = require('passport-google-oauth20').Strategy;
 const cors = require('cors');
 const config = require('./config');
 // const passport = require('passport');
@@ -102,6 +103,8 @@ app.use(passport.session({
   secure: true,
   ephemeral: true
 }));
+//FACEBOOK
+//NOTE: I have facebook setup to respond to API calls @: localhost:3005
     passport.use(new FacebookStrategy({
     clientID: '448384402181550',
     clientSecret: 'cc01914586c904f7ecdef4daa544c066',
@@ -131,7 +134,34 @@ app.use(passport.session({
     }), function(req, res, next) {
             res.redirect('/')
     });
-
+//google oAuth20
+// look at this article before setting up the ID and SECRET
+// https://github.com/mstade/passport-google-oauth2/blob/master/example/app.js
+// then navigate here to obtain CLIENT_ID and SECRET: https://console.cloud.google.com/home/dashboard
+////////////////////////////////////////////////
+//const GOOGLE_CLIENT_ID = "where do you find this";
+//const GOOGLE_CLIENT_SECRET = "this too";
+//
+//passport.use(new GoogleStrategy({
+//    clientID: GOOGLE_CLIENT_ID,
+//    clientSecret: GOOGLE_CLIENT_SECRET,
+//    callbackURL: "localhost:" + port + "/auth/google/callback"
+//  },
+//  function(accessToken, refreshToken, profile, cb) {
+//    db.get_google_user({ googleId: profile.id }, function (err, user) {
+//      return cb(err, user);
+//    });
+//  }
+//));
+//app.get('/auth/google',
+//  passport.authenticate('google', { scope: ['profile'] }));
+//
+//app.get('/auth/google/callback', 
+//  passport.authenticate('google', { failureRedirect: '/login' }),
+//  function(req, res) {
+//    // Successful authentication, redirect home.
+//    res.redirect('/');
+//  });
 
 
 const port = process.env.PORT || config.PORT || 3000;
