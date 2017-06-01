@@ -1,4 +1,15 @@
-angular.module('nWatch').controller('createEventCtrl', function($scope, eventSrvc, $log ) {
+angular.module('nWatch').controller('createEventCtrl', function($scope, eventSrvc, $log, sessionSrv ) {
+  var session = () => {
+    sessionSrv.session().then((res) => {
+      console.log("this is session", res);
+
+      console.log("this is user session", res.user[0].user_id)
+      $scope.userId = res.user[0].user_id
+      console.log(res.followedEvents);
+      $scope.attending = res.followedEvents
+      console.log("this is attending", $scope.attending);
+    })
+  }
   $scope.lists = [
     {
       name: 'Lost Pet'
@@ -147,5 +158,5 @@ angular.module('nWatch').controller('createEventCtrl', function($scope, eventSrv
   $scope.changed = function () {
     $log.log('Time changed to: ' + $scope.mytime);
   };
-
+  session();
 })
