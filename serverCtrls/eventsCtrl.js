@@ -100,17 +100,27 @@ module.exports = {
       })
     },
     createFollowers: (req, res, next) => {
+      var upfol = req.session.followedEvents
       var db = req.app.get('db');
       var user = req.body.user_id;
       var attending = req.body.attending
       var event_Id = req.params.id;
       db.create_event_followers([event_Id, user, attending], (err, resp) => {
-        console.log('followers for event:', resp[0])
         req.session.followedEvents.push(resp[0])
+        console.log('followers for event:', resp[0])
         console.log(req.session);
           if (err) {
               res.status(420).json(err);
           } else {
+            for (var i = 0; i < upfol.length; i++) {
+              console.log("in for");
+              if (upfol[i].event_id != resp[0].event_id) {
+                req.session.followedEvents.push(resp[0])
+                  upfol[i].attending = resp[0].attending
+                if (upfol.attending !== resp[0].attending) {
+                }
+              }
+            }
               res.send(resp)
           }
       })
@@ -120,11 +130,21 @@ module.exports = {
       var user = req.body.user_id;
       var attending = req.body.attending
       var event_Id = req.params.id;
-      db.update_event_followers([event_Id, user, attending], (err, resp) => {
+      var fol_id = req.body.following_id
+      var foleven = req.session.followedEvents
+      db.update_event_followers([event_Id, user, attending, fol_id], (err, resp) => {
         console.log('update followers for event:', resp)
           if (err) {
               res.status(420).json(err);
           } else {
+            for (var i = 0; i < foleven.length; i++) {
+              if (foleven[i].event_id == resp[0].event_id) {
+                if (foleven.attending !== resp[0].attending) {
+                  foleven[i].attending = resp[0].attending
+                  foleven[i].following_id = resp[0].following_id
+                }
+              }
+            }
               res.send(resp)
           }
       })
@@ -148,7 +168,7 @@ module.exports = {
         if(err) {
           res.status(420).json(err)
         } else {
-          req.session.followedEvents = resp
+          req.session.followedEvents = resp[0]
           res.send(resp)
         }
       })

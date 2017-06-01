@@ -37,13 +37,16 @@ angular.module('nWatch').service('eventSrvc', function($http) {
       response.data;
     })
   }
-  this.updateFollowers = function (id, uId, att) {
+  this.updateFollowers = function (id, uId, att, folId) {
+    console.log("this is service fol ", folId);
+    console.log("this is service id ", id);
     return $http({
       method: 'PUT',
       url: 'api/events/' + id + '/following',
       data: {
         user_id: uId,
-        attending: att
+        attending: att,
+        following_id: folId
       }
     })
   }
