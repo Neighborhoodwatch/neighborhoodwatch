@@ -1,12 +1,14 @@
-angular.module('nWatch').controller('navCtrl',function($scope, $location, $stateParams){
-  // console.log('this is location', $location.path())
-  // console.log('this is', $stateParams.id);
-  // $scope.personsId = $stateParams.id
-  // console.log($scope.personsId);
-
+angular.module('nWatch').controller('navCtrl',function($scope, $location, $stateParams, userSrvc, $transitions){
+  $scope.checkLogin = () => {
+    userSrvc.getSession().then(function(resp) {
+      console.log(resp)
+    })
+  }
+  $scope.checkLogin()
+  // console.log($transitions)
   $scope.isActive = function(viewLocation) {
     return viewLocation == $location.path();
-
+  
   };
 
   $scope.classActive = function( viewLocation ) {

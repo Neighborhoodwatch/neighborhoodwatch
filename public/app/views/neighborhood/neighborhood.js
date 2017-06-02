@@ -12,6 +12,7 @@ angular.module('nWatch').controller('hoodCtrl', function($scope, neighborhoodSrv
   $scope.getSession = () => {
     neighborhoodSrvc.getSession().then(function(res) {
       let data = res.data
+      $scope.neighborhood = data.neighborhood[0]
       $scope.user = data.user[0]
       if(data.neighborhood.length === 0) {
         $scope.noNeighborhood = true
@@ -24,7 +25,13 @@ angular.module('nWatch').controller('hoodCtrl', function($scope, neighborhoodSrv
         var getNeighborhoodEvents = (id) => {
           neighborhoodSrvc.getEvents(id).then(function(res) {
             let data = res.data
-            $scope.neighborhoodEvents = data
+            if(data.length === 0) {
+              $scope.hasNeighborhoodEvents = false
+            } else {
+              $scope.hasNeighborhoodEvents = true
+
+              $scope.neighborhoodEvents = data
+            }
           })
         }
         getNeighborhoodEvents(id)

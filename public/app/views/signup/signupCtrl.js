@@ -1,4 +1,4 @@
-angular.module('nWatch').controller('signupCtrl', function($scope, signupSrvc, $state) {
+angular.module('nWatch').controller('signupCtrl', function($scope, signupSrvc, $state, loginSrvc) {
   $scope.uploadme = {}
   $scope.uploadme.src = "app/img/profilepicture/default_picture.jpg"
   $scope.face = null
@@ -26,9 +26,10 @@ angular.module('nWatch').controller('signupCtrl', function($scope, signupSrvc, $
   $scope.createUser = (first_name, last_name, username, email, facebook_id, google_id, password, photo, cb, form) => {
     signupSrvc.createUser(first_name, last_name, username, email, facebook_id, google_id, password, photo)
     .then(function(res) {
-      console.log("Resp: ", res)
       if(res.status === 200) {
-        // $state.go('user')
+        loginSrvc.login(username, password).then(function(res) {
+          $state.go('user')
+        })
       }
     }, function(err) {
       if(err) {
@@ -37,5 +38,4 @@ angular.module('nWatch').controller('signupCtrl', function($scope, signupSrvc, $
       }
     })
   }
-
 })
