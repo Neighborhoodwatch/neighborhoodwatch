@@ -25,10 +25,11 @@ angular.module('nWatch').service('eventSrvc', function($http) {
       return response.data;
     })
   }
+
   this.postFollowers = function (id, uId, att) {
     return $http({
       method: 'POST',
-      url: 'api/events/' + id + '/following',
+      url: 'api/events/' + id+ '/following',
       data: {
         user_id: uId,
         attending: att
@@ -37,6 +38,7 @@ angular.module('nWatch').service('eventSrvc', function($http) {
       response.data;
     })
   }
+
   this.updateFollowers = function (id, uId, att, folId) {
     console.log("this is service fol ", folId);
     console.log("this is service id ", id);
@@ -51,8 +53,15 @@ angular.module('nWatch').service('eventSrvc', function($http) {
     })
   }
 
+  this.getfollowedEvents = (id) => {
+    $http({
+      method: "GET",
+      url: 'api/followed/' + id,
+    })
+  }
+
   this.save = function (event) {
-    if (event.event_id ) {
+    if (!event.event_id ) {
       return $http({
         method: 'POST',
         url: 'api/events',
@@ -61,9 +70,11 @@ angular.module('nWatch').service('eventSrvc', function($http) {
         return response.data;
       })
     } else {
+      console.log("there was an event");
+      var id = event.event_id
       return $http({
         method: 'PUT',
-        url: 'api/events/' + id + '/followers',
+        url: 'api/events/' + id,
         data: event
       }).then(function (response) {
         return response.data;
