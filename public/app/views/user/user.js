@@ -15,6 +15,7 @@ angular.module('nWatch').controller('userCtrl', function($scope, userSrvc, $time
     userSrvc.getSession().then(function(res) {
       let data = res.data
       $scope.user = data.user[0]
+      $scope.usernameNoUpdate = $scope.user.username
       $scope.neighborhood = data.neighborhood[0]
       $scope.followedEvents = data.followedEvents
       $scope.createdEvents = data.createdEvents
@@ -47,6 +48,13 @@ angular.module('nWatch').controller('userCtrl', function($scope, userSrvc, $time
     userSrvc.updateInfo(user_id, first_name, last_name, username, email, photo).then(function(res) {
       $scope.hasInfo = !$scope.hasInfo
       cb($scope.compileUserInfo, $scope.getSession)
+    }, function(err) {
+      if(err.data.code === '23505') {
+        alert('Unable to update info. Username matched a previous record. Please pick a different username.')
+        $scope.user.username = $scope.usernameNoUpdate
+      } else {
+        alert('Something went wrong on update. Please try again.')
+      }
     })
   }
 
@@ -79,6 +87,7 @@ angular.module('nWatch').controller('userCtrl', function($scope, userSrvc, $time
           $scope.uploading = true;
           var file = files[0];
           var fileReader = new FileReader();
+          $scope.newProfilePicture = '../uploads/' + file.name
           fileReader.readAsDataURL(file);
           fileReader.onload = function(e) {
               $timeout(function() {

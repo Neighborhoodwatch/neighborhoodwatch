@@ -24,9 +24,10 @@
           <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav ">
               <li ng-class="classActive('/')"><a ui-sref="home">HOME</a></li>
-              <li ng-class="classActive('/hood')"><a ui-sref="hood">MY NEIGHBORHOOD</a></li>
-              <li ng-class="classActive('/login')"><a ui-sref="login">LOGIN</a></li>
-              <li><a ng-show="isLoggedIn">LOGOUT</a></li>
+              <li ng-class="classActive('/hood')"><a ui-sref="hood" ng-if="isLoggedIn">MY NEIGHBORHOOD</a></li>
+              <li ng-class="classActive('/login')"><a ui-sref="login" ng-hide="isLoggedIn">LOGIN</a></li>
+              <li ng-class="classActive('/user')"><a ui-sref="user" ng-if="isLoggedIn">MY PROFILE</a></li>
+              <li><a ng-if="isLoggedIn" ng-click="logout()">LOGOUT</a></li>
               <li><img ng-src="" alt=""></li>
             </ul>
           </div>
