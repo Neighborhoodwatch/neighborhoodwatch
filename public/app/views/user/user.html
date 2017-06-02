@@ -44,7 +44,7 @@
                             <div class="panel panel-default user-my-event">
                                 {{event.title}} {{event.date}} {{event.details}} {{event.event_place}}
                                 <img ng-src="{{event.photo}}" placeholder="Event Photo">
-                                <button ui-sref="editEvents(event.event_id)">Edit</button>
+                                <button ui-sref="editEvents({eventId: event.event_id})">Edit</button>
                             </div>
                         </div>
                         <!-- Will show if there are no user created Events -->

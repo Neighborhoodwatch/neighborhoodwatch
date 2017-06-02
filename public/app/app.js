@@ -125,7 +125,7 @@ angular.module('nWatch', ['ui.router', 'ngAnimate', 'ngMessages', 'ui.bootstrap'
 			}
 		})
     .state('editEvents', {
-			url: '/event/edit',
+			url: '/event/edit/:eventId',
 			templateUrl: './app/views/editEvent/editEvent.html',
 			controller: 'editEventCtrl'
 		})

@@ -8,18 +8,6 @@
       </div>
       <div class="row">
         <div class="col-sm-12">
-          <!-- <img ng-src="app/img/event/Custom-Icon-Design-Mono-General-3-Camera.ico" alt="" style="height:30vh" class="img-responsive">
-          <div class="">
-            <label class="btn btn-primary" for="my-file-selector">
-                <input id="my-file-selector" ng-model="eventImg" type="file" style="display:none;">
-                Upload img
-            </label>
-            {{eventImg}}
-            <div class="">
-              <p>or img url</p>
-              <input type="text" name="" value="">
-            </div>
-          </div> -->
           <div class="row text-center">
             <div class="col-sm-12">
               <div class="thumbnail">
@@ -71,7 +59,8 @@
           <p>Time</p>
         </div>
         <div class="col-sm-9">
-          <input type="text" ng-model="event.event_time">
+          <div uib-timepicker ng-model="mytime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></div>
+          <!-- <input type="text" ng-model="event.event_time"> -->
         </div>
       </div>
       <div class="row create-event-category">
@@ -80,7 +69,7 @@
           <p>name of place</p>
         </div>
         <div class="col-sm-9">
-          <input type="text" ng-model="event.place">
+          <input type="text" ng-model="event.event_place">
         </div>
       </div>
       <div class="row create-event-location">
@@ -177,7 +166,7 @@
           <textarea type="text" ng-model="event.details"></textarea>
         </div>
       </div>
-      <div class="row create-event-notified">
+      <!-- <div class="row create-event-notified">
         <div class="col-sm-3">
           <p>How Would you like to be notified about your event?</p>
         </div>
@@ -192,15 +181,11 @@
             <label>Show Me On My Newsfeed:
               <input type="checkbox" ng-model="event.check3">
             </label><br/>
-            <!-- <tt>value1 = {{event.check1}}</tt><br/>
-            <tt>value2 = {{event.check2}}</tt><br/>
-            <tt>value2 = {{event.check3}}</tt><br/> -->
-          </form>
         </div>
-      </div>
+      </div> -->
       <div class="row create-event-buttons">
         <div class="col-sm-6 text-center">
-          <button type="button" name="button" class=" btn btn-success" ng-click="eventCreate(event, category)">Create</button>
+          <button type="button" ng-disabled="mapForm.$invalid" name="button" class=" btn btn-success" ng-click="eventCreate(event, category)">Create</button>
         </div>
         <div class="col-sm-6">
         </div>

@@ -49,24 +49,7 @@ angular.module('nWatch').controller('eventsCtrl', ($scope, eventSrvc, event, $st
       console.log("this is attending", $scope.attending);
     })
   }
-  function contains(a, obj) {
-    for (var i = 0; i < a.length; i++) {
-        if (a[i] === obj) {
-            return true;
-        }
-    }
-    return false;
-  }
-  // function dedupe(arr) {
-  //   return arr.reduce(function (p, c) {
-  //     var key = [c.x, c.y].join('|');
-  //     if (p.temp.indexOf(key) === -1) {
-  //       p.out.push(c);
-  //       p.temp.push(key);
-  //     }
-  //     return p;
-  //   }, { temp: [], out: [] }).out;
-  // }
+
 
   $scope.yes = () => {
     console.log(eventId);
@@ -99,10 +82,6 @@ angular.module('nWatch').controller('eventsCtrl', ($scope, eventSrvc, event, $st
         }
       }
     }
-    // eventSrvc.postFollowers(eventId, yes.user_id, yes.attending).then((res) => {
-    //   session()
-    //   getFol()
-    // })
   }
   $scope.maybe = () => {
     console.log(eventId);
@@ -121,6 +100,7 @@ angular.module('nWatch').controller('eventsCtrl', ($scope, eventSrvc, event, $st
     }
     for (var i = 0; i < atten.length; i++) {
       if(atten[i].event_id == eventId) {
+        console.log('this is atten.attending maybe', atten.attending);
         if (atten.attending !== "maybe") {
           console.log(atten[i].following_id);
           eventSrvc.updateFollowers(eventId, maybe.user_id, maybe.attending, atten[i].following_id).then((res) => {
@@ -145,8 +125,6 @@ angular.module('nWatch').controller('eventsCtrl', ($scope, eventSrvc, event, $st
         getFol()
       })
     }
-    // var atten = dedupe(atten));
-
     for (var i = 0; i < atten.length; i++) {
       console.log('inside for');
       console.log("i am in no atten id", atten[i].event_id);
@@ -160,15 +138,14 @@ angular.module('nWatch').controller('eventsCtrl', ($scope, eventSrvc, event, $st
             })
           }
         }
-        // else if (atten[i].event_id != eventId ) {
-        //   if (contains(atten, atten[i]) != false) {
-        //     eventSrvc.postFollowers(eventId, no.user_id, no.attending).then((res) => {
-        //       session()
-        //       getFol()
-        //     })
-        //   }
-        // }
-
+        else if (atten[i].event_id != eventId ) {
+          // if (atten[i].event_id == eventId)
+            eventSrvc.postFollowers(eventId, no.user_id, no.attending).then((res) => {
+              session()
+              getFol()
+            })
+          // }
+        }
     }
   }
   session()
