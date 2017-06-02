@@ -53,10 +53,10 @@ angular.module('nWatch').service('eventSrvc', function($http) {
     })
   }
 
-  this.getfollowedEvents = (id) => {
-    $http({
+  this.getMyFollowedEvents = (id) => {
+    return $http({
       method: "GET",
-      url: 'api/followed/' + id,
+      url: 'api/imFollowing/' + id,
     })
   }
 
