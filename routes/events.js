@@ -15,5 +15,6 @@ router.put('/events/:id/following', eventsCtrl.updateFollowers);
 router.delete('/events/:id', eventsCtrl.deleteEvent);
 router.get('/created/:id', eventsCtrl.getCreatedEvents)
 router.get('/followed/:id', eventsCtrl.getFollowedEvents)
+router.get('/imFollowing/:id', eventsCtrl.getEventsImAttending)
 
 module.exports = router;

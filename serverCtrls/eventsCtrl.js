@@ -106,21 +106,21 @@ module.exports = {
       var attending = req.body.attending;
       var event_Id = req.params.id;
       db.create_event_followers([event_Id, user, attending], (err, resp) => {
-        req.session.followedEvents.push(resp[0])
-        console.log('followers for event:', resp[0])
         console.log(req.session);
           if (err) {
               res.status(420).json(err);
           } else {
-            for (var i = 0; i < upfol.length; i++) {
-              console.log("in for");
-              if (upfol[i].event_id != resp[0].event_id) {
-                req.session.followedEvents.push(resp[0])
-                  upfol[i].attending = resp[0].attending
-                if (upfol.attending !== resp[0].attending) {
-                }
-              }
-            }
+            req.session.followedEvents.push(resp[0])
+            console.log('followers for event:', resp[0])
+            // for (var i = 0; i < upfol.length; i++) {
+            //   console.log("in for");
+            //   if (upfol[i].event_id != resp[0].event_id) {
+            //     req.session.followedEvents.push(resp[0])
+            //       upfol[i].attending = resp[0].attending
+            //     if (upfol.attending !== resp[0].attending) {
+            //     }
+            //   }
+            // }
               res.send(resp)
           }
       })
@@ -132,10 +132,23 @@ module.exports = {
       var event_Id = req.params.id;
       var fol_id = req.body.following_id
       var foleven = req.session.followedEvents
-      db.update_event_followers([event_Id, user, attending, fol_id], (err, resp) => {
-        console.log('update followers for event:', resp)
+      function add(name, arr) {
+        var id = arr.length + 1;
+        var found = arr.some(function (el) {
+          return el.following_id === name;
+        });
+        if (!found) {
+            return true;
+        }
+        else if(found){
+        	return
+        }
+      }
+      if (add(fol_id, foleven)) {
+        db.update_event_followers([event_Id, user, attending, fol_id], (err, resp) => {
+          console.log('update followers for event:', resp)
           if (err) {
-              res.status(420).json(err);
+            res.status(420).json(err);
           } else {
             for (var i = 0; i < foleven.length; i++) {
               if (foleven[i].event_id == resp.event_id) {
@@ -145,9 +158,10 @@ module.exports = {
                 }
               }
             }
-              res.send(resp)
+            res.send(resp)
           }
-      })
+        })
+      }
     },
     getCreatedEvents: (req, res, next) => {
       var db = req.app.get('db');
@@ -163,6 +177,20 @@ module.exports = {
     },
     getFollowedEvents: (req, res, next) => {
       var db = req.app.get('db')
+      console.log(`followed log`, req.params.id);
+      var user_id = req.params.id
+      db.get_events_followed([user_id], (err, resp) => {
+        if(err) {
+          res.status(420).json(err)
+        } else {
+          req.session.followedEvents = resp
+          res.send(resp)
+        }
+      })
+    },
+    getEventsImAttending: (req, res, next) => {
+      var db = req.app.get('db')
+      console.log(`followed log`, req.params.id);
       var user_id = req.params.id
       db.get_events_followed([user_id], (err, resp) => {
         if(err) {
@@ -173,4 +201,5 @@ module.exports = {
         }
       })
     }
+
 }
