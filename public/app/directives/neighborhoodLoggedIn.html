@@ -1,6 +1,6 @@
 <div class="panel panel-default">
     <div class="panel-heading neighborhood-heading">
-        <h4>My Neighborhood</h4>
+        <h4>{{neighborhood.name}}</h4>
     </div>
     <div class="panel-body">
         <div class="col-xs-6">
@@ -12,7 +12,7 @@
         <!-- Ends Column Left -->
         <div class="col-xs-6">
             <h4>Neighborhood Events</h4>
-            <div ng-repeat="event in neighborhoodEvents">
+            <div ng-repeat="event in neighborhoodEvents" ng-show="hasNeighborhoodEvents">
             <div class="panel panel-default neighborhood-panel">
               {{event.title}}
             {{event.date}}
@@ -23,6 +23,10 @@
           {{event.last_name}}
           <button ui-sref="events({eventId: event.event_id})">View More</button>
           </div>
+          </div>
+          <!--Will show if neighborhood has no events  -->
+          <div ng-hide="hasNeighborhoodEvents">
+            <h4>Neighborhood has no active events</h4>
           </div>
             <button ng-click="leaveNeighborhood(user.user_id)">Leave Neighborhood</button>
         </div>

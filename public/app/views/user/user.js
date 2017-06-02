@@ -1,4 +1,4 @@
-angular.module('nWatch').controller('userCtrl', function($scope, userSrvc) {
+angular.module('nWatch').controller('userCtrl', function($scope, userSrvc, $timeout, uploadFile) {
   $scope.hasInfo = true
   //invokes on page load to grab the req.session.user, also passed to updateInfo
   $scope.compileUserInfo = (id, cb) => {
@@ -14,7 +14,6 @@ angular.module('nWatch').controller('userCtrl', function($scope, userSrvc) {
   $scope.getSession = () => {
     userSrvc.getSession().then(function(res) {
       let data = res.data
-      console.log(data)
       $scope.user = data.user[0]
       $scope.neighborhood = data.neighborhood[0]
       $scope.followedEvents = data.followedEvents
@@ -50,5 +49,52 @@ angular.module('nWatch').controller('userCtrl', function($scope, userSrvc) {
       cb($scope.compileUserInfo, $scope.getSession)
     })
   }
+
+
+  //File upload functions
+  $scope.file = {};
+  $scope.message = false;
+  $scope.alert = '';
+  $scope.defaultUrl = 'app/img/profilepicture/default_picture.jpg';
+
+  $scope.Submit = function() {
+      $scope.uploading = true;
+      uploadFile.upload($scope.file).then(function(data) {
+          if (data.data.success) {
+              $scope.uploading = false;
+              $scope.alert = 'alert alert-success';
+              $scope.message = data.data.message;
+              $scope.file = {};
+          } else {
+              $scope.uploading = false;
+              $scope.alert = 'alert alert-danger';
+              $scope.message = data.data.message;
+              $scope.file = {};
+          }
+      });
+  };
+
+  $scope.photoChanged = function(files) {
+      if (files.length > 0 && files[0].name.match(/\.(png|jpeg|jpg)$/)) {
+          $scope.uploading = true;
+          var file = files[0];
+          var fileReader = new FileReader();
+          fileReader.readAsDataURL(file);
+          fileReader.onload = function(e) {
+              $timeout(function() {
+                  $scope.thumbnail = {};
+                  $scope.thumbnail.dataUrl = e.target.result;
+                  if(!$scope.user.photo) {
+                    $scope.user.photo = 'images/' + file.name || $scope.defaultUrl;
+                  }
+                  $scope.uploading = false;
+                  $scope.message = false;
+              });
+          };
+      } else {
+          $scope.thumbnail = {};
+          $scope.message = false;
+      }
+  };
 
 })

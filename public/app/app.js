@@ -1,4 +1,4 @@
-angular.module('nWatch', ['ui.router', 'ngAnimate', 'ngMessages', 'ui.bootstrap', 'ngTouch'])
+angular.module('nWatch', ['ui.router', 'ngAnimate', 'ngMessages', 'ui.bootstrap', 'ngTouch', 'uploadFileService', 'fileModelDirective'])
 	.config(function( $stateProvider, $urlRouterProvider ) {
 
 		$urlRouterProvider.otherwise('/');

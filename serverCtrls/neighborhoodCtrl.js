@@ -89,7 +89,7 @@ module.exports = {
     var id = req.params.id;
 
     db.get_neighborhood_events([id], (err, resp) => {
-        if (err) {
+        if (err) { 
             res.status(420).json(err);
         } else {
 
