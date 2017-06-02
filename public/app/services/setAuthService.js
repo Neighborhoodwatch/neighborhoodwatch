@@ -7,6 +7,9 @@ angular.module('nWatch')
     obj.getClientPermission = function() {
       this.access = true;
     }
+    obj.logout = function() {
+      this.access = false
+    }
     obj.checkClientPermission = function() {
       return this.access;
     }

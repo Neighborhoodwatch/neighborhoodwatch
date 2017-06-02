@@ -1,4 +1,4 @@
-angular.module('nWatch').controller('loginCtrl', function($scope, one, loginSrvc, $state) {
+angular.module('nWatch').controller('loginCtrl', function($scope, one, loginSrvc, $state, $rootScope) {
 
   $scope.facebookLogin = () => {console.log('Login with Facebook')}
   $scope.googleLogin = () => {console.log('Login with Google')}
@@ -19,6 +19,7 @@ angular.module('nWatch').controller('loginCtrl', function($scope, one, loginSrvc
   $scope.login = (username, password, cb, form) => {
     loginSrvc.login(username, password).then(function(res) {
       if(res.status === 200 && res.data !== 'User did not exist') {
+        $rootScope.$broadcast('login')
         $state.go('user')
       } else if (res.data === 'User did not exist') {
         alert('Username and password did not match any records')

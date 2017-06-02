@@ -7,6 +7,12 @@ angular.module('nWatch').service('loginSrvc', function($http) {
     })
   }
 
+  this.logout = () => {
+    return $http({
+      method: 'GET',
+      url: '/logout'
+    })
+  }
 
 
 })

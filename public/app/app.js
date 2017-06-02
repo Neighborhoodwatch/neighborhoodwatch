@@ -23,6 +23,8 @@ angular.module('nWatch', ['ui.router', 'ngAnimate', 'ngMessages', 'ui.bootstrap'
 						let data = res.data
 						if(data === false) {
 							deferred.reject()
+							console.log("3rd running")
+
 							$state.go('login')
 							alert('Please login')
 						} else {
@@ -50,6 +52,7 @@ angular.module('nWatch', ['ui.router', 'ngAnimate', 'ngMessages', 'ui.bootstrap'
 						} else {
 							adminAuth.getClientPermission()
 							deferred.resolve()
+
 							$state.go('user')
 						}
 						})

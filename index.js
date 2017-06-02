@@ -82,7 +82,13 @@ app.use('/api', userSession, userEandN, isLoggedIn, neighborhoods);
 app.get('/whoami', function(req, res, done) {
   return res.send(req.session);
 });
-
+app.get('/logout', function(req, res, done) {
+  req.session.destroy()
+  return res.send(req.session);
+});
+app.get('/img', function(req, res, next) {
+  res.send("uploads")
+})
 
 //Passport code moved here for now...//
 passport.serializeUser(function(user, done) {
