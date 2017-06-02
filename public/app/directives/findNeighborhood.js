@@ -150,10 +150,12 @@ angular.module('nWatch').directive('nwFindNeighborhood', function() {
                 })
             }
             //Function that runs if neighborhoods haven't been populated
+            //CALL BACK 3
             $scope.grabNeighborhood = (state, city, sort) => {
                 $scope.applied = !$scope.applied
                 neighborhoodSrvc.getNeighborhoods(state).then(function(res) {
                     let data = res.data
+                    //Starts here --- sorts array of neighborhoods into alphabetical order by neighborhood name, prioritizing the city that was input
                     let checkMatch = (obj) => {
                         return obj.city.toUpperCase() === city.toUpperCase()
                     }
@@ -182,6 +184,8 @@ angular.module('nWatch').directive('nwFindNeighborhood', function() {
                     });
                     var joinedArr = matchingArr.concat(noMatchingArr)
                     $scope.neighborhoods = joinedArr
+                    //ends here
+                    //Begins sort logic
                     if (!sort) {
                         sort = "alphabetical"
                     }
