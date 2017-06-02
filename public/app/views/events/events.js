@@ -84,17 +84,26 @@ angular.module('nWatch').controller('eventsCtrl', ($scope, eventSrvc, event, $st
         getFol()
       })
     }
-      // for (var i = 0; i < tEF.length; i++) {
-      //   if(atten[i].event_id == eventId) {
-      //     if (atten.attending !== "yes") {
-      //       console.log(atten[i].following_id);
-      //       eventSrvc.updateFollowers(eventId, yes.user_id, yes.attending, atten[i].following_id).then((res) => {
-      //         session()
-      //         getFol()
-      //       })
-      //     }
-      //   }
-      // }
+    for (var i = 0; i < tEF.length; i++) {
+      var correctFol = []
+      if (tEF[i].user_id == yes.user_id){
+        correctFol.push(tEF[i])
+        console.log('this is the event follower', tEF);
+        console.log('this is the event follower', tEF[i]);
+        console.log("this is correct", correctFol);
+        console.log("this is correct attending", correctFol[0].attending);
+        if (correctFol.attending !== "yes") {
+          eventSrvc.updateFollowers(eventId, yes.user_id, yes.attending, correctFol[0].following_id).then((res) => {
+            session()
+            getFol()
+          })
+        }
+      }
+    }
+        // eventSrvc.updateFollowers(eventId, yes.user_id, yes.attending, atten[i].following_id).then((res) => {
+        //   session()
+        //   getFol()
+        // })
   }
   $scope.maybe = () => {
     const maybe = {
@@ -110,32 +119,54 @@ angular.module('nWatch').controller('eventsCtrl', ($scope, eventSrvc, event, $st
         getFol()
       })
     }
+    for (var i = 0; i < tEF.length; i++) {
+      var correctFol = []
+      if (tEF[i].user_id == maybe.user_id){
+        correctFol.push(tEF[i])
+        console.log('this is the event follower', tEF);
+        console.log('this is the event follower', tEF[i]);
+        console.log("this is correct", correctFol);
+        console.log("this is correct attending", correctFol[0].attending);
+        if (correctFol.attending !== "maybe") {
+          eventSrvc.updateFollowers(eventId, maybe.user_id, maybe.attending, correctFol[0].following_id).then((res) => {
+            session()
+            getFol()
+          })
+        }
+      }
+    }
   }
-  //     for (var i = 0; i < atten.length; i++) {
-  //       if(atten[i].event_id == eventId) {
-  //         if (atten.attending !== "yes") {
-  //           console.log(atten[i].following_id);
-  //           eventSrvc.updateFollowers(eventId, yes.user_id, yes.attending, atten[i].following_id).then((res) => {
-  //             session()
-  //             getFol()
-  //           })
-  //         }
-  //       }
-  //     }
-  // }
-    // console.log('this is mFE', mFe);
-    // for (var i = 0; i < tEF.length; i++) {
-    //   for (var j = 0; j < mFE.length; j++) {
-    //     if (tEF[i].user_id != yes.user_id) {
-    //       eventSrvc.postFollowers(eventId, yes.user_id, yes.attending).then((res) => {
-    //         session()
-    //         getFol()
-    //       })
-    //     }
-    //     // tEF[i] mFE[j]
-    //   }
-    // }
-  // }
+  $scope.no = () => {
+    const no = {
+      user_id: $scope.userId,
+      attending: "no"
+    }
+    var mFE = $scope.attending
+    var tEF = $scope.followers
+    console.log('this is tEF ', tEF);
+    if (tEF == undefined || tEF.length == 0 || add(no.user_id, tEF)) {
+      eventSrvc.postFollowers(eventId, no.user_id, no.attending).then((res) => {
+        session()
+        getFol()
+      })
+    }
+    for (var i = 0; i < tEF.length; i++) {
+      var correctFol = []
+      if (tEF[i].user_id == no.user_id){
+        correctFol.push(tEF[i])
+        console.log('this is the event follower', tEF);
+        console.log('this is the event follower', tEF[i]);
+        console.log("this is correct", correctFol);
+        console.log("this is correct attending", correctFol[0].attending);
+        if (correctFol.attending !== "no") {
+          eventSrvc.updateFollowers(eventId, no.user_id, no.attending, correctFol[0].following_id).then((res) => {
+            session()
+            getFol()
+          })
+        }
+      }
+    }
+  }
   // $scope.yes = () => {
   //   console.log(eventId);
   //   console.log();

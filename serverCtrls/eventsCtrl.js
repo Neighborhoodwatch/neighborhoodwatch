@@ -132,19 +132,21 @@ module.exports = {
       var event_Id = req.params.id;
       var fol_id = req.body.following_id
       var foleven = req.session.followedEvents
-      function add(name, arr) {
-        var id = arr.length + 1;
-        var found = arr.some(function (el) {
-          return el.following_id === name;
-        });
-        if (!found) {
-            return true;
-        }
-        else if(found){
-        	return
-        }
-      }
-      if (add(fol_id, foleven)) {
+      // function add(name, arr) {
+      //   var id = arr.length + 1;
+      //   var found = arr.some(function (el) {
+      //     return el.following_id === name;
+      //   });
+      //   if (!found) {
+      //       return true;
+      //       console.log("this is server true");
+      //   }
+      //   else if(found){
+      //   	return false
+      //     console.log("this is server false");
+      //   }
+      // }
+      // if (add(fol_id, foleven)) {
         db.update_event_followers([event_Id, user, attending, fol_id], (err, resp) => {
           console.log('update followers for event:', resp)
           if (err) {
@@ -161,7 +163,7 @@ module.exports = {
             res.send(resp)
           }
         })
-      }
+      // }
     },
     getCreatedEvents: (req, res, next) => {
       var db = req.app.get('db');
