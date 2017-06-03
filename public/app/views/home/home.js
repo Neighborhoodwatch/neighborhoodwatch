@@ -1,8 +1,26 @@
-angular.module('nWatch').controller('homeCtrl', function($scope, eventSrvc) {
+angular.module('nWatch').controller('homeCtrl', function($scope, eventSrvc,userSrvc) {
   eventSrvc.getEvents().then((res) => {
     console.log(res);
     $scope.events = res;
   })
+
+  $scope.isLoggedIn = false;
+  //fires off on page load to determine whether user is logged in
+  $scope.checkLogin = () => {
+    userSrvc.getSession().then(function(resp) {
+      if(resp.data.isLoggedIn) {
+        $scope.isLoggedIn = resp.data.isLoggedIn
+      } else {
+        $scope.isLoggedIn = false
+      }
+    })
+  }
+  $scope.checkLogin();
+  //Listens for the login function to fire off in loginCtrl and then fires of checklogin to set isLoggedIn to true
+  $scope.$on('login', function(event, array) {
+    $scope.checkLogin()
+  })
+
   $scope.lists = [
     {
       name: 'Lost Pet',

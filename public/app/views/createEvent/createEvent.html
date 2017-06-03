@@ -26,22 +26,27 @@
       </div>
     </div>
     <div class="col-sm-8">
-      <div class="row create-event-category">
+      <div class="row create-event-wrapper">
         <div class="col-sm-3">
-          <!-- <p>category</p> -->
           <p>Event/Issue Name</p>
         </div>
         <div class="col-sm-9">
           <input type="text" ng-model="event.title">
-          <label>please select a category option
-            <select ng-model="category" ng-options="name.name for name in lists"></select>
-          </label>
         </div>
       </div>
-      <div class="row create-event-category create-event-date">
+      <div class="row create-event-wrapper">
         <div class="col-sm-3">
-          <!-- <p>category</p> -->
-          <p>Choose a Date</p>
+          <p>Select Category</p>
+        </div>
+        <div class="col-sm-9">
+          <!-- {{lists}} -->
+          <select ng-model="category" ng-options="item as item.name for item in lists track by item.type_id"></select>
+          <!-- item as item.name for item in lists track by item.type_id -->
+        </div>
+      </div>
+      <div class="row create-event-date">
+        <div class="col-sm-3">
+          <p>Event Date</p>
           <!-- intigrate calendar and f -->
         </div>
         <div class="col-sm-9">
@@ -53,20 +58,18 @@
           </div>
         </div>
       </div>
-      <div class="row create-event-category">
+      <div class="row">
         <div class="col-sm-3">
-          <!-- <p>category</p> -->
-          <p>Time</p>
+          <p>Event Time</p>
         </div>
         <div class="col-sm-9">
           <div uib-timepicker ng-model="mytime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></div>
           <!-- <input type="text" ng-model="event.event_time"> -->
         </div>
       </div>
-      <div class="row create-event-category">
+      <div class="row">
         <div class="col-sm-3">
-          <!-- <p>category</p> -->
-          <p>name of place</p>
+          <p>Where At</p>
         </div>
         <div class="col-sm-9">
           <input type="text" ng-model="event.event_place">
@@ -74,7 +77,6 @@
       </div>
       <div class="row create-event-location">
         <div class="col-sm-3">
-          <p>Create Event Map</p>
         </div>
         <!-- form -->
         <div class="col-sm-5">
@@ -185,7 +187,7 @@
       </div> -->
       <div class="row create-event-buttons">
         <div class="col-sm-6 text-center">
-          <button  ui-sref="user" type="button" ng-disabled="mapForm.$invalid" name="button" class=" btn btn-success" ng-click="eventCreate(event, category)">Create</button>
+          <button  ui-sref="user" type="button" ng-disabled="mapForm.$invalid" name="button" class=" btn btn-success" ng-click="eventCreate(event, category)">Create Event</button>
         </div>
         <div class="col-sm-6">
         </div>

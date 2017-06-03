@@ -40,10 +40,12 @@ angular.module('nWatch').controller('navCtrl',function($scope, $location, $state
   $scope.classActive = function( viewLocation ) {
     // console.log(viewLocation);
     if( $scope.isActive(viewLocation) ) {
-      return 'events-nav-color';
+      // return 'events-nav-color';
+      return 'active';
     }
     else {
-      return false;
+      // return false;
+      return '';
     }
   }
   //fires off when logout is clicked, destroys the session then does the rest of the logout function

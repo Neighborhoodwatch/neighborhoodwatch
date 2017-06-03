@@ -1,27 +1,28 @@
 <div class="container-fluid">
   <div class="row">
     <div class="home-view">
-      <!-- <img ng-src="https://cdn.shutterstock.com/shutterstock/videos/15417898/thumb/1.jpg" alt="" class="img-responsive"> -->
     </div>
   </div>
-  <div class="row">
+  <div class="row home-events-wrapper">
     <div class="col-sm-8">
-      <h3 class="text-center">EVENTS</h3>
       <div class="row">
-        <div class="col-sm-4 col-sm-offset-8">
+        <div class="col col-sm-8">
+          <h3 class="text-center">NEIGHBORHOOD EVENTS</h3>
+        </div>
+        <div class="col col-sm-4 home-filter">
           <label>Filter By
-            <select ng-model="category" ng-options="name.name for name in lists"></select>
           </label>
+          <select ng-model="category" ng-options="name.name for name in lists"></select>
         </div>
       </div>
       <div class="home-events-box">
         <div class="row home-event-personal-event col-sm-12" ng-repeat="peep in events | filter: {type_id: category.type_id }: true">
           <div class="col-sm-8">
             <div class="row">
-              <div class="col-sm-6">
+              <div class="col-sm-8">
                 <h3>{{peep.title}}</h3>
               </div>
-              <div class="col-sm-6 home-event-date">
+              <div class="col-sm-4 home-event-date">
                 {{peep.date | date : "mediumDate"}}
               </div>
             </div>
@@ -40,15 +41,12 @@
         </div>
       </div>
     </div>
-    <div class="col-sm-4">
-      <div class="row home-report text-center">
+    <div class="col-sm-4 home-report" ng-if="isLoggedIn">
+      <div class="row text-center">
         <div class="col-sm-12">
           <div class="thumbnail">
             <img src="./app/img/event/Custom-Icon-Design-Mono-General-3-Camera.ico" alt="...">
-            <div class="caption">
-              <h3>REPORT SOMETHING</h3>
-              <p><a ui-sref="createEvent" class="btn btn-primary" role="button">Button</a></p>
-            </div>
+            <p><a ui-sref="createEvent" class="btn btn-default" role="button">Create Event / Report Something</a></p>
           </div>
         </div>
       </div>
