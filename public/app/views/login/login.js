@@ -27,6 +27,13 @@ angular.module('nWatch').controller('loginCtrl', function($scope, one, loginSrvc
         $scope.username = ''
         $scope.password = ''
       }
+    }, function(err) {
+      if(err) {
+        alert('Username and password did not match any records')
+        cb(form)
+        $scope.username = ''
+        $scope.password = ''
+      }
     })
   }
 
