@@ -2,12 +2,16 @@ angular.module('nWatch').controller('createEventCtrl', function($scope, eventSrv
   var session = () => {
     sessionSrv.session().then((res) => {
       console.log("this is session", res);
-
-      console.log("this is user session", res.user[0].user_id)
-      $scope.userId = res.user[0].user_id
+      //
+      // console.log("this is user session", res.user[0].user_id)
+      if (res.isLoggedIn) {
+        $scope.userId = res.user[0].user_id
+      }
       console.log(res.followedEvents);
       $scope.attending = res.followedEvents;
-      $scope.hood = res.neighborhood[0].neighborhood_id;
+      if (res.isLoggedIn) {
+        $scope.hood = res.neighborhood[0].neighborhood_id;
+      }
       console.log("this is attending", $scope.attending);
     })
   }
@@ -83,7 +87,9 @@ angular.module('nWatch').controller('createEventCtrl', function($scope, eventSrv
     event.date = $scope.dt.toDateString()
     event.photo = ''
     event.created_by = $scope.userId
-    event.neighborhood_id = $scope.hood
+    if ($scope.userId) {
+      event.neighborhood_id = $scope.hood
+    }
     console.log(event);
     eventSrvc.save(event)
   }

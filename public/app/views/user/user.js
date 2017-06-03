@@ -87,8 +87,10 @@ angular.module('nWatch').controller('userCtrl', function($scope, userSrvc, $time
           $scope.uploading = true;
           var file = files[0];
           var fileReader = new FileReader();
+        
           //$scope.newProfilePicture will be our route that we put in the backend
           $scope.newProfilePicture = '../uploads/' + file.name
+
           fileReader.readAsDataURL(file);
           fileReader.onload = function(e) {
               $timeout(function() {
