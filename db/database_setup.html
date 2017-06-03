@@ -30,7 +30,7 @@ CREATE TABLE events (
 	event_id serial primary key,
 	details text,
 	title varchar,
-	-- date timestamp,
+    date timestamp,
 	type_id INT REFERENCES type(type_id),
 	created_by INT REFERENCES users(user_id),
 	event_location_lat numeric,
