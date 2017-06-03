@@ -18,7 +18,7 @@ module.exports = function (app) {
 
   var upload = multer({
     storage: storage,
-    limits: { fileSize: 10000000 }
+    limits: { fileSize: 1000000 }
   }).single('myfile');
 
   app.post('/upload', function(req, res) {

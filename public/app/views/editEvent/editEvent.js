@@ -1,4 +1,5 @@
 angular.module('nWatch').controller('editEventCtrl', function($scope, eventSrvc, $log, sessionSrv, $stateParams) {
+  const eventId = $stateParams.eventId
   var session = () => {
     sessionSrv.session().then((res) => {
       console.log("this is session", res);
@@ -169,5 +170,8 @@ angular.module('nWatch').controller('editEventCtrl', function($scope, eventSrvc,
   $scope.changed = function () {
     $log.log('Time changed to: ' + $scope.mytime);
   };
+  $scope.deleteEvent = () => {
+    eventSrvc.delete(eventId)
+  }
   session();
 })
