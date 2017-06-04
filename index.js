@@ -36,7 +36,7 @@ app.use(cors());
 app.set('db', massiveInstance);
 var db = app.get('db');
 var uploader = require('./serverCtrls/uploadCtrl')(app);
-app.use('/img', express.static(path.join(__dirname, 'uploads')));
+app.use('/app/img', express.static(path.join(__dirname, 'uploads')));
 
 
 //Middleware for putting user on express session
