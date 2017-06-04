@@ -18,28 +18,36 @@ angular.module('nWatch').controller('editEventCtrl', function($scope, eventSrvc,
   }
   $scope.lists = [
     {
-      name: 'Lost Pet'
+      name: 'Lost Pet',
+      type_id: 1
     },
     {
-      name: 'Damage'
+      name: 'Damage',
+      type_id: 2
     },
     {
-      name: 'Neighborhood Watch'
+      name: 'Neighborhood Watch',
+      type_id: 4
     },
     {
-      name: 'Clean-up'
+      name: 'Clean-up',
+      type_id: 5
     },
     {
-      name: 'Missing Person'
+      name: 'Missing Person',
+      type_id: 6
     },
     {
-      name: 'Meet Up'
+      name: 'Meet Up',
+      type_id: 7
     },
     {
-      name: 'Entertainment'
+      name: 'Entertainment',
+      type_id: 8
     },
     {
-      name: 'Other'
+      name: 'Other',
+      type_id: 3
     }
   ]
   $scope.category = $scope.lists[0]
@@ -49,39 +57,39 @@ angular.module('nWatch').controller('editEventCtrl', function($scope, eventSrvc,
   $scope.event = {};
   $scope.eventCreate = (event) => {
 
-    if ($scope.category.name === 'Lost Pet') {
-      event.type_id = 1
-      console.log(event.type_id);
-    }
-    else if ($scope.category.name === 'Damage') {
-      event.type_id = 2
-      console.log(event.type_id);
-    }
-    else if ($scope.category.name === 'Other') {
-      event.type_id = 3
-      console.log(event.type_id);
-    }
-    else if ($scope.category.name === 'Neighborhood Watch') {
-      event.type_id = 4
-      console.log(event.type_id);
-    }
-    else if ($scope.category.name === 'Clean-up') {
-      event.type_id = 5
-      console.log(event.type_id);
-    }
-    else if ($scope.category.name === 'Missing Person') {
-      event.type_id = 6
-      console.log(event.type_id);
-    }
-    else if ($scope.category.name === 'Meet Up') {
-      event.type_id = 7
-      console.log(event.type_id);
-    }
-    else if ($scope.category.name === 'Entertainment') {
-      event.type_id = 8
-      console.log(event.type_id);
-    }
-
+    // if ($scope.category.name === 'Lost Pet') {
+    //   event.type_id = 1
+    //   console.log(event.type_id);
+    // }
+    // else if ($scope.category.name === 'Damage') {
+    //   event.type_id = 2
+    //   console.log(event.type_id);
+    // }
+    // else if ($scope.category.name === 'Other') {
+    //   event.type_id = 3
+    //   console.log(event.type_id);
+    // }
+    // else if ($scope.category.name === 'Neighborhood Watch') {
+    //   event.type_id = 4
+    //   console.log(event.type_id);
+    // }
+    // else if ($scope.category.name === 'Clean-up') {
+    //   event.type_id = 5
+    //   console.log(event.type_id);
+    // }
+    // else if ($scope.category.name === 'Missing Person') {
+    //   event.type_id = 6
+    //   console.log(event.type_id);
+    // }
+    // else if ($scope.category.name === 'Meet Up') {
+    //   event.type_id = 7
+    //   console.log(event.type_id);
+    // }
+    // else if ($scope.category.name === 'Entertainment') {
+    //   event.type_id = 8
+    //   console.log(event.type_id);
+    // }
+    event.type_id = $scope.category.type_id;
     event.event_location_lat = $scope.lat
     event.event_location_lon = $scope.long
     event.event_time = $scope.mytime.toJSON()
