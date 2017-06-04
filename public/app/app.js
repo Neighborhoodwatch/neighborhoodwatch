@@ -130,7 +130,28 @@ angular.module('nWatch', ['ui.router', 'ngAnimate', 'ngMessages', 'ui.bootstrap'
     .state('editEvents', {
 			url: '/event/edit/:eventId',
 			templateUrl: './app/views/editEvent/editEvent.html',
-			controller: 'editEventCtrl'
+			controller: 'editEventCtrl',
+			resolve: {
+				checkLogin: function(sessionSrv, $q, $stateParams, $state, eventSrvc) {
+					let eventId = $stateParams.eventId
+					var defer = $q.defer();
+					eventSrvc.getEvent(eventId).then(function(response){
+						 const eventCreator = response[0].created_by;
+						 sessionSrv.session().then((res) => {
+							 let user = res.user[0].user_id;
+							 if (eventCreator == user) {
+							 	defer.resolve();
+							}else {
+								defer.reject();
+								$state.go('home')
+								alert("Sorry, you did not create this event")
+							}
+						 })
+					})
+
+					return defer.promise;
+				}
+			}
 		})
 		.state('signup', {
 			url: '/signup',
@@ -145,6 +166,25 @@ angular.module('nWatch', ['ui.router', 'ngAnimate', 'ngMessages', 'ui.bootstrap'
 		.state('createEvent', {
 			url: '/event/create',
 			templateUrl: './app/views/createEvent/createEvent.html',
-			controller: 'createEventCtrl'
+			controller: 'createEventCtrl',
+			resolve: {
+				checkNeigborhood: function(sessionSrv, $q, $stateParams, $state) {
+					let eventId = $stateParams.eventId
+					var defer = $q.defer();
+					sessionSrv.session().then((res) => {
+						let hood = res.neighborhood
+						console.log(res.neighborhood);
+						if (hood == undefined || hood.length == 0) {
+							defer.reject()
+							$state.go('newNeighborhood')
+							alert("Sorry, you need to join/create a neighborhood before you can create an event.")
+						}else {
+							defer.resolve()
+						}
+					})
+
+					return defer.promise;
+				}
+			}
 		})
 });
