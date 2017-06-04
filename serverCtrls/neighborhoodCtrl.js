@@ -28,14 +28,12 @@ module.exports = {
     var neighborhood = req.body;
 
     db.create_neighborhood([neighborhood.name, neighborhood.city, neighborhood.state], (err, resp) => {
-      if(resp.length === 0) {
-        res.send("Could not create neighborhood")
-      }
-        else if (err) {
+        if (err) {
+
             res.status(420).json(err);
-        }  else {
+      }  else {
             res.send(resp)
-        }
+      }
     })
   },
   updateNeighborhood: (req, res, next) => {
@@ -89,7 +87,7 @@ module.exports = {
     var id = req.params.id;
 
     db.get_neighborhood_events([id], (err, resp) => {
-        if (err) { 
+        if (err) {
             res.status(420).json(err);
         } else {
 

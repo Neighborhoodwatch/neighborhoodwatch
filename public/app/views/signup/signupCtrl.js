@@ -22,7 +22,7 @@ angular.module('nWatch').controller('signupCtrl', function($scope, signupSrvc, $
     $scope.confirm = ''
 
   };
-      //master function that handles signing up a user. takes in callback (reset) that will be fired off if there is an issue signing up the user.
+  //master function that handles signing up a user. takes in callback (reset) that will be fired off if there is an issue signing up the user.
   $scope.createUser = (first_name, last_name, username, email, facebook_id, google_id, password, photo, cb, form) => {
     signupSrvc.createUser(first_name, last_name, username, email, facebook_id, google_id, password, photo)
     .then(function(res) {
@@ -33,7 +33,8 @@ angular.module('nWatch').controller('signupCtrl', function($scope, signupSrvc, $
       }
     }, function(err) {
       if(err) {
-        alert('There was a problem signing you up. Usernames must be unique. Please try again.')
+        alert('There was a problem signing you up. Usernames must be unique. Please try again.');
+        console.log(err);
         cb(form)
       }
     })
