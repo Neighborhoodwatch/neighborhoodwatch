@@ -28,8 +28,8 @@ module.exports = {
     var neighborhood = req.body;
 
     db.create_neighborhood([neighborhood.name, neighborhood.city, neighborhood.state], (err, resp) => {
-        if (err) {
-
+      if (err) {
+          console.log(err);
             res.status(420).json(err);
       }  else {
             res.send(resp)
