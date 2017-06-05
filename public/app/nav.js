@@ -17,6 +17,10 @@ angular.module('nWatch').controller('navCtrl',function($scope, $location, $state
     $scope.$on('login', function(event, array) {
       $scope.checkLogin()
     })
+    //Listens for the createUser function to fire off in signupCtrl and then fires of checklogin to set isLoggedIn to true
+    $scope.$on('createUser', function(event, array) {
+      $scope.checkLogin()
+    })
     //fires off when logout button is clicked and resets adminAuth.access to false so resolve on login view can see user is not logged in, then gets session and resets $scope.isLoggedIn to false
     $scope.$on('logout', function(event, array) {
       adminAuth.logout()
