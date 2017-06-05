@@ -85,9 +85,11 @@
                     <label for="confirm">Confirm Password</label>
                     <input class="form-control" type="password" name="confirm"
                     ng-model="confirm"
-                    required>
+                    required
+                    compare-to="password">
                     <div ng-messages="signupForm.confirm.$error" ng-show="signupForm.confirm.$touched">
                       <p ng-message="password">Confirm password is required</p>
+                      <div class="form-error" ng-message="compareTo">Passwords must match</div>
                     </div>
                 </div>
                 <!--Signup Button-->
