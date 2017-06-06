@@ -67,8 +67,6 @@ angular.module('nWatch').controller('editEventCtrl', function($scope, eventSrvc,
       $scope.event.event_place= res[0].event_place
       $scope.event.details = res[0].details
       $scope.event.photo = res[0].photo
-      // $scope.lat = res[0].event_location_lat
-      // $scope.long = res[0].event_location_lon
     }
   })
   $scope.event = {};
@@ -119,6 +117,12 @@ geocoder.geocode({'location': myLatLng}, function(results, status) {
 
 
 
+  //edit map section, just working on getting it working
+  // will make it a directive soon
+  var lat = Number(myEvent[0].event_location_lat)
+  var long = Number(myEvent[0].event_location_lon)
+  // console.log(lat, long);
+  var myLatLng = {lat: lat, lng: long};
   var map = new google.maps.Map(document.getElementById('map'), {
     zoom: 17,
     center: myLatLng
@@ -140,7 +144,6 @@ geocoder.geocode({'location': myLatLng}, function(results, status) {
     console.log(address);
       eventSrvc.getMaps(address)
       .then((res) => {
-        console.log('thi sis map gen res ', res.data);
         var cordinates = res.data.results[0].geometry.location;
         var lati = cordinates.lat;
         var long = cordinates.lng
