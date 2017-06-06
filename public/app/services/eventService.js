@@ -96,6 +96,12 @@ angular.module('nWatch').service('eventSrvc', function($http) {
       url: "https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=AIzaSyDygNCUy0c-ktsxgQh54x83Rdza88YjOYg"
     })
   }
+  this.getAdd = (latlng) => {
+    return $http({
+      method: "GET",
+      url: "https://maps.googleapis.com/maps/api/geocode/json?address=" + latlng + "&key=AIzaSyDygNCUy0c-ktsxgQh54x83Rdza88YjOYg"
+    })
+  }
 
 /*
 angular.module('nWatch').service('eventSrvc', function ($http) {

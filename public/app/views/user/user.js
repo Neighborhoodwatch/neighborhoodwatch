@@ -89,7 +89,8 @@ angular.module('nWatch').controller('userCtrl', function($scope, userSrvc, $time
           var fileReader = new FileReader();
 
           //$scope.newProfilePicture will be our route that we put in the backend
-          $scope.newProfilePicture = '../uploads/' + file.name
+          //photo saved on the $scope.user.photo below
+          // $scope.newProfilePicture = '../uploads/' + file.name
 
           fileReader.readAsDataURL(file);
           fileReader.onload = function(e) {
@@ -97,7 +98,7 @@ angular.module('nWatch').controller('userCtrl', function($scope, userSrvc, $time
                   $scope.thumbnail = {};
                   $scope.thumbnail.dataUrl = e.target.result;
                   if(!$scope.user.photo) {
-                    $scope.user.photo = 'images/' + file.name || $scope.defaultUrl;
+                    $scope.user.photo = 'app/img/' + file.name || $scope.defaultUrl;
                   }
                   $scope.uploading = false;
                   $scope.message = false;
