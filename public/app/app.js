@@ -148,8 +148,14 @@ angular.module('nWatch', ['ui.router', 'ngAnimate', 'ngMessages', 'ui.bootstrap'
 							}
 						 })
 					})
-
 					return defer.promise;
+				},
+				myEvent: function(eventSrvc, $stateParams){
+					const eventId = $stateParams.eventId
+					console.log(eventId);
+					return eventSrvc.getEvent(eventId).then(function(response){
+						return response
+					})
 				}
 			}
 		})
