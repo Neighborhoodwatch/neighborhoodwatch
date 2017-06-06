@@ -94,6 +94,14 @@ angular.module('nWatch').service('eventSrvc', function($http) {
       return response.data;
     })
   }
+  this.deleteFol = function (id) {
+    return $http({
+      method: 'DELETE',
+      url: 'api/eventsfol/' + id,
+    }).then(function (response) {
+      return response.data;
+    })
+  }
   this.getMaps = (address) => {
     return $http({
       method: "GET",

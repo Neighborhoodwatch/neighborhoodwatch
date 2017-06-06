@@ -223,7 +223,9 @@ angular.module('nWatch').controller('editEventCtrl', function($scope, eventSrvc,
     $log.log('Time changed to: ' + $scope.mytime);
   };
   $scope.deleteEvent = () => {
-    eventSrvc.delete(eventId)
+    eventSrvc.deleteFol(eventId).then((res) => {
+      eventSrvc.delete(eventId)
+    })
   }
   session();
 })
