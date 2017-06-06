@@ -93,28 +93,22 @@ angular.module('nWatch').controller('editEventCtrl', function($scope, eventSrvc,
   console.log(lat);
   var long = Number(myEvent[0].event_location_lon)
   // console.log(lat, long);
+  var latilongi = `${lat},${long}`
+    $scope.map = {}
+
   var myLatLng = {lat: lat, lng: long};
-
-$scope.map = {}
-
-var geocoder = new google.maps.Geocoder;
-geocoder.geocode({'location': myLatLng}, function(results, status) {
-    if (status === 'OK') {
-      if (results[1]) {
-        console.log(results);
-        var corAdd = results[0].formatted_address;
-        var addressArr = corAdd.split(',');
-        console.log(addressArr);
-        $scope.map.address = addressArr[0];
-        $scope.map.city = addressArr[1];
-        // $scope.map.zip = addressArr[2];
-    } else {
-      window.alert('Geocoder failed due to: ' + status);
-    }
-  }
-})
-
-
+  eventSrvc.getAdd(latilongi).then((res) => {
+    console.log("this is shte add func", res.data);
+    var corAdd = res.data.results[0].formatted_address;
+    var addressArr = corAdd.split(',');
+    console.log(addressArr);
+    $scope.map.address = addressArr[0];
+    $scope.map.city = addressArr[1];
+    var zipSt = addressArr[2].split(' ');
+    console.log("zipSt", zipSt);
+    $scope.map.state = zipSt[1];
+    $scope.map.zip = zipSt[2];
+  })
 
   //edit map section, just working on getting it working
   // will make it a directive soon
