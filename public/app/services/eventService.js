@@ -65,17 +65,21 @@ angular.module('nWatch').service('eventSrvc', function($http) {
       return $http({
         method: 'POST',
         url: 'api/events',
-        data: event
+        data: {
+          event
+        }
       }).then(function (response) {
         return response.data;
       })
     } else {
-      console.log("there was an event");
+      console.log("there was an event", event);
       var id = event.event_id
       return $http({
         method: 'PUT',
         url: 'api/events/' + id,
-        data: event
+        data: {
+          event
+        }
       }).then(function (response) {
         return response.data;
       })
@@ -94,6 +98,12 @@ angular.module('nWatch').service('eventSrvc', function($http) {
     return $http({
       method: "GET",
       url: "https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=AIzaSyDygNCUy0c-ktsxgQh54x83Rdza88YjOYg"
+    })
+  }
+  this.getAdd = (latlng) => {
+    return $http({
+      method: "GET",
+      url: "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + latlng + "&key=AIzaSyDygNCUy0c-ktsxgQh54x83Rdza88YjOYg"
     })
   }
 
