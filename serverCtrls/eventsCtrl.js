@@ -89,6 +89,19 @@ module.exports = {
           }
       })
     },
+    deleteFollowers: (req, res, next) => {
+      var db = req.app.get('db');
+      var event_id = req.params.id;
+      db.delete_followers([event_id], (err, resp) => {
+          if (err) {
+              res.status(420).json(err);
+          } else {
+              console.log('deleted event:', resp)
+
+              res.send(resp)
+          }
+      })
+    },
     getFollowers: (req, res, next) => {
       var db = req.app.get('db');
       var event_Id = req.params.id;
