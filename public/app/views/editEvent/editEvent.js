@@ -106,9 +106,8 @@ geocoder.geocode({'location': myLatLng}, function(results, status) {
         var addressArr = corAdd.split(',');
         console.log(addressArr);
         $scope.map.address = addressArr[0];
-        // $scope.map.state = addressArr[1];
+        $scope.map.city = addressArr[1];
         // $scope.map.zip = addressArr[2];
-        // $scope.map.address = addressArr[3];
     } else {
       window.alert('Geocoder failed due to: ' + status);
     }
