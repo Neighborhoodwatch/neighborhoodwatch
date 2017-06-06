@@ -1,11 +1,7 @@
 angular.module('nWatch').controller('loginCtrl', function($scope, one, loginSrvc, $state, $rootScope) {
 
-  $scope.facebookLogin = () => {
-      //redirect to auth/facebook//
-      console.log('Login with Facebook')}
-  $scope.googleLogin = () => {
-      //redirect to auth/google//
-      console.log('Login with Google')}
+  $scope.facebookLogin = () => {console.log('Login with Facebook')}
+  $scope.googleLogin = () => {console.log('Login with Google')}
   //Callback function passed to login function that gets fired off if there was a problem with logging in...Will reset the form
   $scope.reset = function(form) {
     form.$setPristine();

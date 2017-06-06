@@ -1,211 +1,175 @@
 <div class="container-fluid">
   <div class="row">
-
-    <div class="col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1">
-      <div class="panel panel-default user-panel">
-        
-        <div class="panel-heading user-title">
-            <h4>{{ event.title }}</h4>
+    <div class="col-sm-offset-1 col-sm-10">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row text-center">
+            <div class="col-sm-12">
+              <h4>REPORT SOMETHING</h4>
+            </div>
+          </div>
         </div>
-      
-        <div class="panel-body user-body">
-          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-          <!-- Image -->
-              <div class="thumbnail">
-                <img src="./app/img/event/Custom-Icon-Design-Mono-General-3-Camera.ico" alt="...">
-                <button class="btn btn-primary" for="my-file-selector">
-                  <input ng-model="event.photo" type="file" style="display:none;">
-                      Upload img
-                </button>
-              </div>          
-            <!-- Image end-->
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-sm-4">
               <div class="row">
                 <div class="col-sm-12">
-                  <nw-create-map></nw-create-map>
+                  <div class="row text-center">
+                    <div class="col-sm-12">
+                      <div class="thumbnail">
+                        <img src="./app/img/event/Custom-Icon-Design-Mono-General-3-Camera.ico" alt="...">
+                        <div class="caption">
+                          <h3>IMG</h3>
+                          <label class="btn btn-primary" for="my-file-selector">
+                            <input ng-model="event.photo" type="file" style="display:none;">
+                            Upload img
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-          </div>
-            <!-- End of first column -->
-          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-            <div class="row form-group create-event-category">
+              <div class="row text-center">
+                <div class="col-sm-6">
+                  <div id="map" class="maps"></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-8">
+              <form>
+                <!-- event issue -->
+                <div class="form-group">
+                  <label>Event/Issue Name</label>
+                  <input ng-model="event.title" class="form-control">
+                </div>
+                <!-- option dropdown -->
+                <div class="form-group">
+                  <label>please select a category option</label>
+                  <br>
+                  <select ng-model="category" ng-options="name.name for name in lists"></select>
+                  <!-- name of place -->
+                </div>
+                
+                <div class="form-group">
+                  <label>name of place</label>
+                  <input ng-model="event.event_place" class="form-control">
+                </div>
 
-              <div class="col-sm-3">
-                <p>Title</p>
-              </div>
-              <div class="col-sm-9">
-                <input type="text" ng-model="event.title" placeholder="give it a title">
-              </div>
-            </div>
+                <!-- problem  text area -->
+                <div class="form-group">
+                  <label>Describe the event/problem</label>
+                  <textarea ng-model="event.details" class="form-control" rows="3"></textarea>
+                </div>
+                <form name="mapForm" ng-submit="submitForm(userForm.$valid)">
+                  <div class="">
 
-          <!-- Type/Category -->
-            <div class="row form-group">
-              <div class="col-sm-3">
-                <p>Type</p>
-              </div>
-              <div class="col-sm-9">
-                <select class="btn btn-secondary dropdown-toggle" ng-model="category" ng-options="name.name for name in lists"></select>
-              </div>
-            </div>
-          
-      <div class="row create-event-category create-event-date form-group">
-        <div class="col-sm-3">
-          <p>Select a Date</p>
-          <!-- intigrate calendar and f -->
-        </div>
-        
-        <div class="col-sm-9">
-          <div>
-            <!-- <pre>Selected date is: <em>{{dt | date:'fullDate' }}</em></pre> -->
-              <div style="display:inline-block; min-height:290px;">
-                <div uib-datepicker ng-model="dt" class="well well-sm" datepicker-options="options"></div>
-              </div>
-          </div>
-        </div>
-      </div>
-              <!-- Time -->
-      <div class="row create-event-category form-group">
-        <div class="col-sm-3">
-          <p>Time</p>
-        </div>
-        <div class="col-sm-9">
-          <div uib-timepicker ng-model="mytime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></div>
-          <!-- <input type="text" ng-model="event.event_time"> -->
-        </div>
-      </div>
-              
-      <div class="row create-event-category form-group">
-        <div class="col-sm-3">
-          <p>Location Name</p>
-        </div>
-        <div class="col-sm-5">
-          <input class="form-control" type="text" ng-model="event.event_place" placeholder="Freds House...">
-        </div>
-      </div>
-              
-      <div class="row create-event-location form-group">
-        <div class="col-sm-3">
-          <p>Map</p>
-        </div>
-        <!-- Map Form -->
-        <div class="col-sm-5">
-          <form name="mapForm" ng-submit="submitForm(userForm.$valid)">
-            <div class="form-group" ng-class="{ 'has-error': mapForm.adress.$touched && mapForm.adress.$invalid }">
-              
-              <label>Address</label>
-              <input type="text"
-              name="adress"
-              ng-minlength="3"
-              ng-maxlength="50"
-              class="form-control"
-              ng-model="map.address" required>
-              <div class="help-block" ng-messages="mapForm.adress.$error" ng-if="mapForm.adress.$touched">
-                <p ng-message="minlength"
-                class="bg-danger">Your address is too short.</p>
-                <p ng-message="maxlength"
-                class="bg-danger">Your address is too long.</p>
-                <p ng-message="required"
-                class="bg-danger">Your address is required.</p>
-              </div>
-            </div>
-            <div class="form-group" ng-class="{ 'has-error': mapForm.city.$touched && mapForm.city.$invalid }">
-              
-              <label>City</label>
-              <input type="text"
-              name="city"
-              ng-minlength="3"
-              ng-maxlength="50"
-              class="form-control"
-              ng-model="map.city" required>
-              <div class="help-block" ng-messages="mapForm.city.$error" ng-if="mapForm.city.$touched">
-                <p ng-message="minlength"
-                class="bg-danger">Your city is too short.</p>
-                <p ng-message="maxlength"
-                class="bg-danger">Your city is too long.</p>
-                <p ng-message="required"
-                class="bg-danger">Your city is required.</p>
-              </div>
-            </div>
-            <div class="form-group" ng-class="{ 'has-error': mapForm.state.$touched && mapForm.state.$invalid }">
-              
-              <label>State</label>
-              <input type="text"
-              name="state"
-              ng-minlength="3"
-              ng-maxlength="50"
-              class="form-control"
-              ng-model="map.state" required>
-              <div class="help-block" ng-messages="mapForm.state.$error" ng-if="mapForm.state.$touched">
-                <p ng-message="minlength"
-                class="bg-danger">Your state is too short.</p>
-                <p ng-message="maxlength"
-                class="bg-danger">Your state is too long.</p>
-                <p ng-message="required"
-                class="bg-danger">Your state is required.</p>
-              </div>
-            </div>
-            <div class="form-group" ng-class="{ 'has-error': mapForm.zip.$touched && mapForm.zip.$invalid }">
-              
-              <label>Zip Code</label>
-              <input type="text"
-              name="zip"
-              ng-minlength="3"
-              ng-maxlength="50"
-              class="form-control"
-              ng-model="map.zip" required>
-              <div class="help-block" ng-messages="mapForm.zip.$error" ng-if="mapForm.zip.$touched">
-                <p ng-message="minlength"
-                class="bg-danger">Your Zip Code is too short.</p>
-                <p ng-message="maxlength"
-                class="bg-danger">Your Zip Code is too long.</p>
-                <p ng-message="required"
-                class="bg-danger">Your Zip Code is required.</p>
-              </div>
-            </div>
-          </form>
-            
-          <div class="row text-center">
-            <div class="col-xs-12">
-              <a type="button"  ng-click="changeMap(map)" ng-disabled="mapForm.$invalid" class="btn btn-success">Generate Map<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+                  </div>
+                  <div class="form-group" ng-class="{ 'has-error': mapForm.adress.$touched && mapForm.adress.$invalid }">
+                    <label>Address</label>
+                    <input type="text"
+                    name="adress"
+                    ng-minlength="3"
+                    ng-maxlength="50"
+                    class="form-control"
+                    ng-model="map.address" required>
+                    <div class="help-block" ng-messages="mapForm.adress.$error" ng-if="mapForm.adress.$touched">
+                      <p ng-message="minlength"
+                      class="bg-danger">Your address is too short.</p>
+                      <p ng-message="maxlength"
+                      class="bg-danger">Your address is too long.</p>
+                      <p ng-message="required"
+                      class="bg-danger">Your address is required.</p>
+                    </div>
+                  </div>
+                  <div class="form-group" ng-class="{ 'has-error': mapForm.city.$touched && mapForm.city.$invalid }">
+                    <label>City</label>
+                    <input type="text"
+                    name="city"
+                    ng-minlength="3"
+                    ng-maxlength="50"
+                    class="form-control"
+                    ng-model="map.city" required>
+                    <div class="help-block" ng-messages="mapForm.city.$error" ng-if="mapForm.city.$touched">
+                      <p ng-message="minlength"
+                      class="bg-danger">Your city is too short.</p>
+                      <p ng-message="maxlength"
+                      class="bg-danger">Your city is too long.</p>
+                      <p ng-message="required"
+                      class="bg-danger">Your city is required.</p>
+                    </div>
+                  </div>
+                  <div class="form-group" ng-class="{ 'has-error': mapForm.state.$touched && mapForm.state.$invalid }">
+                    <label>State</label>
+                    <input type="text"
+                    name="state"
+                    ng-minlength="3"
+                    ng-maxlength="50"
+                    class="form-control"
+                    ng-model="map.state" required>
+                    <div class="help-block" ng-messages="mapForm.state.$error" ng-if="mapForm.state.$touched">
+                      <p ng-message="minlength"
+                      class="bg-danger">Your state is too short.</p>
+                      <p ng-message="maxlength"
+                      class="bg-danger">Your state is too long.</p>
+                      <p ng-message="required"
+                      class="bg-danger">Your state is required.</p>
+                    </div>
+                  </div>
+                  <div class="form-group" ng-class="{ 'has-error': mapForm.zip.$touched && mapForm.zip.$invalid }">
+                    <label>Zip Code</label>
+                    <input type="text"
+                    name="zip"
+                    ng-minlength="3"
+                    ng-maxlength="50"
+                    class="form-control"
+                    ng-model="map.zip" required>
+                    <div class="help-block" ng-messages="mapForm.zip.$error" ng-if="mapForm.zip.$touched">
+                      <p ng-message="minlength"
+                      class="bg-danger">Your Zip Code is too short.</p>
+                      <p ng-message="maxlength"
+                      class="bg-danger">Your Zip Code is too long.</p>
+                      <p ng-message="required"
+                      class="bg-danger">Your Zip Code is required.</p>
+                    </div>
+                  </div>
+                  <div class="form-group text-center">
+
+                    <a type="button"  ng-click="changeMap(map)" ng-disabled="mapForm.$invalid" class="btn btn-success">Generate Map<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+                  </div>
+                  <!-- choose a date -->
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Choose a Date</label>
+                    <br>
+                    <div>
+                      <div style="display:inline-block; min-height:290px;">
+                        <div uib-datepicker ng-model="dt" class="well well-sm" datepicker-options="options"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- choose a time -->
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Time</label>
+                    <div>
+                      <div uib-timepicker ng-model="mytime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></div>
+                      <!-- <input type="text" ng-model="event.event_time"> -->
+                    </div>
+                  </div>
+                  <div class="row create-event-buttons">
+                    <div class="col-sm-6 text-center">
+                      <button type="button" ui-sref="user" ng-disabled="mapForm.$invalid" name="button" class=" btn btn-success" ng-click="eventCreate(event)">Update Event</button>
+                      <button type="button" name="button" class=" btn btn-danger" ui-sref="user" ng-click="deleteEvent()">Delete Event</button>
+                    </div>
+                    <div class="col-sm-6">
+                    </div>
+                  </div>
+                </form>
+
+              </form>
             </div>
           </div>
         </div>
-      </div>
-          <!-- End of Map Form -->
-      <div class="row create-event-describe form-group">
-        <div class="col-sm-3">
-          <p>Description</p>
-        </div>
-        <div class="col-sm-9">
-          <textarea class="col-sm-6 form-group" row="2" type="text" ng-model="event.details"></textarea>
-        </div>
-      </div>
-      <!-- <div class="row create-event-notified">
-        <div class="col-sm-3">
-          <p>How Would you like to be notified about your event?</p>
-        </div>
-        <div class="col-sm-9">
-          <form name="myForm">
-            <label>No Notifications Please:
-              <input type="checkbox" ng-model="event.check1">
-            </label><br/>
-            <label>Send Notifications By Email:
-              <input type="checkbox" ng-model="event.check2">
-            </label><br/>
-            <label>Show Me On My Newsfeed:
-              <input type="checkbox" ng-model="event.check3">
-            </label><br/>
-        </div>
-      </div> -->
-      <div class="row create-event-buttons">
-        <div class="col-sm-6 text-center">
-          <button type="button" ui-sref="user" ng-disabled="mapForm.$invalid" name="button" class=" btn btn-success" ng-click="eventCreate(event, category)">Create</button>
-          <button type="button" name="button" class=" btn btn-danger" ui-sref="user" ng-click="deleteEvent()">Delete Event</button>
-        </div>
-        <div class="col-sm-6">
-        </div>
-      </div>
-      </div>
       </div>
     </div>
-
-
+  </div>
+</div>
