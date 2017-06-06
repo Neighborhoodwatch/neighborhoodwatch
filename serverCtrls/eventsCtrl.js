@@ -23,7 +23,8 @@ module.exports = {
    },
    createEvent: (req, res, next) => {
        var db = req.app.get('db');
-        var event = req.body;
+       console.log("this is",req.body);
+        var event = req.body.event;
 
         var details = event.details;
         var title = event.title;
@@ -50,7 +51,7 @@ module.exports = {
     updateEvent: (req, res, next) => {
       var db = req.app.get('db');
       var event_id = req.params.id;
-      var event = req.body;
+      var event = req.body.event;
 
       var details = event.details;
       var title = event.title;

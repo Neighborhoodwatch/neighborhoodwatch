@@ -1,22 +1,15 @@
 angular.module('nWatch').controller('editEventCtrl', function($scope, eventSrvc, $log, sessionSrv, $stateParams, myEvent) {
-  console.log(`this is the event lat ${myEvent[0].event_location_lat}`);
-  console.log(`this is the event lon ${myEvent[0].event_location_lon}`);
-
   const eventId = $stateParams.eventId
   var session = () => {
     sessionSrv.session().then((res) => {
-      // console.log("this is session", res);
-      //
-      // console.log("this is user session", res.user[0].user_id)
+
       if (res.isLoggedIn) {
         $scope.userId = res.user[0].user_id
       }
-      // console.log(res.followedEvents);
       $scope.attending = res.followedEvents;
       if (res.isLoggedIn) {
         $scope.hood = res.neighborhood[0].neighborhood_id;
       }
-      // console.log("this is attending", $scope.attending);
     })
   }
   $scope.lists = [
@@ -55,34 +48,36 @@ angular.module('nWatch').controller('editEventCtrl', function($scope, eventSrvc,
   ]
   $scope.category = $scope.lists[0]
 
-  $scope.eventImg = "yoyoyo"
+  $scope.event = {};
 
   eventSrvc.getEvent(eventId).then(function(res){
     console.log("this is the event", res)
     if (res) {
-      $scope.event.photo = res[0].photo
-      $scope.event.title = res[0].title
-      $scope.dt = res[0].date
-      $scope.mytime = res[0].event_time
-      $scope.event.event_place= res[0].event_place
-      $scope.event.details = res[0].details
-      $scope.event.photo = res[0].photo
+      $scope.event.photo = res[0].photo;
+      $scope.event.title = res[0].title;
+      $scope.dt = res[0].date;
+      $scope.mytime = res[0].event_time;
+      $scope.event.event_place = res[0].event_place;
+      $scope.event.details = res[0].details;
+      $scope.event.photo = res[0].photo;
+      $scope.lat = res[0].event_location_lat;
+      $scope.long = res[0].event_location_lon;
     }
-  })
-  $scope.event = {};
+  });
   $scope.eventCreate = (event) => {
+    event.event_place = $scope.event.event_place
     event.type_id = $scope.category.type_id;
-    event.event_location_lat = $scope.lat
-    event.event_location_lon = $scope.long
-    event.event_time = $scope.mytime
-    event.date = $scope.dt
-    event.photo = ''
-    event.created_by = $scope.userId
+    event.event_location_lat = $scope.lat;
+    event.event_location_lon = $scope.long;
+    event.event_time = $scope.mytime;
+    event.date = $scope.dt;
+    event.photo = '';
+    event.created_by = $scope.userId;
     if ($scope.userId) {
-      event.neighborhood_id = $scope.hood
-    }
-    event.event_id = $stateParams.eventId
-    console.log(event);
+      event.neighborhood_id = $scope.hood;
+    };
+    event.event_id = $stateParams.eventId;
+    console.log("hmm", event);
     eventSrvc.save(event)
   }
 
