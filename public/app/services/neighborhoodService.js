@@ -104,4 +104,10 @@ angular.module('nWatch').service('neighborhoodSrvc', function($http) {
       }
     })
   }
+  this.getMaps = (address) => {
+    return $http({
+      method: "GET",
+      url: "https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=AIzaSyDygNCUy0c-ktsxgQh54x83Rdza88YjOYg"
+    })
+  }
 })
