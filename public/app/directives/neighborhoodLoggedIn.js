@@ -3,7 +3,7 @@ angular.module('nWatch').directive('nwNeighborhoodLoggedIn', function() {
     restrict: 'EA',
     templateUrl: './app/directives/neighborhoodLoggedIn.html',
     controller: function($scope) {
-
+      
     }
   }
 })
