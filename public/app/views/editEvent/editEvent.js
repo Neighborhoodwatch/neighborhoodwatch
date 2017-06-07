@@ -1,4 +1,4 @@
-angular.module('nWatch').controller('editEventCtrl', function($scope, eventSrvc, $log, sessionSrv, $stateParams, myEvent) {
+angular.module('nWatch').controller('editEventCtrl', function($scope, eventSrvc, $log, sessionSrv, $stateParams, myEvent, $timeout) {
   const eventId = $stateParams.eventId
   var session = () => {
     sessionSrv.session().then((res) => {
@@ -71,7 +71,7 @@ angular.module('nWatch').controller('editEventCtrl', function($scope, eventSrvc,
     event.event_location_lon = $scope.long;
     event.event_time = $scope.mytime;
     event.date = $scope.dt;
-    event.photo = '';
+    event.photo = $scope.photo;
     event.created_by = $scope.userId;
     if ($scope.userId) {
       event.neighborhood_id = $scope.hood;
@@ -81,6 +81,52 @@ angular.module('nWatch').controller('editEventCtrl', function($scope, eventSrvc,
     eventSrvc.save(event)
   }
 
+  //photo upload
+  $scope.file = {};
+  $scope.message = false;
+  $scope.alert = '';
+  $scope.defaultUrl = 'app/img/solitary-weed.png';
+
+  $scope.Submit = function() {
+      $scope.uploading = true;
+      uploadFile.upload($scope.file).then(function(data) {
+          if (data.data.success) {
+              $scope.uploading = false;
+              $scope.alert = 'alert alert-success';
+              $scope.message = data.data.message;
+              $scope.file = {};
+          } else {
+              $scope.uploading = false;
+              $scope.alert = 'alert alert-danger';
+              $scope.message = data.data.message;
+              $scope.file = {};
+          }
+      });
+  };
+
+  $scope.photoChanged = function(files) {
+      if (files.length > 0 && files[0].name.match(/\.(png|jpeg|jpg)$/)) {
+          $scope.uploading = true;
+          var file = files[0];
+          var fileReader = new FileReader();
+          fileReader.readAsDataURL(file);
+          fileReader.onload = function(e) {
+              $timeout(function() {
+                  $scope.thumbnail = {};
+                  $scope.thumbnail.dataUrl = e.target.result;
+                  if(!$scope.photo) {
+                    $scope.photo = 'app/img/' + file.name || $scope.defaultUrl;
+                  }
+                  $scope.uploading = false;
+                  $scope.message = false;
+              });
+          };
+      } else {
+          $scope.thumbnail = {};
+          $scope.message = false;
+      }
+  };
+  //end photo upload
 
   //edit map section, just working on getting it working
   // will make it a directive soon

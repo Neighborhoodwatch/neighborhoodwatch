@@ -1,4 +1,4 @@
-angular.module('nWatch').controller('createEventCtrl', function($scope, eventSrvc, $log, sessionSrv, typeService ) {
+angular.module('nWatch').controller('createEventCtrl', function($scope, eventSrvc, $log, sessionSrv, typeService, $timeout ) {
   var session = () => {
     sessionSrv.session().then((res) => {
       console.log("this is session", res);
