@@ -2,6 +2,14 @@
 <img ng-src="{{user.photo}}"
 class='img-responsive'
 alt="Profile Picture">
-<button ng-click="update()">Update My Info</button>
-<button ui-sref="createEvent">Create Event</button>
-<button ui-sref="newNeighborhood">Create Neighborhood</button>
+<div class="col-sm-1 btn-toolbar">
+  <div class="row">
+    <button ng-click="update()" class="btn btn-info btn-wide">Update My Info</button>
+  </div>
+  <div class="row">
+    <button ui-sref="createEvent" class="btn btn-primary btn-wide">Create Event</button>
+  </div>
+  <div class="row">    
+    <button ui-sref="newNeighborhood" class="btn btn-warning btn-wide">Create Neighborhood</button>
+  </div>
+</div>

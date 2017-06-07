@@ -5,7 +5,7 @@
         <div class="panel-heading">
           <div class="row text-center">
             <div class="col-sm-12">
-              <h2>REPORT SOMETHING</h2>
+              <h2>{{ event.title }}</h2>
             </div>
           </div>
         </div>
@@ -40,25 +40,25 @@
               <form>
                 <!-- event issue -->
                 <div class="form-group">
-                  <label>Event/Issue Name</label>
-                  <input ng-model="event.title" class="form-control">
+                  <label>Title</label>
+                  <input ng-model="event.title" class="form-control" placeholder="give it a name!">
                 </div>
-                <!-- option dropdown -->
+                <!-- type/category dropdown -->
                 <div class="form-group">
-                  <label>Event/Issue Type</label>
+                  <label>Type</label>
                   <select class="form-control" ng-model="category" ng-options="name.name for name in lists"></select>
                   <!-- name of place -->
                 </div>
 
-                <!-- problem  text area -->
+                <!-- description -->
                 <div class="form-group">
-                  <label>Describe the event/problem</label>
+                  <label>Description</label>
                   <textarea ng-model="event.details" class="form-control" rows="3"></textarea>
                 </div>
 
                 <div class="form-group">
-                  <label>Where At</label>
-                  <input ng-model="event.event_place" class="form-control">
+                  <label>Name of Location</label>
+                  <input ng-model="event.event_place" class="form-control" placeholder="Fred's House (for example)">
                 </div>
 
                 <form name="mapForm" ng-submit="submitForm(userForm.$valid)">
@@ -154,7 +154,7 @@
                   </div>
                   <div class="row create-event-buttons">
                     <div class="col-sm-6 text-center">
-                      <button type="button" ui-sref="user" ng-disabled="mapForm.$invalid" name="button" class=" btn btn-success" ng-click="eventCreate(event)">Update Event</button>
+                      <button type="button" ui-sref="user" ng-disabled="mapForm.$invalid" name="button" class="btn btn-success" ng-click="eventCreate(event)">Update Event</button>
                       <button type="button" name="button" class=" btn btn-danger" ui-sref="user" ng-click="deleteEvent()">Delete Event</button>
 
                       <button type="button" class="btn btn-default" ui-sref="user" style="font-weight:normal">Back to Profile</button>
