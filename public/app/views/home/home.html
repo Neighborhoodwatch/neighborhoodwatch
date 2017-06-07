@@ -1,56 +1,51 @@
-<div class="container-fluid">
-  <div class="row">
-    <div class="home-view">
-    </div>
-  </div>
-  <div class="row home-events-wrapper">
-    <div class="col-sm-8">
-      <div class="row">
-        <div class="col col-sm-8">
-          <h3 class="text-center">NEIGHBORHOOD EVENTS</h3>
-        </div>
-        <div class="col col-sm-4 home-filter">
-          <label>Filter By
-          </label>
-          <select ng-model="category" ng-options="item as item.name for item in lists track by item.type_id"></select>
-        </div>
-      </div>
-      <div class="home-events-box">
-        <div class="row home-event-personal-event col-sm-12" ng-repeat="peep in events | filter: {type_id: category.type_id }: true">
-          <div class="col-sm-8">
-            <div class="row">
-              <div class="col-sm-8">
-                <h3>{{peep.title}}</h3>
-              </div>
-              <div class="col-sm-4 home-event-date">
-                {{peep.date | date : "mediumDate"}}
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-xs-12 home-event-text">
-                <p>{{peep.details}}</p>
-              </div>
-              <div class="col-xs-12 text-center">
-                <a <a ui-sref="events({ eventId: peep.event_id })">> view more</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-xs-4 home-events-img text-center">
-            <img class="img-rounded" ng-src="{{peep.photo}}" alt="" style="height:125px; max-width:125px;">
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-4 home-report" ng-if="isLoggedIn">
-      <div class="row text-center">
-        <div class="col-sm-12">
-          <div class="thumbnail">
-            <img src="./app/img/event/Custom-Icon-Design-Mono-General-3-Camera.ico" alt="...">
-            <p><a ui-sref="createEvent" class="btn btn-default" role="button">Create Event / Report Something</a></p>
-          </div>
-        </div>
-      </div>
 
+    <div class="row home-events-wrapper">
+      <div class="col-sm-8">
+        <div class="row">
+          <div class="col col-sm-8 text-center">
+            <h3 class="text-center">NEIGHBORHOOD EVENTS</h3>
+          </div>
+          <div class="col col-sm-4 home-filter form-group">
+            <label>Filter By
+            </label>
+            <select class="form-control" ng-model="category" ng-options="item as item.name for item in lists track by item.type_id"></select>
+          </div>
+        </div>
+        <div class="home-events-box">
+          <div class="row home-event-personal-event col-sm-12" ng-repeat="peep in events | filter: {type_id: category.type_id }: true">
+            <div class="col-sm-8">
+              <div class="row">
+                <div class="col-sm-8">
+                  <h3>{{peep.title}}</h3>
+                </div>
+                <div class="col-sm-4 home-event-date">
+                  {{peep.date | date : "mediumDate"}}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-12 home-event-text">
+                  <p>{{peep.details}}</p>
+                </div>
+                <div class="col-xs-12 text-center">
+                  <a <a ui-sref="events({ eventId: peep.event_id })">> view more</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-4 home-events-img text-center">
+              <img class="img-rounded" ng-src="{{peep.photo}}" alt="" style="height:125px; max-width:125px;">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4" ng-if="isLoggedIn"><!-- home-report-->
+        <!-- <div class="row text-center">
+          <div class="col-sm-12">
+            <div class="thumbnail">
+              <img src="./app/img/event/Custom-Icon-Design-Mono-General-3-Camera.ico" alt="..."> -->
+              <p class="text-center"><a ui-sref="createEvent" class="btn btn-default" role="button">Create Event / Report Something</a></p>
+            <!-- </div>
+          </div>
+        </div> -->
+
+      </div>
     </div>
-  </div>
-</div>

@@ -6,15 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Neighborhood Watch</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- Fonts -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link href="css/animate.css" rel="stylesheet" />
+      <!-- Squad theme CSS -->
+    <link href="css/style.css" rel="stylesheet">
+    <link href="color/default.css" rel="stylesheet">
+
     <link rel="stylesheet" href="./dist/styles.css">
-    <link rel="stylesheet" href="index.css">
+    <!-- <link rel="stylesheet" href="index.css"> -->
+
   </head>
-  <body>
+  <body id="page-top" data-spy="scroll" data-target=".navbar-custom">
     <header class="" ng-controller="navCtrl">
-      <nav class="navbar navbar-default navbar-fixed-top">
-        <div class="container-fluid">
-          <div class="navbar-header">
+      <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+        <div class="container container-fluid">
+          <div class="navbar-header page-scroll">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
               <span class="sr-only">Toggle navigation</span>
               <span class="icon-bar"></span>
@@ -22,7 +31,7 @@
               <span class="icon-bar"></span>
             </button>
           </div>
-          <div id="navbar" class="collapse navbar-collapse">
+          <div id="navbar" class="collapse navbar-collapse navbar-right navbar-main-collapse">
             <ul class="nav navbar-nav ">
               <li ng-class="classActive('/')"><a ui-sref="home">HOME</a></li>
               <li ng-class="classActive('/hood')"><a ui-sref="hood" ng-if="isLoggedIn">MY NEIGHBORHOOD</a></li>
@@ -36,18 +45,45 @@
       </nav>
     </header>
 
+    <section id="intro" class="intro"><!--row-->
+      <!-- <div class="home-view">
+      </div> -->
+      <div class="slogan"><!--home-view -->
+        <h2>WELCOME TO <span class="text_color">HOOD WATCH</span> </h2>
+      </div>
+      <div class="page-scroll">
+        <a href="#service" class="btn btn-circle">
+          <i class="fa fa-angle-double-down animated"></i>
+        </a>
+      </div>
+    </section>
+
+    <a href="#" id="service"></a>
+    <section id="wrapper" class="home-section">
     <ui-view></ui-view>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js" charset="utf-8"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.3/angular-animate.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-messages.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-touch/1.6.4/angular-touch.min.js" charset="utf-8"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.min.js" charset="utf-8"></script>
-    <script
-     src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDygNCUy0c-ktsxgQh54x83Rdza88YjOYg"></script>
+
+    <!-- Core JavaScript Files -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.easing.min.js"></script>
+  	<script src="js/jquery.scrollTo.js"></script>
+  	<script src="js/wow.min.js"></script>
+    <!-- Custom Theme JavaScript -->
+    <script src="js/custom.js"></script>
+    <!-- <script src="contactform/contactform.js"></script> -->
+
     <!-- should be compiling all the js files with gulp. (from command line run  gulp watch    to concat all of the .js/sass files into dist master file-->
 
     <!-- <script src="./app/app.js"></script>

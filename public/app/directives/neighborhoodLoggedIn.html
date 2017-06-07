@@ -1,42 +1,59 @@
 <div class="panel panel-default">
     <div class="panel-heading neighborhood-heading">
-        <h4>{{neighborhood.name}}</h4>
+        <h2>{{neighborhood.name}}</h2>
     </div>
-    <div class="panel-body">
+    <div class="panel-body row">
         <div class="col-xs-6">
             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d8006.35173455274!2d-77.04161492289657!3d38.90678517698459!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89b7c6de5af6e45b%3A0xc2524522d4885d2a!2sWashington%2C+DC!5e0!3m2!1sen!2sus!4v1495558264392"
                 width="100%" height="350" frameborder="0" style="border:0" allowfullscreen></iframe>
-        </div>
+            <div class="row">
+              <!-- <div class="col-sm-6"> -->
+                <!-- <button ng-click="leaveNeighborhood(user.user_id)">Leave Neighborhood</button> -->
+                <a ui-sref="createEvent" class="btn btn-primary" role="button">Create Event / Report Something</a>
+                <a class="btn btn-default" href="#" ng-click="leaveNeighborhood(user.user_id)" role="button">Leave Neighborhood</a>
+              <!-- </div> -->
+              <!-- <div class="col-sm-6"> -->
+                <!-- <div class="thumbnail text-center"> -->
+                  <!-- <img src="./app/img/event/Custom-Icon-Design-Mono-General-3-Camera.ico" alt="..."> -->
+
+                <!-- </div> -->
+              </div>
+            </div>
         <!-- Ends Column Left -->
         <div class="col-xs-6">
             <h4>Neighborhood Events</h4>
-            <div ng-repeat="event in neighborhoodEvents" ng-show="hasNeighborhoodEvents">
-            <div class="panel panel-default neighborhood-panel">
-              {{event.title}}
-            {{event.date}}
-          {{event.details}}
-          {{event.event_time}}
-          <img ng-src="{{event.photo}}">
-          {{event.first_name}}
-          {{event.last_name}}
-          <button ui-sref="events({eventId: event.event_id})">View More</button>
+            <div class="home-events-box">
+              <div class="row home-event-personal-event col-sm-12" ng-repeat="event in neighborhoodEvents" ng-show="hasNeighborhoodEvents">
+
+                <div class="col-sm-8">
+                  <div class="row">
+                    <div class="col-sm-8">
+                      <h3>{{event.title}}</h3>
+                    </div>
+                    <div class="col-sm-4 home-event-date">
+                      {{event.date | date : "mediumDate"}}
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-12 home-event-text">
+                      <p>{{event.details}}</p>
+                    </div>
+                    <div class="col-xs-12 text-center">
+                      <a <a ui-sref="events({ eventId: event.event_id })">> view more</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xs-4 home-events-img text-center">
+                  <img class="img-rounded" ng-src="{{event.photo}}" alt="" style="height:125px; max-width:125px;">
+                </div>
+            </div>
           </div>
-          </div>
+
           <!--Will show if neighborhood has no events  -->
           <div ng-hide="hasNeighborhoodEvents">
             <h4>Neighborhood has no active events</h4>
           </div>
-          <div class="row">
-            <div class="col-sm-6">
-              <button ng-click="leaveNeighborhood(user.user_id)">Leave Neighborhood</button>
-            </div>
-            <div class="col-sm-6">
-              <div class="thumbnail text-center">
-                <img src="./app/img/event/Custom-Icon-Design-Mono-General-3-Camera.ico" alt="...">
-                <p><a ui-sref="createEvent" class="btn btn-default" role="button">Create Event / Report Something</a></p>
-              </div>
-            </div>
-          </div>
+
         </div>
         <!--Ends column right  -->
     </div>
