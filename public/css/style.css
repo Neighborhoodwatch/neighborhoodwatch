@@ -309,7 +309,7 @@ hr {
 ============================ */
 
 .intro {
-	width:100%;
+	width:100vw;
 	position:relative;
 	background: url(../img/bg1.jpg) no-repeat top center;
     background-size: cover;
@@ -340,7 +340,7 @@ hr {
 .intro .slogan h2 {
 	color: #FFF;
 	text-shadow: none;
-	font-size: 60px;
+	font-size: 50px;
 	line-height: 60px;
 	font-weight: 700;
 	font-family: Montserrat, sans-serif;
