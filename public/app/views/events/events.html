@@ -1,62 +1,75 @@
-<div class="container-fluid">
-  <div class="row events-event-top text-center">
-    <div class="event-font-lg">{{event.title}}</div>
-  </div>
-  <div class="row text-center">
-    <div class="col-sm-4 event-font-med">
-      Date:
-      {{event.date | date : "mediumDate"}}
+<div class="container-fluid events-container-body">
+  <div class="panel panel-default events-panel-top">
+    <div class="panel-heading events-event-top text-center">
+      <h3 class="panel-title event-font-lg">{{event.title}}</h3>
     </div>
-    <div class="col-sm-4 event-font-med">
-    WHERE: {{event.event_place}}
-    </div>
-    <div class="col-sm-4 event-font-med">
-    Time: {{event.event_time | date : 'shortTime'}}
-    </div>
-  </div>
-  <div class="row">
-    <div class=" col-sm-offset-3 col-sm-6 events-event-text">
-      <p>{{event.details}}</p>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-sm-4">
-      <img ng-src="{{event.photo}}" alt="" class="img-responsive" id="events-events-img">
-    </div>
-    <div class="col-sm-4">
-      <div class="row">
-        <div class="col-sm-12">
-          <div id="map" class="events-map"></div>
+    <div class="panel-body events-panel-body">
+      <div class="text-center">
+        <div class="col-sm-4 event-font-med">
+          Date:
+          {{event.date | date : "mediumDate"}}
+        </div>
+        <div class="col-sm-4 event-font-med">
+        Time: {{event.event_time | date : 'shortTime'}}
+        </div>
+        <div class="col-sm-4 event-font-med">
+          Place: {{event.event_place}}
         </div>
       </div>
-    </div>
-    <div class="col-sm-4">
-      <div class="row text-center">
-        <h4>Who's Going</h4>
-      </div>
       <div class="row">
-        <div class="alert" ng-class="attStatus(fol)" ng-repeat="fol in followers" role="alert">
-          <div class="col-xs-4">
-            name: {{fol.username}}
-          </div>
-          <div class="col-xs-4">
-            asdfas
-          </div>
-          <div class="col-xs-4">
-            Status: {{fol.attending}}
-          </div>
+        <div class=" col-sm-offset-3 col-sm-6 events-event-text event-font-sm">
+          Details: <span>{{event.details}}</span>
         </div>
       </div>
+      <div class="row">
+        <div class="col-sm-4">
+          <img ng-src="{{event.photo}}" alt="" class="img-responsive img-thumbnail" id="events-events-img">
+        </div>
+        <!-- <div class="col-sm-4 hidden-xs panel panel-default">
+          <div class="row text-center panel-heading">
+            <div class="event-font-sm">Place: {{event.event_place}}</div>
+          </div>
+          <div class="row events-map">
+              <div id="map" class="events-map"></div>
+          </div>
+        </div> -->
+        <div class="col-sm-4 panel panel-default">
+          <div class="row text-center panel-heading">
+            <div class="event-font-sm">Who's Going</div>
+          </div>
+          <div class="row panel-body text-center events-panel-whogoing">
+            <div class="alert events-followers" ng-class="attStatus(fol)" ng-repeat="fol in followers" role="alert">
+              <div class="col-xs-4">
+                Name: {{fol.first_name}} {{fol.last_name}}
+              </div>
+              <div class="col-xs-4">
+                Username: {{fol.username}}
+              </div>
+              <div class="col-xs-4">
+                Status: {{fol.attending}}
+              </div>
+            </div>
+          </div>
 
-      <div class="row text-center" ng-if="buttons">
-        <div class="col-xs-4">
-            <button type="button" class="btn btn-success" ng-click="yes()">Yes</button>
+          <div class="row text-center events-buttons events-panel-whogoing" ng-if="buttons">
+            <div class="col-xs-4">
+                <button type="button" class="btn btn-success" ng-click="yes()">Yes</button>
+            </div>
+            <div class="col-xs-4">
+                <button type="button" class="btn btn-warning" ng-click="maybe()">Maybe</button>
+            </div>
+            <div class="col-xs-4">
+                <button type="button" class="btn btn-danger" ng-click="no()"> No</button>
+            </div>
+          </div>
         </div>
-        <div class="col-xs-4">
-            <button type="button" class="btn btn-warning" ng-click="maybe()">Maybe</button>
-        </div>
-        <div class="col-xs-4">
-            <button type="button" class="btn btn-danger" ng-click="no()"> No</button>
+        <div class="col-sm-4 panel panel-default">
+          <!-- <div class="row text-center panel-heading">
+            <div class="event-font-sm">Place: {{event.event_place}}</div>
+          </div> -->
+          <div class="row events-map">
+            <div id="map" class="events-map"></div>
+          </div>
         </div>
       </div>
     </div>
