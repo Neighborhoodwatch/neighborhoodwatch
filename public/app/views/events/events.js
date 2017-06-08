@@ -11,7 +11,10 @@ angular.module('nWatch').controller('eventsCtrl', ($scope, eventSrvc, event, $st
     zoom: 17,
     center: myLatLng
   });
-
+  // var map = new google.maps.Map(document.getElementById('maps'), {
+  //   zoom: 17,
+  //   center: myLatLng
+  // });
 
   var marker = new google.maps.Marker({
     position: myLatLng,
