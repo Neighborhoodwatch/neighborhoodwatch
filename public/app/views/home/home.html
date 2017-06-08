@@ -1,5 +1,5 @@
+  <div class="home-events-wrapper">
 
-    <div class="row home-events-wrapper">
       <div class="col-sm-8">
         <div class="row">
           <div class="col col-sm-8 text-center">
@@ -37,11 +37,13 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-4 col-med-2" ng-if="isLoggedIn"><!-- home-report-->
-        <p class="text-center"><a ui-sref="createEvent" class="btn btn-primary" role="button">New Event / Report</a></p>
+        
+      <div class="col-sm-4 text-center" ng-if="isLoggedIn"><!-- home-report-->
+          <button class="btn btn-primary btn-wide" ui-sref="createEvent">New Event / Report</button>
 
       </div>
     </div>
+ 
         <!-- <div class="row text-center">
           <div class="col-sm-12">
             <div class="thumbnail">
