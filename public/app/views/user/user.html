@@ -31,16 +31,10 @@
                                 <label>Photo</label>
                                 <input class="form-control" ng-model="user.photo" placeholder="{{user.photo}}"></input>
                             </div>
-                            <!-- <div class="form-group">
-                                <label>Upload New Profile Picture</label>
-                                <input class="form-control" type="file" ng-model="user.photo" fileread="user.photo"></input>
-                            </div> -->
                             <button class="btn btn-success" ng-click="updateInfo(user.user_id, user.first_name, user.last_name, user.username, user.email, user.photo, getUser)">Save Profile</button>
+                            <button class="btn btn-default" ng-click="cancelChanges()">Cancel Changes</button>
                         </form>
                         <div ng-hide="hasInfo" class="row" style="margin-top:10px;"><div class="col-sm-12">
-                          <!-- <h4>Report Something</h4>
-                          <div><i class="fa fa-camera" aria-hidden="true" id="neighborhood-camera" ui-sref="createEvent"></i></div> -->
-
                           <div ng-show="uploading" class="progress">
                               <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
                                 <span class="sr-only">45% Complete</span>
@@ -74,8 +68,6 @@
                         <div ng-repeat="event in createdEvents" ng-show="hasCreated">
                             <div class="panel panel-default user-my-event">
                               <div class="panel-body row">
-                                <!-- {{event.title}} {{event.date}} {{event.details}} {{event.event_place}}
-                                <img ng-src="{{event.photo}}" placeholder="Event Photo"> -->
                                   <div class="col-sm-8">
                                     <div class="row">
                                       <div class="col-sm-8">
@@ -90,7 +82,7 @@
                                         <p>{{event.details}}</p>
                                       </div>
                                       <div class="col-xs-12 text-center">
-                                        <a ui-sref="events({ eventId: event.event_id })">See Details</a>
+                                        <a ui-sref="events({ eventId: event.event_id })">View more</a>
                                       </div>
                                     </div>
                                   </div>
@@ -112,9 +104,6 @@
                         <div ng-repeat="event in followedEvents" ng-show="isFollowing">
                             <div class="panel panel-default user-my-event">
                               <div class="panel-body">
-                                <!-- {{event.title}} {{event.date}} {{event.details}} {{event.event_time}} {{event.event_place}}
-                                <img ng-src="{{event.photo}}" placeholder="Event Photo">
-                                <button ui-sref="events({ eventId: event.event_id })">View More</button> -->
                                   <div class="col-sm-8">
                                     <div class="row">
                                       <div class="col-sm-8">
@@ -129,7 +118,7 @@
                                         <p>{{event.details}}</p>
                                       </div>
                                       <div class="col-xs-12 text-center">
-                                        <a ui-sref="events({ eventId: event.event_id })">See Details</a>
+                                        <a ui-sref="events({ eventId: event.event_id })">View More</a>
                                       </div>
                                     </div>
                                   </div>

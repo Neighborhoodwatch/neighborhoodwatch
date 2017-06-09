@@ -35,8 +35,10 @@ angular.module('nWatch').controller('userCtrl', function($scope, userSrvc, $time
   $scope.getUser = (cb1, cb2) => {
     userSrvc.getCurrentUser().then(function(res) {
       let data = res.data.user[0]
-      var user_id = data.user_id
-        cb1(user_id, cb2)
+      var user_id = data.user_id;
+      $scope.thumbnail = {};
+      $scope.thumbnail.dataUrl = data.photo;
+      cb1(user_id, cb2)
     })
   }
   $scope.getUser($scope.compileUserInfo, $scope.getSession)
@@ -58,12 +60,16 @@ angular.module('nWatch').controller('userCtrl', function($scope, userSrvc, $time
     })
   }
 
+  $scope.cancelChanges = () => {
+    $scope.hasInfo = !$scope.hasInfo
+  }
 
   //File upload functions
   $scope.file = {};
   $scope.message = false;
   $scope.alert = '';
   $scope.defaultUrl = 'app/img/profilepicture/default_picture.jpg';
+  $scope.defaultEventUrl = 'app/img/dandelion.jpg';
 
   $scope.Submit = function() {
       $scope.uploading = true;
@@ -88,18 +94,12 @@ angular.module('nWatch').controller('userCtrl', function($scope, userSrvc, $time
           var file = files[0];
           var fileReader = new FileReader();
 
-          //$scope.newProfilePicture will be our route that we put in the backend
-          //photo saved on the $scope.user.photo below
-          // $scope.newProfilePicture = '../uploads/' + file.name
-
           fileReader.readAsDataURL(file);
           fileReader.onload = function(e) {
               $timeout(function() {
                   $scope.thumbnail = {};
                   $scope.thumbnail.dataUrl = e.target.result;
-                  if(!$scope.user.photo) {
-                    $scope.user.photo = 'app/img/' + file.name || $scope.defaultUrl;
-                  }
+                  $scope.user.photo = 'app/img/' + file.name || $scope.defaultUrl;
                   $scope.uploading = false;
                   $scope.message = false;
               });
