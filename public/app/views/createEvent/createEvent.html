@@ -29,11 +29,7 @@
                       <label class="btn btn-success btn-wide"><!--must be label, not a real button-->
                         Browse
                         <input type="file" ng-disabled="uploading" file-model="file.upload" name="myfile" style="display: none;" onchange="angular.element(this).scope().photoChanged(this.files)">
-<<<<<<< HEAD
-                      </button>
-=======
                       </label>
->>>>>>> 67c1ce519eb483c524b717e30c2f0db3838eccc8
 
                       <button ng-disabled="uploading" type="submit" class="btn btn-primary btn-wide">Upload</button>
                     </form>
@@ -63,7 +59,6 @@
             </div>
             <div class="col-sm-8">
               <form>
-
                 <div class="form-group">
                   <label>Title</label>
                   <input ng-model="event.title" class="form-control" placeholder="The Best BBQ ever!">
@@ -88,7 +83,7 @@
                   <input ng-model="event.event_place" class="form-control">
                 </div>
 
-<<<<<<< HEAD
+
                 <!-- map buttom -->
               </form>
               <form name="mapForm" ng-submit="submitForm(userForm.$valid)">
@@ -124,7 +119,6 @@
                     class="bg-danger">Your city is too long.</p>
                     <p ng-message="required"
                     class="bg-danger">Your city is required.</p>
-=======
                 <form name="mapForm" ng-submit="submitForm(userForm.$valid)">
                   <div class="form-group" ng-class="{ 'has-error': mapForm.adress.$touched && mapForm.adress.$invalid }">
                     <label>Address</label>
@@ -206,7 +200,6 @@
                         <div uib-datepicker ng-model="dt" class="well well-sm" datepicker-options="options"></div>
                       </div>
                     </div>
->>>>>>> 67c1ce519eb483c524b717e30c2f0db3838eccc8
                   </div>
                 </div>
                 <div class="form-group" ng-class="{ 'has-error': mapForm.state.$touched && mapForm.state.$invalid }">
