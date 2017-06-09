@@ -325,6 +325,10 @@ hr {
 
 }
 
+.bottomTuck {
+    margin-bottom: inherit;
+}
+
 .intro .page-scroll {
 	text-align: center;
 }
