@@ -135,22 +135,18 @@ angular.module('nWatch', ['ui.router', 'ngAnimate', 'ngMessages', 'ui.bootstrap'
 				checkLogin: function(sessionSrv, $q, $stateParams, $state, eventSrvc) {
 					let eventId = $stateParams.eventId
 					var defer = $q.defer();
-					sessionSrv.session(eventId).then(function(res){
-						if (res.isLoggedIn !== true) {
-							defer.reject();
-						}else {
-							const user = res.user[0].user_id;
-							eventSrvc.getEvent(eventId).then((response) => {
-								const eventCreator = response[0].created_by;
-								if (eventCreator == user) {
-									defer.resolve();
-								}else {
-									defer.reject();
-									$state.go('home')
-									alert("Sorry, you did not create this event")
-								}
-							})
-						}
+					eventSrvc.getEvent(eventId).then(function(response){
+						 const eventCreator = response[0].created_by;
+						 sessionSrv.session().then((res) => {
+							 let user = res.user[0].user_id;
+							 if (eventCreator == user) {
+							 	defer.resolve();
+							}else {
+								defer.reject();
+								$state.go('home')
+								alert("Sorry, you did not create this event")
+							}
+						 })
 					})
 					return defer.promise;
 				},
