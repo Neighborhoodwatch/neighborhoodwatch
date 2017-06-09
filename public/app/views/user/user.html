@@ -7,7 +7,7 @@
                     <h2>My Profile</h2>
                 </div>
                 <div class="panel-body user-body">
-                    <div class="col-xs-12 col-sm-6">
+                    <div class="col-xs-12 col-sm-6 text-center">
                         <nw-my-info ng-show="hasInfo"></nw-my-info>
 
                         <form ng-hide="hasInfo">
@@ -62,7 +62,7 @@
                         </div></div>
                     </div>
                     <!--Ends first column  -->
-                    <div class="col-xs-12 col-sm-6">
+                    <div class="col-xs-12 col-sm-6 text-center">
                         <h4>My Events</h4></br>
                         <!--Will show if there are user created events  -->
                         <div ng-repeat="event in createdEvents" ng-show="hasCreated">

@@ -2,14 +2,14 @@
 <img ng-src="{{user.photo}}"
 class='img-responsive'
 alt="Profile Picture">
-<div class="col-sm-1 btn-toolbar">
-  <div class="row">
+<div class="col-sm-1 btn-toolbar text-center user-btn-group">
+  <div class="col">
     <button ng-click="update()" class="btn btn-info btn-wide">Update My Info</button>
   </div>
-  <div class="row">
+  <div class="col">
     <button ui-sref="createEvent" class="btn btn-primary btn-wide">Create Event</button>
   </div>
-  <div class="row">
+  <div class="col">
     <button ui-sref="newNeighborhood" class="btn btn-warning btn-wide">Create Neighborhood</button>
   </div>
 </div>
