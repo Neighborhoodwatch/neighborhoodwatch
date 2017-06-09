@@ -58,7 +58,6 @@
             </div>
             <div class="col-sm-8">
               <form>
-
                 <div class="form-group">
                   <label>Title</label>
                   <input ng-model="event.title" class="form-control" placeholder="The Best BBQ ever!">
@@ -82,6 +81,7 @@
                   <label>Name of Location</label>
                   <input ng-model="event.event_place" class="form-control">
                 </div>
+
               </form>
               <form name="mapForm" ng-submit="submitForm(userForm.$valid)">
                 <div class="form-group" ng-class="{ 'has-error': mapForm.adress.$touched && mapForm.adress.$invalid }">
