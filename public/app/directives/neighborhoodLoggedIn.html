@@ -8,16 +8,8 @@
             <div id="map" style="width:100%; height:350px;"></div>
           </div>
             <div class="row">
-              <!-- <div class="col-sm-6"> -->
-                <!-- <button ng-click="leaveNeighborhood(user.user_id)">Leave Neighborhood</button> -->
                 <button ui-sref="createEvent" class="btn btn-primary btn-wide" role="button">New Event / Report</a>
                 <button class="btn btn-danger btn-wide" href="#" ng-click="leaveNeighborhood(user.user_id)" role="button">Leave Neighborhood</a>
-              <!-- </div> -->
-              <!-- <div class="col-sm-6"> -->
-                <!-- <div class="thumbnail text-center"> -->
-                  <!-- <img src="./app/img/event/Custom-Icon-Design-Mono-General-3-Camera.ico" alt="..."> -->
-
-                <!-- </div> -->
               </div>
             </div>
         <!-- Ends Column Left -->
@@ -26,33 +18,37 @@
             <div class="home-events-box">
               <div class="row home-event-personal-event col-sm-12" ng-repeat="event in neighborhoodEvents" ng-show="hasNeighborhoodEvents">
 
-                <div class="col-sm-8">
-                  <div class="row">
-                    <div class="col-sm-8">
-                      <h3>{{event.title}}</h3>
-                    </div>
-                    <div class="col-sm-4 home-event-date">
-                      {{event.date | date : "mediumDate"}}
-                    </div>
+                <div class="panel panel-default user-my-event">
+                  <div class="panel-body">
+                      <div class="col-sm-8">
+                        <div class="row">
+                          <div class="col-sm-8">
+                            <h3>{{event.title}}</h3>
+                          </div>
+                          <div class="col-sm-4 home-event-date">
+                            {{event.date | date : "mediumDate"}}
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-xs-12 home-event-text">
+                            <p>{{event.details}}</p>
+                          </div>
+                          <div class="col-xs-12 text-center">
+                            <a ui-sref="events({ eventId: event.event_id })">View More</a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-xs-4 home-events-img text-center">
+                        <img class="img-rounded" ng-src="{{event.photo}}" style="height: 125px; max-height: 125px;">
+                      </div>
                   </div>
-                  <div class="row">
-                    <div class="col-xs-12 home-event-text">
-                      <p>{{event.details}}</p>
-                    </div>
-                    <div class="col-xs-12 text-center">
-                      <a <a ui-sref="events({ eventId: event.event_id })">> view more</a>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-xs-4 home-events-img text-center">
-                  <img class="img-rounded" ng-src="{{event.photo}}" alt="" style="height:125px; max-width:125px;">
                 </div>
             </div>
           </div>
 
           <!--Will show if neighborhood has no events  -->
           <div ng-hide="hasNeighborhoodEvents">
-            <h4>Neighborhood has no active events</h4>
+            <p>Neighborhood has no active events</p>
           </div>
 
         </div>
