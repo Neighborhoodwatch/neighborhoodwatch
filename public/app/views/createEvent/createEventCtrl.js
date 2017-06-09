@@ -1,18 +1,17 @@
-angular.module('nWatch').controller('createEventCtrl', function($scope, eventSrvc, $log, sessionSrv, typeService, $timeout ) {
+angular.module('nWatch').controller('createEventCtrl', function($scope, eventSrvc, $log, sessionSrv, typeService, $timeout, uploadFile ) {
   var session = () => {
     sessionSrv.session().then((res) => {
-      console.log("this is session", res);
-      //
-      // console.log("this is user session", res.user[0].user_id)
+      // console.log("this is session", res);
+
       if (res.isLoggedIn) {
         $scope.userId = res.user[0].user_id
       }
-      console.log(res.followedEvents);
+      // console.log(res.followedEvents);
       $scope.attending = res.followedEvents;
       if (res.isLoggedIn) {
         $scope.hood = res.neighborhood[0].neighborhood_id;
       }
-      console.log("this is attending", $scope.attending);
+      // console.log("this is attending", $scope.attending);
     })
   }
 
@@ -62,19 +61,19 @@ angular.module('nWatch').controller('createEventCtrl', function($scope, eventSrv
 
   $scope.event = {};
   $scope.eventCreate = (event) => {
-
+    console.log('createEvent', event);
     event.type_id = $scope.category.type_id;
     event.event_location_lat = $scope.lat
     event.event_location_lon = $scope.long
     // we need to update the db for this time. maybe text?
     event.event_time = $scope.mytime
     event.date = $scope.dt.toDateString()
-    event.photo = ''
+    event.photo = $scope.event.photo;
     event.created_by = $scope.userId
     if ($scope.userId) {
       event.neighborhood_id = $scope.hood
     }
-    console.log(event);
+    console.log('**updatedEvent', event);
     eventSrvc.save(event)
   }
 
@@ -82,7 +81,7 @@ angular.module('nWatch').controller('createEventCtrl', function($scope, eventSrv
   $scope.file = {};
   $scope.message = false;
   $scope.alert = '';
-  $scope.defaultUrl = 'app/img/solitary-weed.png';
+  $scope.defaultUrl = 'app/img/dandelion.jpg';
 
   $scope.Submit = function() {
       $scope.uploading = true;
@@ -111,9 +110,7 @@ angular.module('nWatch').controller('createEventCtrl', function($scope, eventSrv
               $timeout(function() {
                   $scope.thumbnail = {};
                   $scope.thumbnail.dataUrl = e.target.result;
-                  if(!$scope.photo) {
-                    $scope.photo = 'app/img/' + file.name || $scope.defaultUrl;
-                  }
+                  $scope.event.photo = 'app/img/' + file.name || $scope.defaultUrl;
                   $scope.uploading = false;
                   $scope.message = false;
               });

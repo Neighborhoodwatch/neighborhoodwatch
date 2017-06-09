@@ -1,4 +1,4 @@
-angular.module('nWatch').controller('editEventCtrl', function($scope, eventSrvc, $log, sessionSrv, $stateParams, myEvent, $timeout) {
+angular.module('nWatch').controller('editEventCtrl', function($scope, eventSrvc, $log, sessionSrv, $stateParams, myEvent, $timeout, uploadFile) {
   const eventId = $stateParams.eventId
   var session = () => {
     sessionSrv.session().then((res) => {
@@ -51,7 +51,7 @@ angular.module('nWatch').controller('editEventCtrl', function($scope, eventSrvc,
   $scope.event = {};
 
   eventSrvc.getEvent(eventId).then(function(res){
-    console.log("this is the event", res)
+    console.log("getEvent", res);
     if (res) {
       $scope.event.photo = res[0].photo;
       $scope.event.title = res[0].title;
@@ -60,24 +60,27 @@ angular.module('nWatch').controller('editEventCtrl', function($scope, eventSrvc,
       $scope.event.event_place = res[0].event_place;
       $scope.event.details = res[0].details;
       $scope.event.photo = res[0].photo;
+      $scope.thumbnail = {};
+      $scope.thumbnail.dataUrl = res[0].photo;
       $scope.lat = res[0].event_location_lat;
       $scope.long = res[0].event_location_lon;
     }
   });
   $scope.eventCreate = (event) => {
+    console.log('createEvent', event);
     event.event_place = $scope.event.event_place
     event.type_id = $scope.category.type_id;
     event.event_location_lat = $scope.lat;
     event.event_location_lon = $scope.long;
     event.event_time = $scope.mytime;
     event.date = $scope.dt;
-    event.photo = $scope.photo;
+    event.photo = $scope.event.photo;
     event.created_by = $scope.userId;
     if ($scope.userId) {
       event.neighborhood_id = $scope.hood;
     };
     event.event_id = $stateParams.eventId;
-    console.log("hmm", event);
+    // console.log("hmm", event);
     eventSrvc.save(event)
   }
 
@@ -85,7 +88,7 @@ angular.module('nWatch').controller('editEventCtrl', function($scope, eventSrvc,
   $scope.file = {};
   $scope.message = false;
   $scope.alert = '';
-  $scope.defaultUrl = 'app/img/solitary-weed.png';
+  $scope.defaultUrl = 'app/img/dandelion.jpg';
 
   $scope.Submit = function() {
       $scope.uploading = true;
@@ -114,9 +117,7 @@ angular.module('nWatch').controller('editEventCtrl', function($scope, eventSrvc,
               $timeout(function() {
                   $scope.thumbnail = {};
                   $scope.thumbnail.dataUrl = e.target.result;
-                  if(!$scope.photo) {
-                    $scope.photo = 'app/img/' + file.name || $scope.defaultUrl;
-                  }
+                  $scope.event.photo = 'app/img/' + file.name || $scope.defaultUrl;
                   $scope.uploading = false;
                   $scope.message = false;
               });
@@ -140,13 +141,15 @@ angular.module('nWatch').controller('editEventCtrl', function($scope, eventSrvc,
   var myLatLng = {lat: lat, lng: long};
   eventSrvc.getAdd(latilongi).then((res) => {
     console.log("this is shte add func", res.data);
+    if(!res.data.results || res.data.results.length == 0) return;
+
     var corAdd = res.data.results[0].formatted_address;
     var addressArr = corAdd.split(',');
-    console.log(addressArr);
+    // console.log(addressArr);
     $scope.map.address = addressArr[0];
     $scope.map.city = addressArr[1];
     var zipSt = addressArr[2].split(' ');
-    console.log("zipSt", zipSt);
+    // console.log("zipSt", zipSt);
     $scope.map.state = zipSt[1];
     $scope.map.zip = zipSt[2];
   })
@@ -182,7 +185,7 @@ angular.module('nWatch').controller('editEventCtrl', function($scope, eventSrvc,
         var lati = cordinates.lat;
         var long = cordinates.lng
         $scope.lat = cordinates.lat
-        console.log(lati, long);
+        // console.log(lati, long);
         $scope.long = cordinates.lng
 
         var myLatLng = {lat: lati, lng: long};
