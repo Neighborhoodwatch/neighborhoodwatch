@@ -1,15 +1,16 @@
-<div class="container-fluid">
+<div class="container-fluid events-container-body">
     <div class="row">
 
         <div class="col-xs-12 col-sm-10 col-sm-offset-1">
             <div class="panel panel-default user-panel">
                 <div class="panel-heading user-title">
-                    <h2>My Profile</h2>
+                    <div class="event-font-xl">My Profile</div>
                 </div>
                 <div class="panel-body user-body">
-                    <div class="col-xs-12 col-sm-6 text-center">
+                    <div class="col-xs-12 col-sm-6">
+                      <div class="text-center">
                         <nw-my-info ng-show="hasInfo"></nw-my-info>
-
+                      </div>
                         <form ng-hide="hasInfo">
                             <div class="form-group">
                                 <label>First Name</label>
@@ -62,12 +63,18 @@
                         </div></div>
                     </div>
                     <!--Ends first column  -->
-                    <div class="col-xs-12 col-sm-6 text-center">
-                        <h4>My Events</h4></br>
+                    <div class="col-xs-12 col-sm-6">
+                      <div class="row">
+                        <div class="col-xs-12 text-center">
+                          <div class="event-font-med">My Events</div>
+                        </div>
+                      </div>
                         <!--Will show if there are user created events  -->
-                        <div ng-repeat="event in createdEvents" ng-show="hasCreated">
-                            <div class="panel panel-default user-my-event">
-                              <div class="panel-body row" style="height:150px">
+                        <div class="">
+                          <div class="user-my-event-box">
+                            <div ng-repeat="event in createdEvents" ng-show="hasCreated">
+                              <div class="panel panel-default user-my-event">
+                                <div class="panel-body row">
                                   <div class="col-sm-8">
                                     <div class="row">
                                       <div class="col-sm-8">
@@ -86,47 +93,55 @@
                                       </div>
                                     </div>
                                   </div>
-                                  <div class="col-xs-4 home-events-img text-center">
-                                    <img class="img-rounded" ng-src="{{event.photo}}" style="height: 125px; max-height: 125px;">
+                                  <div class="col-xs-12 home-events-img text-center">
+                                    <img class="img-rounded img-responsive" ng-src="{{event.photo}}" style="height: 125px; max-height: 125px;">
                                   </div>
-                              </div>
-                              <div class="panel-footer">
-                                <a class="btn btn-info" ui-sref="editEvents({eventId: event.event_id})">Edit</a>
+                                </div>
+                                <div class="panel-footer">
+                                  <button class="btn btn-info" ui-sref="editEvents({eventId: event.event_id})">Edit</button>
+                                </div>
                               </div>
                             </div>
+                          </div>
                         </div>
                         <!-- Will show if there are no user created Events -->
                         <div class="panel panel-default" ng-hide="hasCreated">
                           <p>It looks like you haven't created any events!</p>
                         </div>
                         <!--Will show if there are events user is attending -->
-                        <h4>Events I'm Attending</h4>
-                        <div ng-repeat="event in followedEvents" ng-show="isFollowing">
+                        <div class="row">
+                          <div class="col-xs-12 text-center">
+                            <div class="event-font-med"> Events I'm Attending</div>
+                          </div>
+                        </div>
+                        <div class="user-my-attending-box">
+                          <div ng-repeat="event in followedEvents" ng-show="isFollowing">
                             <div class="panel panel-default user-my-event">
                               <div class="panel-body">
-                                  <div class="col-sm-8">
-                                    <div class="row">
-                                      <div class="col-sm-8">
-                                        <h3>{{event.title}}</h3>
-                                      </div>
-                                      <div class="col-sm-4 home-event-date">
-                                        {{event.date | date : "mediumDate"}}
-                                      </div>
+                                <div class="col-sm-8">
+                                  <div class="row">
+                                    <div class="col-sm-8">
+                                      <h3>{{event.title}}</h3>
                                     </div>
-                                    <div class="row">
-                                      <div class="col-xs-12 home-event-text">
-                                        <p>{{event.details}}</p>
-                                      </div>
-                                      <div class="col-xs-12 text-center">
-                                        <a ui-sref="events({ eventId: event.event_id })">View More</a>
-                                      </div>
+                                    <div class="col-sm-4 home-event-date">
+                                      {{event.date | date : "mediumDate"}}
                                     </div>
                                   </div>
-                                  <div class="col-xs-4 home-events-img text-center">
-                                    <img class="img-rounded" ng-src="{{event.photo}}" style="height: 125px; max-height: 125px;">
+                                  <div class="row">
+                                    <div class="col-xs-12 home-event-text">
+                                      <div>{{event.details}}</div>
+                                    </div>
+                                    <div class="col-xs-12 text-center">
+                                      <a ui-sref="events({ eventId: event.event_id })">View More</a>
+                                    </div>
                                   </div>
+                                </div>
+                                <div class="col-xs-4 home-events-img text-center">
+                                  <img class="img-rounded" ng-src="{{event.photo}}" style="height: 125px; max-height: 125px;">
+                                </div>
                               </div>
                             </div>
+                          </div>
                         </div>
                         <!--Will show if user is not following any events  -->
                         <div class="panel panel-default" ng-hide="isFollowing">

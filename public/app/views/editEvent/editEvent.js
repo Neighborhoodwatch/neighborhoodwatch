@@ -46,13 +46,20 @@ angular.module('nWatch').controller('editEventCtrl', function($scope, eventSrvc,
       type_id: 3
     }
   ]
-  $scope.category = $scope.lists[0]
 
   $scope.event = {};
 
   eventSrvc.getEvent(eventId).then(function(res){
-    console.log("getEvent", res);
     if (res) {
+      var lists = $scope.lists
+      console.log(res[0].type_id);
+      const eventTypeId = res[0].type_id
+      for (var i = 0; i < lists.length; i++) {
+        if (lists[i].type_id == eventTypeId) {
+          console.log('in the for');
+          $scope.category = lists[i]
+        }
+      }
       $scope.event.photo = res[0].photo;
       $scope.event.title = res[0].title;
       $scope.dt = res[0].date;
@@ -67,7 +74,6 @@ angular.module('nWatch').controller('editEventCtrl', function($scope, eventSrvc,
     }
   });
   $scope.eventCreate = (event) => {
-    console.log('createEvent', event);
     event.event_place = $scope.event.event_place
     event.type_id = $scope.category.type_id;
     event.event_location_lat = $scope.lat;
@@ -80,7 +86,6 @@ angular.module('nWatch').controller('editEventCtrl', function($scope, eventSrvc,
       event.neighborhood_id = $scope.hood;
     };
     event.event_id = $stateParams.eventId;
-    // console.log("hmm", event);
     eventSrvc.save(event)
   }
 
@@ -132,24 +137,18 @@ angular.module('nWatch').controller('editEventCtrl', function($scope, eventSrvc,
   //edit map section, just working on getting it working
   // will make it a directive soon
   var lat = Number(myEvent[0].event_location_lat)
-  console.log(lat);
   var long = Number(myEvent[0].event_location_lon)
-  // console.log(lat, long);
   var latilongi = `${lat},${long}`
     $scope.map = {}
 
   var myLatLng = {lat: lat, lng: long};
   eventSrvc.getAdd(latilongi).then((res) => {
-    console.log("this is shte add func", res.data);
     if(!res.data.results || res.data.results.length == 0) return;
-
     var corAdd = res.data.results[0].formatted_address;
     var addressArr = corAdd.split(',');
-    // console.log(addressArr);
     $scope.map.address = addressArr[0];
     $scope.map.city = addressArr[1];
     var zipSt = addressArr[2].split(' ');
-    // console.log("zipSt", zipSt);
     $scope.map.state = zipSt[1];
     $scope.map.zip = zipSt[2];
   })
@@ -178,23 +177,18 @@ angular.module('nWatch').controller('editEventCtrl', function($scope, eventSrvc,
     var mapS = map.state;
     var mapZ = map.zip
     var address = `${mapA} ${mapC}, ${mapS} ${mapZ}`
-    console.log(address);
       eventSrvc.getMaps(address)
       .then((res) => {
         var cordinates = res.data.results[0].geometry.location;
         var lati = cordinates.lat;
         var long = cordinates.lng
         $scope.lat = cordinates.lat
-        // console.log(lati, long);
         $scope.long = cordinates.lng
-
         var myLatLng = {lat: lati, lng: long};
-
         var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 15,
           center: myLatLng
         });
-
         var marker = new google.maps.Marker({
           position: myLatLng,
           map: map,
