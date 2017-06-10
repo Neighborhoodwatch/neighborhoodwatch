@@ -136,6 +136,7 @@ angular.module('nWatch', ['ui.router', 'ngAnimate', 'ngMessages', 'ui.bootstrap'
 					let eventId = $stateParams.eventId
 					var defer = $q.defer();
 					sessionSrv.session(eventId).then(function(res){
+						console.log(res);
 						if (res.isLoggedIn !== true) {
 							defer.reject();
 						}else {
@@ -150,6 +151,7 @@ angular.module('nWatch', ['ui.router', 'ngAnimate', 'ngMessages', 'ui.bootstrap'
 									alert("Sorry, you did not create this event")
 								}
 							})
+
 						}
 					})
 					return defer.promise;

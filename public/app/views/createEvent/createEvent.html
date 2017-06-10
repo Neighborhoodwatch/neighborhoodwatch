@@ -5,7 +5,7 @@
         <div class="panel-heading">
           <div class="row text-center">
             <div class="col-sm-12">
-              <h4>REPORT SOMETHING</h4>
+              <div class="event-font-med">REPORT SOMETHING</div>
             </div>
           </div>
         </div>
@@ -156,13 +156,13 @@
                   </div>
                 </form><!-- mapform -->
               </div><!-- colum-sm-8 div -->
-              <div class="row text-center">
-                <div class="col-sm-12">
-                  <nw-create-map></nw-create-map>
-                </div>
-              </div>
              </div> <!--panel row -->
-            <div class="row">
+             <div class="row text-center img-rounded">
+               <div class="col-sm-12">
+                 <nw-create-map></nw-create-map>
+               </div>
+             </div>
+            <div class="row edit-top-margin">
               <div class="col-sm-12 text-center">
                 <button type="button" ui-sref="user" ng-disabled="mapForm.$invalid" class="btn btn-success btn-wide" ng-click="eventCreate(event, category)">Create Event</button>
 
