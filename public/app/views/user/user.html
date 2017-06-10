@@ -64,11 +64,17 @@
                     </div>
                     <!--Ends first column  -->
                     <div class="col-xs-12 col-sm-6">
-                        <h4>My Events</h4></br>
+                      <div class="row">
+                        <div class="col-xs-12 text-center">
+                          <div class="event-font-med">My Events</div>
+                        </div>
+                      </div>
                         <!--Will show if there are user created events  -->
-                        <div ng-repeat="event in createdEvents" ng-show="hasCreated">
-                            <div class="panel panel-default user-my-event">
-                              <div class="panel-body row">
+                        <div class="">
+                          <div class="user-my-event-box">
+                            <div ng-repeat="event in createdEvents" ng-show="hasCreated">
+                              <div class="panel panel-default user-my-event">
+                                <div class="panel-body row">
                                   <div class="col-sm-8">
                                     <div class="row">
                                       <div class="col-sm-8">
@@ -90,18 +96,24 @@
                                   <div class="col-xs-4 home-events-img text-center">
                                     <img class="img-rounded" ng-src="{{event.photo}}" style="height: 125px; max-height: 125px;">
                                   </div>
-                              </div>
-                              <div class="panel-footer">
-                                <button class="btn btn-info" ui-sref="editEvents({eventId: event.event_id})">Edit</button>
+                                </div>
+                                <div class="panel-footer">
+                                  <button class="btn btn-info" ui-sref="editEvents({eventId: event.event_id})">Edit</button>
+                                </div>
                               </div>
                             </div>
+                          </div>
                         </div>
                         <!-- Will show if there are no user created Events -->
                         <div class="panel panel-default" ng-hide="hasCreated">
                           <p>It looks like you haven't created any events!</p>
                         </div>
                         <!--Will show if there are events user is attending -->
-                        <h4>Events I'm Attending</h4>
+                        <div class="row">
+                          <div class="col-xs-12 text-center">
+                            <div class="event-font-med"> Events I'm Attending</div>
+                          </div>
+                        </div>
                         <div ng-repeat="event in followedEvents" ng-show="isFollowing">
                             <div class="panel panel-default user-my-event">
                               <div class="panel-body">
