@@ -46,12 +46,20 @@ angular.module('nWatch').controller('editEventCtrl', function($scope, eventSrvc,
       type_id: 3
     }
   ]
-  $scope.category = $scope.lists[0]
 
   $scope.event = {};
 
   eventSrvc.getEvent(eventId).then(function(res){
     if (res) {
+      var lists = $scope.lists
+      console.log(res[0].type_id);
+      const eventTypeId = res[0].type_id
+      for (var i = 0; i < lists.length; i++) {
+        if (lists[i].type_id == eventTypeId) {
+          console.log('in the for');
+          $scope.category = lists[i]
+        }
+      }
       $scope.event.photo = res[0].photo;
       $scope.event.title = res[0].title;
       $scope.dt = res[0].date;
