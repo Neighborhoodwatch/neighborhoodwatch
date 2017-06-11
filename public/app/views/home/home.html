@@ -4,17 +4,13 @@
       <!-- <section class="home-view">
 
       </section> -->
-      <div class="col-xs-12 text-center hidden-sm hidden-md hidden-lg" ng-if="isLoggedIn"><!-- home-report-->
-        <button class="btn btn-primary btn-wide" ui-sref="createEvent">New Event / Report</button>
-      </div>
-      <!-- <p class="hidden-sm hidden-md hidden-lg"></p> -->
-      <div class="edit-top-margin hidden-sm hidden-md hidden-lg">
-
+      <div class="col-xs-12 text-center hidden-sm hidden-md hidden-lg " ng-if="isLoggedIn" style="height:50px;"><!-- home-report-->
+        <button class="btn btn-primary btn-wide " ui-sref="createEvent">New Event / Report</button>
       </div>
       <div class="col-sm-8">
         <div class="row">
-          <div class="col-sm-8 text-center margin-top">
-            <div class="text-center event-font-med">NEIGHBORHOOD EVENTS</div>
+          <div class="col-sm-8 text-center home-event-text-box edit-top-margin">
+            <div class="event-font-med home-event-text">NEIGHBORHOOD EVENTS</div>
           </div>
           <div class="col-sm-4 home-filter form-group">
             <label>Filter By
