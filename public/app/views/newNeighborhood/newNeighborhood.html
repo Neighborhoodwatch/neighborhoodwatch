@@ -1,12 +1,12 @@
-<div class="container-fluid">
+<div class="container-fluid events-container-body">
     <div class="row new-row">
 
         <div class="col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1">
             <div class="panel panel-default">
               <div class="panel-heading new-heading">
-                <h4>Create A New Neighborhood</h4>
+                <div class="event-font-xl">Create A New Neighborhood</div>
               </div>
-              <div class="panel-body">
+              <div class="panel-body events-panel-body">
                 <!-- Begins form -->
               <form name="neighborhoodForm" novalidate>
                 <!--Neighborhood name field  -->
@@ -88,13 +88,14 @@
 			<option value="WY">Wyoming</option>
 		</select>
 	</div>
-</div>
               <!-- Ends state field -->
-                <button class="btn btn-success" ui-sref="user" ng-disabled="neighborhoodForm.$invalid" ng-click="saveNeighborhood(neighborhoodName, city, state, reset, updateUsersNeighborhood, neighborhoodForm)">Save Neighborhood</button>
-                <button type="button" class="btn btn-default" ui-sref="user" style="font-weight:normal">Back to Profile</button>
+                <button class="btn btn-success new-button-margins" ui-sref="user" ng-disabled="neighborhoodForm.$invalid" ng-click="saveNeighborhood(neighborhoodName, city, state, reset, updateUsersNeighborhood, neighborhoodForm)">Save Neighborhood</button>
+                <button type="button" class="btn btn-default new-button-margins" ui-sref="user" style="font-weight:normal">Back to Profile</button>
               </form>
+            </div>
               <!--Ends form  -->
             </div>
+            <!-- Ends panel -->
             </div>
         </div>
 
