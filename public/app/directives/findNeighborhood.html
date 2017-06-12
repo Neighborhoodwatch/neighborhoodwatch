@@ -74,9 +74,9 @@
                         required>
                     </div>
                     <!--Sort Field  -->
-                    <div class="form-group">
-                        <div class="dropdown" id="neighborhood-show">
-                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" id="sortBy">Sort By
+                    <!-- <div class="form-group"> -->
+                        <div class="dropdown neighborhood-find-buttons" id="neighborhood-show">
+                            <button class="btn btn-primary dropdown-toggle neighborhood-find-buttons" type="button" data-toggle="dropdown" id="sortBy">Sort By
 <span class="caret"></span></button>
                             <ul class="dropdown-menu">
                                 <li><a ng-click="setSort('alphabetical')" id="listItem">Alphabetical</a></li>
@@ -87,9 +87,9 @@
 
                             </ul>
                         </div>
-                    </div>
+                    <!-- </div> -->
                     <!-- Apply Button -->
-                    <button class="btn btn-success" ng-click="apply(state, city, sort, stateSearchChange, noChange, grabNeighborhood)" ng-disabled="findForm.$invalid">Apply</button>
+                    <button class="btn btn-success neighborhood-find-buttons" ng-click="apply(state, city, sort, stateSearchChange, noChange, grabNeighborhood)" ng-disabled="findForm.$invalid">Apply</button>
                     <!-- Ends Apply and form -->
                 </form>
 
