@@ -18,7 +18,7 @@ const neighborhoods = require('./routes/neighborhood');
 
 //Database
 const massive = require('massive');
-let connectionString = config.connectionString ||  "postgres://zacharyryanspringer@localhost/neighborhoodwatch";
+let connectionString = process.env.DATABASE_URL || config.connectionString ||  "postgres://zacharyryanspringer@localhost/neighborhoodwatch";
 let massiveInstance = massive.connectSync({connectionString})
 
 //Application
