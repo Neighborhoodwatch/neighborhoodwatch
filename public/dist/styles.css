@@ -1,0 +1,339 @@
+
+.create-event-describe {
+  padding-top: 15px;
+  height: 100px; }
+  .create-event-describe input {
+    height: 77px;
+    width: 300px;
+    padding-bottom: 55px; }
+
+.create-event-wrapper {
+  padding-top: 20px; }
+  .create-event-wrapper .row {
+    margin-top: 20px; }
+    .create-event-wrapper .row input, .create-event-wrapper .row select {
+      width: 100%; }
+
+.create-event-buttons {
+  padding-top: 20px;
+  height: 75px; }
+  .create-event-buttons button {
+    height: 50px; }
+
+.maps {
+  height: 250px;
+  width: 250px; }
+
+.create-date-picker-fix {
+  height: 250px; }
+  .create-date-picker-fix button {
+    margin: 0px; }
+
+.edit-event-describe {
+  padding-top: 15px;
+  height: 100px; }
+  .edit-event-describe input {
+    height: 77px;
+    width: 300px; }
+
+.edit-event-category {
+  padding-top: 20px;
+  height: 75px; }
+
+.edit-event-notified {
+  padding-top: 20px;
+  height: 125px; }
+
+.edit-event-location {
+  padding-top: 20px;
+  height: 125px; }
+
+.edit-event-time {
+  display: flex;
+  align-items: center;
+  justify-content: center; }
+
+.edit-event-buttons {
+  padding-top: 20px;
+  height: 75px; }
+  .edit-event-buttons button {
+    height: 50px; }
+
+.edit-top-margin {
+  margin-top: 15px; }
+
+.edit-top-padding {
+  padding-top: 15px; }
+
+.edit-event-img {
+  max-width: 250px; }
+  @media (min-width: 768px) {
+    .edit-event-img {
+      max-width: 480px; } }
+
+#events-events-img {
+  height: 40vh;
+  width: 100vw;
+  margin-bottom: 35px; }
+
+.events-event-top {
+  font-weight: 500; }
+
+.events-panel-top {
+  margin-top: 20px; }
+
+.event-font-xl {
+  font-size: 35px;
+  font-weight: 500; }
+
+.font-huge {
+  text-transform: uppercase;
+  font-size: 35px;
+  font-weight: 700; }
+
+.event-font-lg {
+  font-size: 32.5px; }
+
+.event-font-med {
+  font-weight: 400;
+  font-size: 25px; }
+
+.event-font-med-up {
+  font-weight: 400;
+  font-size: 25px;
+  text-transform: capitalize; }
+
+.event-font-sm {
+  font-weight: 400;
+  font-size: 20px; }
+
+.events-event-text {
+  margin-bottom: 50px;
+  margin-left: 10px; }
+
+.events-container-body {
+  background-color: #514D46; }
+
+.events-panel-whogoing {
+  background-color: #968f88; }
+
+.events-panel-body {
+  background-color: #c6c2be; }
+
+.events-map {
+  padding: 10px 10px;
+  border-radius: 5px;
+  width: auto;
+  height: auto; }
+
+.events-nav-color {
+  border-bottom: 4px solid #14b0ff; }
+
+.events-followers {
+  display: flex;
+  align-items: center;
+  height: 75px; }
+
+.events-buttons {
+  padding-bottom: 20px; }
+
+@media (min-width: 768px) {
+  .navbar .navbar-nav {
+    display: inline-block;
+    float: none;
+    vertical-align: top; } }
+
+.navbar-mobile {
+  border-color: white; }
+  .navbar-mobile span {
+    background-color: white; }
+
+.home-view {
+  background-image: url(http://www.countrysidepest.com/wp-content/uploads/2015/05/neighborhood-houses.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  min-height: 350px;
+  color: #EADAA2; }
+
+.home-event-text-xs {
+  margin: 10px 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+
+.home-events-text-div {
+  height: 100px; }
+
+.home-events-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%; }
+
+.home-report {
+  background-color: #CE6C47;
+  height: 60vh;
+  padding-top: 60px;
+  border-radius: 15px; }
+  .home-report .home-report-img {
+    max-width: 100%;
+    height: 80%; }
+  .home-report div {
+    background-color: #EED046;
+    margin-left: 10px;
+    margin-right: 20px;
+    border: 0; }
+
+.home-events-wrapper {
+  height: 100%;
+  background-color: #514d46;
+  padding-top: 20px;
+  padding-left: 10px;
+  padding-right: 10px; }
+  .home-events-wrapper .home-filter {
+    padding-top: 1.3em; }
+  .home-events-wrapper .home-events-box {
+    background-color: #7d756e;
+    padding-left: 30px !important;
+    padding-right: 20px !important;
+    margin-top: 15px !important;
+    margin-bottom: 15px !important;
+    box-shadow: inset 0 0 10px #000000;
+    height: 60vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    border-radius: 15px; }
+    .home-events-wrapper .home-events-box .home-event-personal-event {
+      background-color: #EEE;
+      overflow: hidden;
+      max-height: 150px;
+      min-height: 150px;
+      border-radius: 5px;
+      margin-top: 1.5em;
+      margin-bottom: 10px; }
+      .home-events-wrapper .home-events-box .home-event-personal-event a, .home-events-wrapper .home-events-box .home-event-personal-event a:visited {
+        color: #8ea1c5; }
+      .home-events-wrapper .home-events-box .home-event-personal-event .home-event-text {
+        height: 70px;
+        overflow: hidden; }
+      .home-events-wrapper .home-events-box .home-event-personal-event .home-events-img {
+        padding-top: 10px; }
+
+.login-background {
+  background-color: green;
+  height: 250px;
+  width: 100%; }
+
+#login-panel {
+  height: 600px;
+  margin-top: 50px;
+  background-color: rgba(211, 211, 211, 0.2); }
+
+#login-login-button {
+  width: 100%; }
+
+.login-logo {
+  width: 140px; }
+
+.login-logo-outside {
+  width: 100%;
+  text-align: center; }
+
+.login-login {
+  text-align: center; }
+
+#neighborhood-camera {
+  font-size: 135px;
+  border: solid;
+  padding: 20px;
+  border-width: .5px; }
+
+#neighborhood-state {
+  display: inline;
+  float: left; }
+
+#neighborhood-show {
+  display: inline;
+  float: right; }
+
+.find-heading {
+  text-align: center; }
+
+.neighborhood-heading {
+  text-align: center; }
+
+.neighborhood-panel {
+  padding: 5px; }
+
+@media (max-width: 700px) {
+  .neighborhood-find-buttons {
+    width: 100%;
+    margin-bottom: 15px; } }
+
+.new-row {
+  margin-top: 50px; }
+
+.new-heading {
+  text-align: center; }
+
+.new-button-margins {
+  margin-right: 15px; }
+  @media (max-width: 700px) {
+    .new-button-margins {
+      width: 100%;
+      margin-bottom: 15px; } }
+
+#signup-row {
+  margin-top: 60px; }
+
+.signup-title {
+  text-align: center; }
+
+.btn-wide {
+  width: 200px; }
+
+.user-btn-group {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; }
+
+.user-title {
+  text-align: center; }
+
+.user-body {
+  padding: 10px;
+  background-color: #c6c2be; }
+
+.user-my-event {
+  max-height: auto;
+  overflow: hidden; }
+
+@media (min-width: 768px) {
+  .user-my-event-box {
+    max-height: 450px;
+    overflow: scroll; } }
+
+@media (min-width: 768px) {
+  .user-my-attending-box {
+    max-height: 345px;
+    overflow: scroll; } }
+
+.user-button-spacing {
+  margin-bottom: 20px;
+  width: 100%; }
+
+.user-row {
+  margin-top: 50px;
+  margin-bottom: 50px; }
+
+.user-thumbnail {
+  width: 100%; }
+
+.user-panel-margin-bottom {
+  margin-bottom: 25px; }
+
+.user-img-fix {
+  width: 100%;
+  height: auto; }
