@@ -32,7 +32,7 @@
             </button>
           </div>
           <div id="navbar" class="collapse navbar-collapse navbar-right navbar-main-collapse">
-            <ul class="nav navbar-nav ">
+            <ul class="nav navbar-nav" id="nav-mobile">
               <li ng-class="classActive('/')"><a ui-sref="home" data-target="#">HOME</a></li>
               <li ng-class="classActive('/hood')"><a data-target="#" ui-sref="hood" ng-if="isLoggedIn">MY NEIGHBORHOOD</a></li>
               <li ng-class="classActive('/login')"><a ui-sref="login" ng-hide="isLoggedIn" data-target="#">LOGIN</a></li>
