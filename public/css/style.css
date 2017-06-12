@@ -65,7 +65,7 @@ a:focus {
 
 .navbar {
     margin-bottom: 0;
-    border-bottom: 1px solid rgba(255,255,255,.3);
+    border-bottom: 1px solid rgba(255,255,255,.6);
 
 }
 
@@ -90,11 +90,11 @@ a:focus {
 }
 
 .nav.navbar-nav {
-    background-color: rgba(255,255,255,.4);
+    background-color: rgba(255,255,255,.3);
 }
-
+/*fixes*/
 .navbar-custom.top-nav-collapse .nav.navbar-nav {
-    background-color: rgba(0,0,0,0);
+    background-color: rgba(255,255,255,.6);
 }
 
 
@@ -110,7 +110,8 @@ a:focus {
 	    -webkit-transition: all .2s ease-in-out;
     -moz-transition: all .2s ease-in-out;
     transition: all .2s ease-in-out;
-	color: #fff;
+	color: black;
+  /*navbar text*/
 }
 
 .navbar-custom ul.nav ul.dropdown-menu {
@@ -150,13 +151,6 @@ a:focus {
     outline: 0;
     background-color: rgba(255,255,255,.2);
 }
-.navbar-custom .nav li a:hover,
-.navbar-custom .nav li a:focus,
-.navbar-custom .nav li.active {
-    outline: 0;
-    background-color: rgba(255,255,255,.2);
-}
-
 .navbar-toggle {
     padding: 4px 6px;
     font-size: 14px;
@@ -650,11 +644,11 @@ Parallax
 
     .top-nav-collapse {
         padding: 0;
-        background-color: #000;
+        background-color: rgba(100,100,100,.9);
     }
 
     .navbar-custom.top-nav-collapse {
-        border-bottom: 1px solid rgba(255,255,255,.3);
+        border-bottom: 1px solid rgba(255,255,255,.);
     }
 
     .intro {
@@ -689,7 +683,7 @@ Parallax
 @media (max-width:480px) {
 
 	.navbar-custom .nav.navbar-nav {
-    background-color: rgba(255,255,255,.4);
+    background-color: rgba(255,255,255,.5);
 	}
 
 	.navbar.navbar-custom.navbar-fixed-top {
