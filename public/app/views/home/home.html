@@ -19,27 +19,53 @@
           </div>
         </div>
         <div class="home-events-box">
-          <div class="row home-event-personal-event col-sm-12" ng-repeat="peep in events | filter: {type_id: category.type_id }: true">
+          <div class="row hidden-xs home-event-personal-event col-sm-12" ng-repeat="peep in events | filter: {type_id: category.type_id }: true">
             <div class="col-sm-8">
               <div class="row">
                 <div class="col-sm-8">
-                  <h3>{{peep.title}}</h3>
+                  <div class="event-font-med-up">{{peep.title}}</div>
                 </div>
                 <div class="col-sm-4 home-event-date">
                   {{peep.date | date : "mediumDate"}}
                 </div>
               </div>
               <div class="row">
-                <div class="col-xs-12 home-event-text">
-                  <p>{{peep.details}}</p>
+                <div class="col-sm-12 home-event-text">
+                  <p>{{peep.details}}<a ui-sref="events({ eventId: peep.event_id })">...view more</a></p>
                 </div>
-                <div class="col-xs-12 text-center">
-                  <a <a ui-sref="events({ eventId: peep.event_id })">View More</a>
-                </div>
+                <!-- <div class="col-xs-12 text-center">
+                  <a ui-sref="events({ eventId: peep.event_id })">View More</a>
+                </div> -->
               </div>
             </div>
             <div class="col-xs-4 home-events-img text-center">
               <img class="img-rounded" ng-src="{{peep.photo}}" alt="" style="height:125px; max-width:125px;">
+            </div>
+          </div>
+          <!-- divide for mobile section below -->
+          <div class="row home-event-personal-event hidden-md hidden-sm hidden-lg col-sm-12" ng-repeat="peep in events | filter: {type_id: category.type_id }: true">
+            <div class="col-sm-8">
+              <div class="row">
+                <div class="col-xs-12">
+                  <div class="event-font-med-up">{{peep.title}}</div>
+                </div>
+              </div>
+              <div class="row home-event-text-xs">
+                <div class="col-xs-6 home-event-date">
+                  {{peep.date | date : "mediumDate"}}
+                </div>
+                <div class="col-xs-6">
+                  <a ui-sref="events({ eventId: peep.event_id })">...view more</a>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12 home-event-text">
+                  <p>{{peep.details}}</p>
+                </div>
+                <!-- <div class="col-xs-12 text-center">
+                  <a ui-sref="events({ eventId: peep.event_id })">View More</a>
+                </div> -->
+              </div>
             </div>
           </div>
         </div>
