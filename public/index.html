@@ -19,7 +19,7 @@
     <!-- <link rel="stylesheet" href="index.css"> -->
 
   </head>
-  <body id="page-top" data-spy="scroll" data-target=".navbar-custom">
+  <body class="events-container-body">
     <header class="" ng-controller="navCtrl">
       <nav class="navbar navbar-custom navbar-fixed-top" role="navigation" style="width:100vw">
         <div class="container container-fluid">
@@ -32,12 +32,13 @@
             </button>
           </div>
           <div id="navbar" class="collapse navbar-collapse navbar-right navbar-main-collapse">
-            <ul class="nav navbar-nav" id="nav-mobile">
+            <ul class="nav navbar-nav ">
               <li ng-class="classActive('/')"><a ui-sref="home" data-target="#">HOME</a></li>
               <li ng-class="classActive('/hood')"><a data-target="#" ui-sref="hood" ng-if="isLoggedIn">MY NEIGHBORHOOD</a></li>
               <li ng-class="classActive('/login')"><a ui-sref="login" ng-hide="isLoggedIn" data-target="#">LOGIN</a></li>
               <li ng-class="classActive('/user')"><a data-target="#" ui-sref="user" ng-if="isLoggedIn">MY PROFILE</a></li>
               <li><a ng-if="isLoggedIn" ng-click="logout()">LOGOUT</a></li>
+
             </ul>
           </div>
         </div>
@@ -56,9 +57,9 @@
     </section>
 
     <a href="#" id="service"></a>
-    <section id="wrapper" class="home-section">
+
     <ui-view></ui-view>
-    </section>
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
 
