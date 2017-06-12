@@ -1,5 +1,5 @@
 <div class="container-fluid events-container-body">
-    <div class="row">
+    <div class="row user-row">
 
         <div class="col-xs-12 col-sm-10 col-sm-offset-1">
             <div class="panel panel-default user-panel">
@@ -35,7 +35,7 @@
                             <button class="btn btn-success" ng-click="updateInfo(user.user_id, user.first_name, user.last_name, user.username, user.email, user.photo, getUser)">Save Profile</button>
                             <button class="btn btn-default" ng-click="cancelChanges()">Cancel Changes</button>
                         </form>
-                        <div ng-hide="hasInfo" class="row" style="margin-top:10px;"><div class="col-sm-12">
+                        <div ng-hide="hasInfo" class="row" style="margin-top:10px;"><div class="col-sm-12 user-panel-margin-bottom">
                           <div ng-show="uploading" class="progress">
                               <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
                                 <span class="sr-only">45% Complete</span>
@@ -59,7 +59,7 @@
 
                             <br>
                             <div class="col-xs-12">
-                              <img class="mythumbnail" ng-src="{{ thumbnail.dataUrl || defaultUrl }}">
+                              <img class="user-thumbnail" ng-src="{{ thumbnail.dataUrl || defaultUrl }}">
                             </div>
                         </div></div>
                     </div>
