@@ -104,7 +104,6 @@ module.exports = {
         if(err) {
             res.status(420).json(err);
         } else {
-            console.log('Deleted user with id:', id)
             req.session.user = {};
             res.send(resp);
         }

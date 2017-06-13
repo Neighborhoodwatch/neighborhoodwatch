@@ -23,8 +23,6 @@ angular.module('nWatch', ['ui.router', 'ngAnimate', 'ngMessages', 'ui.bootstrap'
 						let data = res.data
 						if(data === false) {
 							deferred.reject()
-							console.log("3rd running")
-
 							$state.go('login')
 							alert('Please login')
 						} else {
@@ -120,7 +118,6 @@ angular.module('nWatch', ['ui.router', 'ngAnimate', 'ngMessages', 'ui.bootstrap'
 			resolve: {
 					event: function(eventSrvc, $stateParams){
 						const eventId = $stateParams.eventId
-						console.log(eventId);
 					return eventSrvc.getEvent(eventId).then(function(response){
 						return response
 					})
@@ -136,7 +133,6 @@ angular.module('nWatch', ['ui.router', 'ngAnimate', 'ngMessages', 'ui.bootstrap'
 					let eventId = $stateParams.eventId
 					var defer = $q.defer();
 					sessionSrv.session(eventId).then(function(res){
-						console.log(res);
 						if (res.isLoggedIn !== true) {
 							defer.reject();
 						}else {
@@ -158,7 +154,6 @@ angular.module('nWatch', ['ui.router', 'ngAnimate', 'ngMessages', 'ui.bootstrap'
 				},
 				myEvent: function(eventSrvc, $stateParams){
 					const eventId = $stateParams.eventId
-					console.log(eventId);
 					return eventSrvc.getEvent(eventId).then(function(response){
 						return response
 					})
@@ -185,7 +180,6 @@ angular.module('nWatch', ['ui.router', 'ngAnimate', 'ngMessages', 'ui.bootstrap'
 					var defer = $q.defer();
 					sessionSrv.session().then((res) => {
 						let hood = res.neighborhood
-						console.log(res.neighborhood);
 						if (hood == undefined || hood.length == 0) {
 							defer.reject()
 							$state.go('newNeighborhood')

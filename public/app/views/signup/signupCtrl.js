@@ -35,7 +35,6 @@ angular.module('nWatch').controller('signupCtrl', function($scope, signupSrvc, $
     }, function(err) {
       if(err) {
         alert('There was a problem signing you up. Usernames must be unique. Please try again.');
-        console.log(err);
         cb(form)
       }
     })

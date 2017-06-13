@@ -1,6 +1,5 @@
 angular.module('nWatch').controller('homeCtrl', function($scope, eventSrvc,userSrvc) {
   eventSrvc.getEvents().then((res) => {
-    console.log(res);
     $scope.events = res;
   })
 
@@ -56,5 +55,4 @@ angular.module('nWatch').controller('homeCtrl', function($scope, eventSrvc,userS
     }
   ]
   $scope.category = $scope.lists[0]
-  console.log(eventSrvc.getEvents());
 })

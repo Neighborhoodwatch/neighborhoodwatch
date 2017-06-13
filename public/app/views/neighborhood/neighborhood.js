@@ -36,7 +36,6 @@ angular.module('nWatch').controller('hoodCtrl', function($scope, neighborhoodSrv
       }
       ////map addition
       const neighId = $scope.user.neighborhood_id
-      console.log('this is the array of event data ', neighId);
       //getting the neighbothoods city and state
       var neighCity = $scope.neighborhood.city;
       var neighState = $scope.neighborhood.state
@@ -44,11 +43,9 @@ angular.module('nWatch').controller('hoodCtrl', function($scope, neighborhoodSrv
       //sending city/state to service to gen long late
       neighborhoodSrvc.getEvents(neighId).then(function(res) {
         let data = res.data
-        console.log(data);
         var locations = data.map((obj) => {
           return [obj.title, Number(obj.event_location_lat), Number(obj.event_location_lon)]
         })
-        console.log(locations);
         neighborhoodSrvc.getMaps(neighAdd).then((res) => {
           //grabbing long lat from googe assigning them to lat lng vars
           var lata = res.data.results[0].geometry.location.lat

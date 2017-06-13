@@ -22,8 +22,6 @@ angular.module('nWatch', ['ui.router', 'ngAnimate', 'ngMessages', 'ui.bootstrap'
           var data = res.data;
           if (data === false) {
             deferred.reject();
-            console.log("3rd running");
-
             $state.go('login');
             alert('Please login');
           } else {
@@ -114,7 +112,6 @@ angular.module('nWatch', ['ui.router', 'ngAnimate', 'ngMessages', 'ui.bootstrap'
     resolve: {
       event: function event(eventSrvc, $stateParams) {
         var eventId = $stateParams.eventId;
-        console.log(eventId);
         return eventSrvc.getEvent(eventId).then(function (response) {
           return response;
         });
@@ -129,7 +126,6 @@ angular.module('nWatch', ['ui.router', 'ngAnimate', 'ngMessages', 'ui.bootstrap'
         var eventId = $stateParams.eventId;
         var defer = $q.defer();
         sessionSrv.session(eventId).then(function (res) {
-          console.log(res);
           if (res.isLoggedIn !== true) {
             defer.reject();
           } else {
@@ -150,7 +146,6 @@ angular.module('nWatch', ['ui.router', 'ngAnimate', 'ngMessages', 'ui.bootstrap'
       },
       myEvent: function myEvent(eventSrvc, $stateParams) {
         var eventId = $stateParams.eventId;
-        console.log(eventId);
         return eventSrvc.getEvent(eventId).then(function (response) {
           return response;
         });
@@ -174,7 +169,6 @@ angular.module('nWatch', ['ui.router', 'ngAnimate', 'ngMessages', 'ui.bootstrap'
         var defer = $q.defer();
         sessionSrv.session().then(function (res) {
           var hood = res.neighborhood;
-          console.log(res.neighborhood);
           if (hood == undefined || hood.length == 0) {
             defer.reject();
             $state.go('newNeighborhood');
@@ -503,15 +497,12 @@ angular.module('nWatch').directive('nwCreateMap', function () {
           var mapS = map.state;
           var mapZ = map.zip;
           var address = mapA + ' ' + mapC + ', ' + mapS + ' ' + mapZ;
-          console.log(address);
           eventSrvc.getMaps(address).then(function (res) {
             var cordinates = res.data.results[0].geometry.location;
             var lati = cordinates.lat;
             var long = cordinates.lng;
             $scope.lat = cordinates.lat;
-            console.log(lati, long);
             $scope.long = cordinates.lng;
-
             var myLatLng = { lat: lati, lng: long };
 
             var map = new google.maps.Map(document.getElementById('map'), {
@@ -565,13 +556,11 @@ angular.module('nWatch').directive('nwEditCreateMap', function () {
           var mapS = map.state;
           var mapZ = map.zip;
           var address = mapA + ' ' + mapC + ', ' + mapS + ' ' + mapZ;
-          console.log(address);
           eventSrvc.getMaps(address).then(function (res) {
             var cordinates = res.data.results[0].geometry.location;
             var lati = cordinates.lat;
             var long = cordinates.lng;
             $scope.lat = cordinates.lat;
-            console.log(lati, long);
             $scope.long = cordinates.lng;
 
             var myLatLng = { lat: lati, lng: long };
@@ -1627,20 +1616,20 @@ angular.module('nWatch').service('userSrvc', function ($http) {
   };
 });
 
+angular.module('nWatch').controller('adminCtrl', function ($scope) {
+  $scope.to = "argggghhhhh";
+});
+
 angular.module('nWatch').controller('createEventCtrl', function ($scope, eventSrvc, $log, sessionSrv, typeService, $timeout, uploadFile) {
   var session = function session() {
     sessionSrv.session().then(function (res) {
-      // console.log("this is session", res);
-
       if (res.isLoggedIn) {
         $scope.userId = res.user[0].user_id;
       }
-      // console.log(res.followedEvents);
       $scope.attending = res.followedEvents;
       if (res.isLoggedIn) {
         $scope.hood = res.neighborhood[0].neighborhood_id;
       }
-      // console.log("this is attending", $scope.attending);
     });
   };
 
@@ -1669,19 +1658,11 @@ angular.module('nWatch').controller('createEventCtrl', function ($scope, eventSr
     name: 'Other',
     type_id: 3
   }];
-
-  // typeService.getTypes().then(function (res, err) {
-  //   console.log('types', res, err);
-  //   $scope.lists = res.data;
   $scope.category = $scope.lists[0];
-  //
-  // })
-
   $scope.eventImg = "yoyoyo";
 
   $scope.event = {};
   $scope.eventCreate = function (event) {
-    console.log('createEvent', event);
     event.type_id = $scope.category.type_id;
     event.event_location_lat = $scope.lat;
     event.event_location_lon = $scope.long;
@@ -1693,7 +1674,6 @@ angular.module('nWatch').controller('createEventCtrl', function ($scope, eventSr
     if ($scope.userId) {
       event.neighborhood_id = $scope.hood;
     }
-    console.log('**updatedEvent', event);
     eventSrvc.save(event);
   };
 
@@ -1817,154 +1797,6 @@ angular.module('nWatch').controller('createEventCtrl', function ($scope, eventSr
   session();
 });
 
-angular.module('nWatch').controller('adminCtrl', function ($scope) {
-  $scope.to = "argggghhhhh";
-});
-
-angular.module('nWatch').controller('eventsCtrl', function ($scope, eventSrvc, event, $stateParams, sessionSrv) {
-  var eventId = $stateParams.eventId;
-  $scope.event = event[0];
-  // console.log($scope.event);
-  var lat = Number(event[0].event_location_lat);
-  var long = Number(event[0].event_location_lon);
-  // console.log(lat, long);
-  var myLatLng = { lat: lat, lng: long };
-
-  var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 17,
-    center: myLatLng
-  });
-  // var map = new google.maps.Map(document.getElementById('maps'), {
-  //   zoom: 17,
-  //   center: myLatLng
-  // });
-
-  var marker = new google.maps.Marker({
-    position: myLatLng,
-    map: map,
-    title: 'Hello World!'
-  });
-  function add(name, arr) {
-    var id = arr.length + 1;
-    var found = arr.some(function (el) {
-      return el.user_id === name;
-    });
-    if (!found) {
-      return true;
-    } else if (found) {
-      return false;
-    }
-  }
-
-  var getFol = function getFol() {
-    eventSrvc.getFollowers(eventId).then(function (res) {
-
-      // console.log("rhis is getfollowers res", res);
-      $scope.followers = res;
-
-      $scope.attStatus = function (res) {
-        if (res.attending === "yes") {
-          return "alert-success";
-        } else if (res.attending === "maybe") {
-          return "alert-warning";
-        } else if (res.attending === "no") {
-          return "alert-danger";
-        }
-      };
-    });
-  };
-  var session = function session() {
-    sessionSrv.session().then(function (res) {
-      // console.log("this is session", res);
-      $scope.buttons = res.isLoggedIn;
-      if (res.isLoggedIn == true) {
-        $scope.userId = res.user[0].user_id;
-      }
-      $scope.attending = res.followedEvents;
-    });
-  };
-  $scope.yes = function () {
-    var yes = {
-      user_id: $scope.userId,
-      attending: "yes"
-    };
-    var mFE = $scope.attending;
-    var tEF = $scope.followers;
-    if (tEF == undefined || tEF.length == 0 || add(yes.user_id, tEF)) {
-      eventSrvc.postFollowers(eventId, yes.user_id, yes.attending).then(function (res) {
-        session();
-        getFol();
-      });
-    }
-    for (var i = 0; i < tEF.length; i++) {
-      var correctFol = [];
-      if (tEF[i].user_id == yes.user_id) {
-        correctFol.push(tEF[i]);
-        if (correctFol.attending !== "yes") {
-          eventSrvc.updateFollowers(eventId, yes.user_id, yes.attending, correctFol[0].following_id).then(function (res) {
-            session();
-            getFol();
-          });
-        }
-      }
-    }
-  };
-  $scope.maybe = function () {
-    var maybe = {
-      user_id: $scope.userId,
-      attending: "maybe"
-    };
-    var mFE = $scope.attending;
-    var tEF = $scope.followers;
-    if (tEF == undefined || tEF.length == 0 || add(maybe.user_id, tEF)) {
-      eventSrvc.postFollowers(eventId, maybe.user_id, maybe.attending).then(function (res) {
-        session();
-        getFol();
-      });
-    }
-    for (var i = 0; i < tEF.length; i++) {
-      var correctFol = [];
-      if (tEF[i].user_id == maybe.user_id) {
-        correctFol.push(tEF[i]);
-        if (correctFol.attending !== "maybe") {
-          eventSrvc.updateFollowers(eventId, maybe.user_id, maybe.attending, correctFol[0].following_id).then(function (res) {
-            session();
-            getFol();
-          });
-        }
-      }
-    }
-  };
-  $scope.no = function () {
-    var no = {
-      user_id: $scope.userId,
-      attending: "no"
-    };
-    var mFE = $scope.attending;
-    var tEF = $scope.followers;
-    if (tEF == undefined || tEF.length == 0 || add(no.user_id, tEF)) {
-      eventSrvc.postFollowers(eventId, no.user_id, no.attending).then(function (res) {
-        session();
-        getFol();
-      });
-    }
-    for (var i = 0; i < tEF.length; i++) {
-      var correctFol = [];
-      if (tEF[i].user_id == no.user_id) {
-        correctFol.push(tEF[i]);
-        if (correctFol.attending !== "no") {
-          eventSrvc.updateFollowers(eventId, no.user_id, no.attending, correctFol[0].following_id).then(function (res) {
-            session();
-            getFol();
-          });
-        }
-      }
-    }
-  };
-  session();
-  getFol();
-});
-
 angular.module('nWatch').controller('editEventCtrl', function ($scope, eventSrvc, $log, sessionSrv, $stateParams, myEvent, $timeout, uploadFile) {
   var eventId = $stateParams.eventId;
   var session = function session() {
@@ -2010,11 +1842,9 @@ angular.module('nWatch').controller('editEventCtrl', function ($scope, eventSrvc
   eventSrvc.getEvent(eventId).then(function (res) {
     if (res) {
       var lists = $scope.lists;
-      console.log(res[0].type_id);
       var eventTypeId = res[0].type_id;
       for (var i = 0; i < lists.length; i++) {
         if (lists[i].type_id == eventTypeId) {
-          console.log('in the for');
           $scope.category = lists[i];
         }
       }
@@ -2115,7 +1945,6 @@ angular.module('nWatch').controller('editEventCtrl', function ($scope, eventSrvc
   // will make it a directive soon
   var lat = Number(myEvent[0].event_location_lat);
   var long = Number(myEvent[0].event_location_lon);
-  // console.log(lat, long);
   var myLatLng = { lat: lat, lng: long };
   var map = new google.maps.Map(document.getElementById('map'), {
     zoom: 17,
@@ -2227,56 +2056,137 @@ angular.module('nWatch').controller('editEventCtrl', function ($scope, eventSrvc
   session();
 });
 
-angular.module('nWatch').controller('homeCtrl', function ($scope, eventSrvc, userSrvc) {
-  eventSrvc.getEvents().then(function (res) {
-    console.log(res);
-    $scope.events = res;
-  });
+angular.module('nWatch').controller('eventsCtrl', function ($scope, eventSrvc, event, $stateParams, sessionSrv) {
+  var eventId = $stateParams.eventId;
+  $scope.event = event[0];
+  var lat = Number(event[0].event_location_lat);
+  var long = Number(event[0].event_location_lon);
+  var myLatLng = { lat: lat, lng: long };
 
-  $scope.isLoggedIn = false;
-  //fires off on page load to determine whether user is logged in
-  $scope.checkLogin = function () {
-    userSrvc.getSession().then(function (resp) {
-      if (resp.data.isLoggedIn) {
-        $scope.isLoggedIn = resp.data.isLoggedIn;
-      } else {
-        $scope.isLoggedIn = false;
-      }
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 17,
+    center: myLatLng
+  });
+  var marker = new google.maps.Marker({
+    position: myLatLng,
+    map: map,
+    title: 'Hello World!'
+  });
+  function add(name, arr) {
+    var id = arr.length + 1;
+    var found = arr.some(function (el) {
+      return el.user_id === name;
+    });
+    if (!found) {
+      return true;
+    } else if (found) {
+      return false;
+    }
+  }
+
+  var getFol = function getFol() {
+    eventSrvc.getFollowers(eventId).then(function (res) {
+      $scope.followers = res;
+      $scope.attStatus = function (res) {
+        if (res.attending === "yes") {
+          return "alert-success";
+        } else if (res.attending === "maybe") {
+          return "alert-warning";
+        } else if (res.attending === "no") {
+          return "alert-danger";
+        }
+      };
     });
   };
-  $scope.checkLogin();
-  //Listens for the login function to fire off in loginCtrl and then fires of checklogin to set isLoggedIn to true
-  $scope.$on('login', function (event, array) {
-    $scope.checkLogin();
-  });
-
-  $scope.lists = [{
-    name: 'Lost Pet',
-    type_id: 1
-  }, {
-    name: 'Damage',
-    type_id: 2
-  }, {
-    name: 'Neighborhood Watch',
-    type_id: 4
-  }, {
-    name: 'Clean-up',
-    type_id: 5
-  }, {
-    name: 'Missing Person',
-    type_id: 6
-  }, {
-    name: 'Meet Up',
-    type_id: 7
-  }, {
-    name: 'Entertainment',
-    type_id: 8
-  }, {
-    name: 'Other',
-    type_id: 3
-  }];
-  $scope.category = $scope.lists[0];
-  console.log(eventSrvc.getEvents());
+  var session = function session() {
+    sessionSrv.session().then(function (res) {
+      $scope.buttons = res.isLoggedIn;
+      if (res.isLoggedIn == true) {
+        $scope.userId = res.user[0].user_id;
+      }
+      $scope.attending = res.followedEvents;
+    });
+  };
+  $scope.yes = function () {
+    var yes = {
+      user_id: $scope.userId,
+      attending: "yes"
+    };
+    var mFE = $scope.attending;
+    var tEF = $scope.followers;
+    if (tEF == undefined || tEF.length == 0 || add(yes.user_id, tEF)) {
+      eventSrvc.postFollowers(eventId, yes.user_id, yes.attending).then(function (res) {
+        session();
+        getFol();
+      });
+    }
+    for (var i = 0; i < tEF.length; i++) {
+      var correctFol = [];
+      if (tEF[i].user_id == yes.user_id) {
+        correctFol.push(tEF[i]);
+        if (correctFol.attending !== "yes") {
+          eventSrvc.updateFollowers(eventId, yes.user_id, yes.attending, correctFol[0].following_id).then(function (res) {
+            session();
+            getFol();
+          });
+        }
+      }
+    }
+  };
+  $scope.maybe = function () {
+    var maybe = {
+      user_id: $scope.userId,
+      attending: "maybe"
+    };
+    var mFE = $scope.attending;
+    var tEF = $scope.followers;
+    if (tEF == undefined || tEF.length == 0 || add(maybe.user_id, tEF)) {
+      eventSrvc.postFollowers(eventId, maybe.user_id, maybe.attending).then(function (res) {
+        session();
+        getFol();
+      });
+    }
+    for (var i = 0; i < tEF.length; i++) {
+      var correctFol = [];
+      if (tEF[i].user_id == maybe.user_id) {
+        correctFol.push(tEF[i]);
+        if (correctFol.attending !== "maybe") {
+          eventSrvc.updateFollowers(eventId, maybe.user_id, maybe.attending, correctFol[0].following_id).then(function (res) {
+            session();
+            getFol();
+          });
+        }
+      }
+    }
+  };
+  $scope.no = function () {
+    var no = {
+      user_id: $scope.userId,
+      attending: "no"
+    };
+    var mFE = $scope.attending;
+    var tEF = $scope.followers;
+    if (tEF == undefined || tEF.length == 0 || add(no.user_id, tEF)) {
+      eventSrvc.postFollowers(eventId, no.user_id, no.attending).then(function (res) {
+        session();
+        getFol();
+      });
+    }
+    for (var i = 0; i < tEF.length; i++) {
+      var correctFol = [];
+      if (tEF[i].user_id == no.user_id) {
+        correctFol.push(tEF[i]);
+        if (correctFol.attending !== "no") {
+          eventSrvc.updateFollowers(eventId, no.user_id, no.attending, correctFol[0].following_id).then(function (res) {
+            session();
+            getFol();
+          });
+        }
+      }
+    }
+  };
+  session();
+  getFol();
 });
 
 angular.module('nWatch').controller('loginCtrl', function ($scope, one, loginSrvc, $state, $rootScope) {
@@ -2346,6 +2256,127 @@ angular.module('nWatch').controller('loginCtrl', function ($scope, one, loginSrv
   };
 });
 
+angular.module('nWatch').controller('homeCtrl', function ($scope, eventSrvc, userSrvc) {
+  eventSrvc.getEvents().then(function (res) {
+    $scope.events = res;
+  });
+
+  $scope.isLoggedIn = false;
+  //fires off on page load to determine whether user is logged in
+  $scope.checkLogin = function () {
+    userSrvc.getSession().then(function (resp) {
+      if (resp.data.isLoggedIn) {
+        $scope.isLoggedIn = resp.data.isLoggedIn;
+      } else {
+        $scope.isLoggedIn = false;
+      }
+    });
+  };
+  $scope.checkLogin();
+  //Listens for the login function to fire off in loginCtrl and then fires of checklogin to set isLoggedIn to true
+  $scope.$on('login', function (event, array) {
+    $scope.checkLogin();
+  });
+
+  $scope.lists = [{
+    name: 'Lost Pet',
+    type_id: 1
+  }, {
+    name: 'Damage',
+    type_id: 2
+  }, {
+    name: 'Neighborhood Watch',
+    type_id: 4
+  }, {
+    name: 'Clean-up',
+    type_id: 5
+  }, {
+    name: 'Missing Person',
+    type_id: 6
+  }, {
+    name: 'Meet Up',
+    type_id: 7
+  }, {
+    name: 'Entertainment',
+    type_id: 8
+  }, {
+    name: 'Other',
+    type_id: 3
+  }];
+  $scope.category = $scope.lists[0];
+});
+
+angular.module('nWatch').controller('newNeighborhoodCtrl', function ($scope, neighborhoodSrvc, $state, userSrvc) {
+  //callback function invoked by saveNeighborhood that gets invoked if neighborhood creation was successful that updates users neighborhood and updates session then routes to user view
+  $scope.updateUsersNeighborhood = function (neighborhood_id) {
+    neighborhoodSrvc.getSession().then(function (resp) {
+      var session = resp.data;
+      var user_id = session.user[0].user_id;
+      neighborhoodSrvc.joinNeighborhood(neighborhood_id, user_id).then(function (resp) {
+        userSrvc.getUser(user_id).then(function (resp) {
+          $state.go('user');
+        });
+      });
+    });
+  };
+  //This is a callback function passed to saveNeighborhood on save neighborhood button submit that is used to reset the form if there was an error creating the neighborhood
+  $scope.reset = function (form) {
+    form.$setPristine();
+    form.$setUntouched();
+    var controlNames = Object.keys(form).filter(function (key) {
+      return key.indexOf('$') !== 0;
+    });
+    var _iteratorNormalCompletion2 = true;
+    var _didIteratorError2 = false;
+    var _iteratorError2 = undefined;
+
+    try {
+      for (var _iterator2 = controlNames[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+        var name = _step2.value;
+
+        var control = form[name];
+        control.$setViewValue(undefined);
+      }
+    } catch (err) {
+      _didIteratorError2 = true;
+      _iteratorError2 = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion2 && _iterator2.return) {
+          _iterator2.return();
+        }
+      } finally {
+        if (_didIteratorError2) {
+          throw _iteratorError2;
+        }
+      }
+    }
+
+    $scope.neighborhoodName = '';
+    $scope.city = '';
+    $scope.state = '';
+  };
+  //Function that is invoked when save neighborhood is clicked..If neighborhood was created it invokes updateUsersNeighborhood which updates the users neighborhood to newly created neighborhood and then routes back to user view
+  $scope.saveNeighborhood = function (name, city, state, cb, cb2, form) {
+    neighborhoodSrvc.createNeighborhood(name, city, state).then(function (res) {
+      var data = res.data[0];
+      var neighborhood_id = data.neighborhood_id;
+      if (res.status === 200 && res.data !== "Could not create neighborhood") {
+
+        cb2(neighborhood_id);
+      } else if (res.data === "Could not create neighborhood") {
+        alert('Failed to create neighborhood. Neighborhood name must be unique');
+        cb(form);
+      }
+    }, function (err) {
+      if (err.status === 420) {
+        alert('Failed to create neighborhood. Neighborhood name must be unique');
+        cb(form);
+      }
+    });
+  };
+});
+
 angular.module('nWatch').controller('hoodCtrl', function ($scope, neighborhoodSrvc, authSrvc) {
 
   $scope.leaveNeighborhood = function (id) {
@@ -2383,7 +2414,6 @@ angular.module('nWatch').controller('hoodCtrl', function ($scope, neighborhoodSr
       }
       ////map addition
       var neighId = $scope.user.neighborhood_id;
-      console.log('this is the array of event data ', neighId);
       //getting the neighbothoods city and state
       var neighCity = $scope.neighborhood.city;
       var neighState = $scope.neighborhood.state;
@@ -2391,11 +2421,9 @@ angular.module('nWatch').controller('hoodCtrl', function ($scope, neighborhoodSr
       //sending city/state to service to gen long late
       neighborhoodSrvc.getEvents(neighId).then(function (res) {
         var data = res.data;
-        console.log(data);
         var locations = data.map(function (obj) {
           return [obj.title, Number(obj.event_location_lat), Number(obj.event_location_lon)];
         });
-        console.log(locations);
         neighborhoodSrvc.getMaps(neighAdd).then(function (res) {
           //grabbing long lat from googe assigning them to lat lng vars
           var lata = res.data.results[0].geometry.location.lat;
@@ -2443,79 +2471,6 @@ angular.module('nWatch').controller('signupCtrl', function ($scope, signupSrvc, 
     var controlNames = Object.keys(form).filter(function (key) {
       return key.indexOf('$') !== 0;
     });
-    var _iteratorNormalCompletion2 = true;
-    var _didIteratorError2 = false;
-    var _iteratorError2 = undefined;
-
-    try {
-      for (var _iterator2 = controlNames[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-        var name = _step2.value;
-
-        var control = form[name];
-        control.$setViewValue(undefined);
-      }
-    } catch (err) {
-      _didIteratorError2 = true;
-      _iteratorError2 = err;
-    } finally {
-      try {
-        if (!_iteratorNormalCompletion2 && _iterator2.return) {
-          _iterator2.return();
-        }
-      } finally {
-        if (_didIteratorError2) {
-          throw _iteratorError2;
-        }
-      }
-    }
-
-    $scope.firstname = '';
-    $scope.lastname = '';
-    $scope.email = '';
-    $scope.username = '';
-    $scope.password = '';
-    $scope.uploadme.src = '';
-    $scope.confirm = '';
-  };
-  //master function that handles signing up a user. takes in callback (reset) that will be fired off if there is an issue signing up the user.
-  $scope.createUser = function (first_name, last_name, username, email, facebook_id, google_id, password, photo, cb, form) {
-    signupSrvc.createUser(first_name, last_name, username, email, facebook_id, google_id, password, photo).then(function (res) {
-      if (res.status === 200) {
-        loginSrvc.login(username, password).then(function (res) {
-          $rootScope.$broadcast('createUser');
-          $state.go('user');
-        });
-      }
-    }, function (err) {
-      if (err) {
-        alert('There was a problem signing you up. Usernames must be unique. Please try again.');
-        console.log(err);
-        cb(form);
-      }
-    });
-  };
-});
-
-angular.module('nWatch').controller('newNeighborhoodCtrl', function ($scope, neighborhoodSrvc, $state, userSrvc) {
-  //callback function invoked by saveNeighborhood that gets invoked if neighborhood creation was successful that updates users neighborhood and updates session then routes to user view
-  $scope.updateUsersNeighborhood = function (neighborhood_id) {
-    neighborhoodSrvc.getSession().then(function (resp) {
-      var session = resp.data;
-      var user_id = session.user[0].user_id;
-      neighborhoodSrvc.joinNeighborhood(neighborhood_id, user_id).then(function (resp) {
-        userSrvc.getUser(user_id).then(function (resp) {
-          $state.go('user');
-        });
-      });
-    });
-  };
-  //This is a callback function passed to saveNeighborhood on save neighborhood button submit that is used to reset the form if there was an error creating the neighborhood
-  $scope.reset = function (form) {
-    form.$setPristine();
-    form.$setUntouched();
-    var controlNames = Object.keys(form).filter(function (key) {
-      return key.indexOf('$') !== 0;
-    });
     var _iteratorNormalCompletion3 = true;
     var _didIteratorError3 = false;
     var _iteratorError3 = undefined;
@@ -2542,25 +2497,26 @@ angular.module('nWatch').controller('newNeighborhoodCtrl', function ($scope, nei
       }
     }
 
-    $scope.neighborhoodName = '';
-    $scope.city = '';
-    $scope.state = '';
+    $scope.firstname = '';
+    $scope.lastname = '';
+    $scope.email = '';
+    $scope.username = '';
+    $scope.password = '';
+    $scope.uploadme.src = '';
+    $scope.confirm = '';
   };
-  //Function that is invoked when save neighborhood is clicked..If neighborhood was created it invokes updateUsersNeighborhood which updates the users neighborhood to newly created neighborhood and then routes back to user view
-  $scope.saveNeighborhood = function (name, city, state, cb, cb2, form) {
-    neighborhoodSrvc.createNeighborhood(name, city, state).then(function (res) {
-      var data = res.data[0];
-      var neighborhood_id = data.neighborhood_id;
-      if (res.status === 200 && res.data !== "Could not create neighborhood") {
-
-        cb2(neighborhood_id);
-      } else if (res.data === "Could not create neighborhood") {
-        alert('Failed to create neighborhood. Neighborhood name must be unique');
-        cb(form);
+  //master function that handles signing up a user. takes in callback (reset) that will be fired off if there is an issue signing up the user.
+  $scope.createUser = function (first_name, last_name, username, email, facebook_id, google_id, password, photo, cb, form) {
+    signupSrvc.createUser(first_name, last_name, username, email, facebook_id, google_id, password, photo).then(function (res) {
+      if (res.status === 200) {
+        loginSrvc.login(username, password).then(function (res) {
+          $rootScope.$broadcast('createUser');
+          $state.go('user');
+        });
       }
     }, function (err) {
-      if (err.status === 420) {
-        alert('Failed to create neighborhood. Neighborhood name must be unique');
+      if (err) {
+        alert('There was a problem signing you up. Usernames must be unique. Please try again.');
         cb(form);
       }
     });

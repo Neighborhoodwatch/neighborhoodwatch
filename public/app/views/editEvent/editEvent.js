@@ -52,11 +52,9 @@ angular.module('nWatch').controller('editEventCtrl', function($scope, eventSrvc,
   eventSrvc.getEvent(eventId).then(function(res){
     if (res) {
       var lists = $scope.lists
-      console.log(res[0].type_id);
       const eventTypeId = res[0].type_id
       for (var i = 0; i < lists.length; i++) {
         if (lists[i].type_id == eventTypeId) {
-          console.log('in the for');
           $scope.category = lists[i]
         }
       }
@@ -157,13 +155,12 @@ angular.module('nWatch').controller('editEventCtrl', function($scope, eventSrvc,
   // will make it a directive soon
   var lat = Number(myEvent[0].event_location_lat)
   var long = Number(myEvent[0].event_location_lon)
-  // console.log(lat, long);
   var myLatLng = {lat: lat, lng: long};
   var map = new google.maps.Map(document.getElementById('map'), {
     zoom: 17,
     center: myLatLng
   });
-
+  
   var marker = new google.maps.Marker({
     position: myLatLng,
     map: map,

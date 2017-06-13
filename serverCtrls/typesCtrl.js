@@ -30,8 +30,6 @@ module.exports = {
         if (err) {
             res.status(420).json(err);
         } else {
-            console.log('type updated:', resp)
-
             req.session.order = resp
             res.send(resp)
         }
@@ -45,8 +43,6 @@ module.exports = {
         if (err) {
             res.status(420).json(err);
         } else {
-            console.log('type created:', resp)
-
             req.session.order = resp
             res.send(resp)
         }

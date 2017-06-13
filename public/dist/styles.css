@@ -1,69 +1,16 @@
 
-.create-event-describe {
-  padding-top: 15px;
-  height: 100px; }
-  .create-event-describe input {
-    height: 77px;
-    width: 300px;
-    padding-bottom: 55px; }
-
-.create-event-wrapper {
-  padding-top: 20px; }
-  .create-event-wrapper .row {
-    margin-top: 20px; }
-    .create-event-wrapper .row input, .create-event-wrapper .row select {
-      width: 100%; }
-
-.create-event-buttons {
-  padding-top: 20px;
-  height: 75px; }
-  .create-event-buttons button {
-    height: 50px; }
-
-.maps {
-  height: 250px;
-  width: 250px; }
-
 .create-date-picker-fix {
   height: 250px; }
   .create-date-picker-fix button {
     margin: 0px; }
-
-.edit-event-describe {
-  padding-top: 15px;
-  height: 100px; }
-  .edit-event-describe input {
-    height: 77px;
-    width: 300px; }
-
-.edit-event-category {
-  padding-top: 20px;
-  height: 75px; }
-
-.edit-event-notified {
-  padding-top: 20px;
-  height: 125px; }
-
-.edit-event-location {
-  padding-top: 20px;
-  height: 125px; }
 
 .edit-event-time {
   display: flex;
   align-items: center;
   justify-content: center; }
 
-.edit-event-buttons {
-  padding-top: 20px;
-  height: 75px; }
-  .edit-event-buttons button {
-    height: 50px; }
-
 .edit-top-margin {
   margin-top: 15px; }
-
-.edit-top-padding {
-  padding-top: 15px; }
 
 .edit-event-img {
   max-width: 250px; }
@@ -148,14 +95,6 @@
   .navbar-mobile span {
     background-color: white; }
 
-.home-view {
-  background-image: url(http://www.countrysidepest.com/wp-content/uploads/2015/05/neighborhood-houses.jpg);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  min-height: 350px;
-  color: #EADAA2; }
-
 .home-events {
   background-color: #968f88;
   height: 135px;
@@ -195,16 +134,6 @@
 
 .login-login {
   text-align: center; }
-
-#neighborhood-camera {
-  font-size: 135px;
-  border: solid;
-  padding: 20px;
-  border-width: .5px; }
-
-#neighborhood-state {
-  display: inline;
-  float: left; }
 
 #neighborhood-show {
   display: inline;

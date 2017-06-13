@@ -30,16 +30,13 @@ angular.module('nWatch').directive('nwCreateMap', function() {
           var mapS = map.state;
           var mapZ = map.zip
           var address = `${mapA} ${mapC}, ${mapS} ${mapZ}`
-          console.log(address);
             eventSrvc.getMaps(address)
             .then((res) => {
               var cordinates = res.data.results[0].geometry.location;
               var lati = cordinates.lat;
               var long = cordinates.lng
               $scope.lat = cordinates.lat
-              console.log(lati, long);
               $scope.long = cordinates.lng
-
               var myLatLng = {lat: lati, lng: long};
 
               var map = new google.maps.Map(document.getElementById('map'), {
