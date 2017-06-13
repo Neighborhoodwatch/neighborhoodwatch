@@ -1,17 +1,13 @@
 angular.module('nWatch').controller('createEventCtrl', function($scope, eventSrvc, $log, sessionSrv, typeService, $timeout, uploadFile ) {
   var session = () => {
     sessionSrv.session().then((res) => {
-      // console.log("this is session", res);
-
       if (res.isLoggedIn) {
         $scope.userId = res.user[0].user_id
       }
-      // console.log(res.followedEvents);
       $scope.attending = res.followedEvents;
       if (res.isLoggedIn) {
         $scope.hood = res.neighborhood[0].neighborhood_id;
       }
-      // console.log("this is attending", $scope.attending);
     })
   }
 
@@ -49,19 +45,11 @@ angular.module('nWatch').controller('createEventCtrl', function($scope, eventSrv
       type_id: 3
     }
   ]
-
-  // typeService.getTypes().then(function (res, err) {
-  //   console.log('types', res, err);
-  //   $scope.lists = res.data;
-    $scope.category = $scope.lists[0]
-  //
-  // })
-
+  $scope.category = $scope.lists[0]
   $scope.eventImg = "yoyoyo"
 
   $scope.event = {};
   $scope.eventCreate = (event) => {
-    console.log('createEvent', event);
     event.type_id = $scope.category.type_id;
     event.event_location_lat = $scope.lat
     event.event_location_lon = $scope.long
@@ -73,7 +61,6 @@ angular.module('nWatch').controller('createEventCtrl', function($scope, eventSrv
     if ($scope.userId) {
       event.neighborhood_id = $scope.hood
     }
-    console.log('**updatedEvent', event);
     eventSrvc.save(event)
   }
 

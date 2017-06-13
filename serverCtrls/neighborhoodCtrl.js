@@ -45,8 +45,6 @@ module.exports = {
         if (err) {
             res.status(420).json(err);
         } else {
-            console.log('neighborhood updated:', resp)
-
             req.session.order = resp
             res.send(resp)
         }
@@ -60,8 +58,6 @@ module.exports = {
         if (err) {
             res.status(420).json(err);
         } else {
-            console.log('neighborhood deleted:', resp)
-
             req.session.order = resp
             res.send(resp)
         }
@@ -75,8 +71,6 @@ module.exports = {
         if (err) {
             res.status(420).json(err);
         } else {
-            console.log('neighborhood users:', resp)
-
             req.session.order = resp
             res.send(resp)
         }
