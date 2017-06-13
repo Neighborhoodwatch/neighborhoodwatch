@@ -2189,6 +2189,56 @@ angular.module('nWatch').controller('eventsCtrl', function ($scope, eventSrvc, e
   getFol();
 });
 
+angular.module('nWatch').controller('homeCtrl', function ($scope, eventSrvc, userSrvc) {
+  eventSrvc.getEvents().then(function (res) {
+    $scope.events = res;
+  });
+
+  $scope.isLoggedIn = false;
+  //fires off on page load to determine whether user is logged in
+  $scope.checkLogin = function () {
+    userSrvc.getSession().then(function (resp) {
+      if (resp.data.isLoggedIn) {
+        $scope.isLoggedIn = resp.data.isLoggedIn;
+      } else {
+        $scope.isLoggedIn = false;
+      }
+    });
+  };
+  $scope.checkLogin();
+  //Listens for the login function to fire off in loginCtrl and then fires of checklogin to set isLoggedIn to true
+  $scope.$on('login', function (event, array) {
+    $scope.checkLogin();
+  });
+
+  $scope.lists = [{
+    name: 'Lost Pet',
+    type_id: 1
+  }, {
+    name: 'Damage',
+    type_id: 2
+  }, {
+    name: 'Neighborhood Watch',
+    type_id: 4
+  }, {
+    name: 'Clean-up',
+    type_id: 5
+  }, {
+    name: 'Missing Person',
+    type_id: 6
+  }, {
+    name: 'Meet Up',
+    type_id: 7
+  }, {
+    name: 'Entertainment',
+    type_id: 8
+  }, {
+    name: 'Other',
+    type_id: 3
+  }];
+  $scope.category = $scope.lists[0];
+});
+
 angular.module('nWatch').controller('loginCtrl', function ($scope, one, loginSrvc, $state, $rootScope) {
 
   $scope.facebookLogin = function () {
@@ -2251,127 +2301,6 @@ angular.module('nWatch').controller('loginCtrl', function ($scope, one, loginSrv
         cb(form);
         $scope.username = '';
         $scope.password = '';
-      }
-    });
-  };
-});
-
-angular.module('nWatch').controller('homeCtrl', function ($scope, eventSrvc, userSrvc) {
-  eventSrvc.getEvents().then(function (res) {
-    $scope.events = res;
-  });
-
-  $scope.isLoggedIn = false;
-  //fires off on page load to determine whether user is logged in
-  $scope.checkLogin = function () {
-    userSrvc.getSession().then(function (resp) {
-      if (resp.data.isLoggedIn) {
-        $scope.isLoggedIn = resp.data.isLoggedIn;
-      } else {
-        $scope.isLoggedIn = false;
-      }
-    });
-  };
-  $scope.checkLogin();
-  //Listens for the login function to fire off in loginCtrl and then fires of checklogin to set isLoggedIn to true
-  $scope.$on('login', function (event, array) {
-    $scope.checkLogin();
-  });
-
-  $scope.lists = [{
-    name: 'Lost Pet',
-    type_id: 1
-  }, {
-    name: 'Damage',
-    type_id: 2
-  }, {
-    name: 'Neighborhood Watch',
-    type_id: 4
-  }, {
-    name: 'Clean-up',
-    type_id: 5
-  }, {
-    name: 'Missing Person',
-    type_id: 6
-  }, {
-    name: 'Meet Up',
-    type_id: 7
-  }, {
-    name: 'Entertainment',
-    type_id: 8
-  }, {
-    name: 'Other',
-    type_id: 3
-  }];
-  $scope.category = $scope.lists[0];
-});
-
-angular.module('nWatch').controller('newNeighborhoodCtrl', function ($scope, neighborhoodSrvc, $state, userSrvc) {
-  //callback function invoked by saveNeighborhood that gets invoked if neighborhood creation was successful that updates users neighborhood and updates session then routes to user view
-  $scope.updateUsersNeighborhood = function (neighborhood_id) {
-    neighborhoodSrvc.getSession().then(function (resp) {
-      var session = resp.data;
-      var user_id = session.user[0].user_id;
-      neighborhoodSrvc.joinNeighborhood(neighborhood_id, user_id).then(function (resp) {
-        userSrvc.getUser(user_id).then(function (resp) {
-          $state.go('user');
-        });
-      });
-    });
-  };
-  //This is a callback function passed to saveNeighborhood on save neighborhood button submit that is used to reset the form if there was an error creating the neighborhood
-  $scope.reset = function (form) {
-    form.$setPristine();
-    form.$setUntouched();
-    var controlNames = Object.keys(form).filter(function (key) {
-      return key.indexOf('$') !== 0;
-    });
-    var _iteratorNormalCompletion2 = true;
-    var _didIteratorError2 = false;
-    var _iteratorError2 = undefined;
-
-    try {
-      for (var _iterator2 = controlNames[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-        var name = _step2.value;
-
-        var control = form[name];
-        control.$setViewValue(undefined);
-      }
-    } catch (err) {
-      _didIteratorError2 = true;
-      _iteratorError2 = err;
-    } finally {
-      try {
-        if (!_iteratorNormalCompletion2 && _iterator2.return) {
-          _iterator2.return();
-        }
-      } finally {
-        if (_didIteratorError2) {
-          throw _iteratorError2;
-        }
-      }
-    }
-
-    $scope.neighborhoodName = '';
-    $scope.city = '';
-    $scope.state = '';
-  };
-  //Function that is invoked when save neighborhood is clicked..If neighborhood was created it invokes updateUsersNeighborhood which updates the users neighborhood to newly created neighborhood and then routes back to user view
-  $scope.saveNeighborhood = function (name, city, state, cb, cb2, form) {
-    neighborhoodSrvc.createNeighborhood(name, city, state).then(function (res) {
-      var data = res.data[0];
-      var neighborhood_id = data.neighborhood_id;
-      if (res.status === 200 && res.data !== "Could not create neighborhood") {
-
-        cb2(neighborhood_id);
-      } else if (res.data === "Could not create neighborhood") {
-        alert('Failed to create neighborhood. Neighborhood name must be unique');
-        cb(form);
-      }
-    }, function (err) {
-      if (err.status === 420) {
-        alert('Failed to create neighborhood. Neighborhood name must be unique');
-        cb(form);
       }
     });
   };
@@ -2457,6 +2386,77 @@ angular.module('nWatch').controller('hoodCtrl', function ($scope, neighborhoodSr
     });
   };
   $scope.getSession();
+});
+
+angular.module('nWatch').controller('newNeighborhoodCtrl', function ($scope, neighborhoodSrvc, $state, userSrvc) {
+  //callback function invoked by saveNeighborhood that gets invoked if neighborhood creation was successful that updates users neighborhood and updates session then routes to user view
+  $scope.updateUsersNeighborhood = function (neighborhood_id) {
+    neighborhoodSrvc.getSession().then(function (resp) {
+      var session = resp.data;
+      var user_id = session.user[0].user_id;
+      neighborhoodSrvc.joinNeighborhood(neighborhood_id, user_id).then(function (resp) {
+        userSrvc.getUser(user_id).then(function (resp) {
+          $state.go('user');
+        });
+      });
+    });
+  };
+  //This is a callback function passed to saveNeighborhood on save neighborhood button submit that is used to reset the form if there was an error creating the neighborhood
+  $scope.reset = function (form) {
+    form.$setPristine();
+    form.$setUntouched();
+    var controlNames = Object.keys(form).filter(function (key) {
+      return key.indexOf('$') !== 0;
+    });
+    var _iteratorNormalCompletion2 = true;
+    var _didIteratorError2 = false;
+    var _iteratorError2 = undefined;
+
+    try {
+      for (var _iterator2 = controlNames[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+        var name = _step2.value;
+
+        var control = form[name];
+        control.$setViewValue(undefined);
+      }
+    } catch (err) {
+      _didIteratorError2 = true;
+      _iteratorError2 = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion2 && _iterator2.return) {
+          _iterator2.return();
+        }
+      } finally {
+        if (_didIteratorError2) {
+          throw _iteratorError2;
+        }
+      }
+    }
+
+    $scope.neighborhoodName = '';
+    $scope.city = '';
+    $scope.state = '';
+  };
+  //Function that is invoked when save neighborhood is clicked..If neighborhood was created it invokes updateUsersNeighborhood which updates the users neighborhood to newly created neighborhood and then routes back to user view
+  $scope.saveNeighborhood = function (name, city, state, cb, cb2, form) {
+    neighborhoodSrvc.createNeighborhood(name, city, state).then(function (res) {
+      var data = res.data[0];
+      var neighborhood_id = data.neighborhood_id;
+      if (res.status === 200 && res.data !== "Could not create neighborhood") {
+
+        cb2(neighborhood_id);
+      } else if (res.data === "Could not create neighborhood") {
+        alert('Failed to create neighborhood. Neighborhood name must be unique');
+        cb(form);
+      }
+    }, function (err) {
+      if (err.status === 420) {
+        alert('Failed to create neighborhood. Neighborhood name must be unique');
+        cb(form);
+      }
+    });
+  };
 });
 
 angular.module('nWatch').controller('signupCtrl', function ($scope, signupSrvc, $state, loginSrvc, $rootScope) {
