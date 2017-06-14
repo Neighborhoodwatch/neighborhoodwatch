@@ -176,5 +176,39 @@ module.exports = {
   },
   checkLoggedIn: (req, res, next) => {
     res.send(req.session.isLoggedIn)
+  },
+  //Google auth functions
+  googleAuth: (req, res, next) => {
+    var db = req.app.get('db')
+    let google_id = req.user.id
+    let primary_email = req.user.emails[0].value
+    db.get_google_user(google_id, (err, resp) => {
+      if(err) {
+        res.status(420).json(err)
+      } else {
+        //more checks need to be put in place to make sure that it checks against all available emails
+        if(resp.length === 0) {
+
+          db.get_google_email(primary_email, (err, response) => {
+
+            if(err) {
+              res.status(420).json(err)
+            } else if(response.length > 0) {
+              let user = response[0]
+              db.update_google_id([google_id, user.user_id], (err, response) => {
+                if(err) {
+                } else {
+                  let user = response[0]
+                  res.send(user)
+                }
+              })
+            }
+          })
+        } else if (resp.length > 0) {
+          let user = resp[0]
+          res.send(user)
+        }
+      }
+    })
   }
 }

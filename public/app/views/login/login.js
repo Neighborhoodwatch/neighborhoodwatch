@@ -1,7 +1,15 @@
 angular.module('nWatch').controller('loginCtrl', function($scope, one, loginSrvc, $state, $rootScope) {
 
-  $scope.facebookLogin = () => {console.log('Login with Facebook')}
-  $scope.googleLogin = () => {console.log('Login with Google')}
+  $scope.facebookLogin = () => {
+    loginSrvc.googleLogin().then(function(res) {
+      console.log(res)
+    })
+  }
+  // $scope.googleLogin = () => {
+  //   loginSrvc.googleLogin().then(function(res) {
+  //     console.log(res)
+  //   })
+  // }
   //Callback function passed to login function that gets fired off if there was a problem with logging in...Will reset the form
   $scope.reset = function(form) {
     form.$setPristine();
@@ -36,5 +44,6 @@ angular.module('nWatch').controller('loginCtrl', function($scope, one, loginSrvc
       }
     })
   }
+
 
 })

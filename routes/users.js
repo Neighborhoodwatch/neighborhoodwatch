@@ -22,6 +22,6 @@ router.get('/users/:id/events', usersCtrl.getEvents);
 router.get('/current', usersCtrl.getCurrentUser);
 router.get('/login/:username/:password', usersCtrl.signin)
 router.get('/auth/checklogin', usersCtrl.checkLoggedIn)
-
+router.get('/authenticate/google', usersCtrl.googleAuth)
 
 module.exports = router;

@@ -145,32 +145,32 @@ app.use(passport.session({
 // https://github.com/mstade/passport-google-oauth2/blob/master/example/app.js
 // then navigate here to obtain CLIENT_ID and SECRET: https://console.cloud.google.com/home/dashboard
 ////////////////////////////////////////////////
-//const GOOGLE_CLIENT_ID = "where do you find this";
-//const GOOGLE_CLIENT_SECRET = "this too";
-//
-//passport.use(new GoogleStrategy({
-//    clientID: GOOGLE_CLIENT_ID,
-//    clientSecret: GOOGLE_CLIENT_SECRET,
-//    callbackURL: "localhost:" + port + "/auth/google/callback"
-//  },
-//  function(accessToken, refreshToken, profile, cb) {
-//    db.get_google_user({ googleId: profile.id }, function (err, user) {
-//      return cb(err, user);
-//    });
-//  }
-//));
-//app.get('/auth/google',
-//  passport.authenticate('google', { scope: ['profile'] }));
-//
-//app.get('/auth/google/callback',
-//  passport.authenticate('google', { failureRedirect: '/login' }),
-//  function(req, res) {
-//    // Successful authentication, redirect home.
-//    res.redirect('/');
-//  });
-
-
 const port = process.env.PORT || config.PORT || 3000;
+const GOOGLE_CLIENT_ID = "127014654196-tvcq3j7qq9c54c4v48mlvnmdg5b2vnn5.apps.googleusercontent.com";
+const GOOGLE_CLIENT_SECRET = "grAndUwDvY-eTcL84F-nW_aG";
+//
+passport.use(new GoogleStrategy({
+   clientID: GOOGLE_CLIENT_ID,
+   clientSecret: GOOGLE_CLIENT_SECRET,
+   callbackURL: 'http://localhost:3200/auth/google/callback'
+ },
+ function(accessToken, refreshToken, profile, done) {
+   console.log(profile)
+   return done(null, profile)
+ }
+));
+app.get('/auth/google',
+ passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+app.get('/auth/google/callback',
+ passport.authenticate('google', { failureRedirect: '/#!/login' }),
+ function(req, res) {
+   res.redirect('/authenticate/google');
+ });
+//google auth routes
+app.get('/authenticate/google', userSession, userEandN, isLoggedIn, users)
+
+
 app.listen(port, () => {
   console.log(`sup from port ${port}`);
 })

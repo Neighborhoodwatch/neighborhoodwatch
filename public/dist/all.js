@@ -1328,6 +1328,13 @@ angular.module('nWatch').service('loginSrvc', function ($http) {
       url: '/logout'
     });
   };
+
+  this.googleLogin = function () {
+    return $http({
+      method: 'GET',
+      url: '/auth/google'
+    });
+  };
 });
 
 angular.module('nWatch').service('neighborhoodSrvc', function ($http) {
@@ -2242,11 +2249,15 @@ angular.module('nWatch').controller('homeCtrl', function ($scope, eventSrvc, use
 angular.module('nWatch').controller('loginCtrl', function ($scope, one, loginSrvc, $state, $rootScope) {
 
   $scope.facebookLogin = function () {
-    console.log('Login with Facebook');
+    loginSrvc.googleLogin().then(function (res) {
+      console.log(res);
+    });
   };
-  $scope.googleLogin = function () {
-    console.log('Login with Google');
-  };
+  // $scope.googleLogin = () => {
+  //   loginSrvc.googleLogin().then(function(res) {
+  //     console.log(res)
+  //   })
+  // }
   //Callback function passed to login function that gets fired off if there was a problem with logging in...Will reset the form
   $scope.reset = function (form) {
     form.$setPristine();
@@ -2459,70 +2470,6 @@ angular.module('nWatch').controller('newNeighborhoodCtrl', function ($scope, nei
   };
 });
 
-angular.module('nWatch').controller('signupCtrl', function ($scope, signupSrvc, $state, loginSrvc, $rootScope) {
-  $scope.uploadme = {};
-  $scope.uploadme.src = "app/img/profilepicture/default_picture.jpg";
-  $scope.face = null;
-  $scope.google = null;
-  //callback function that resets signup form. Gets fired off if there was an issue signing someone up
-  $scope.reset = function (form) {
-    form.$setPristine();
-    form.$setUntouched();
-    var controlNames = Object.keys(form).filter(function (key) {
-      return key.indexOf('$') !== 0;
-    });
-    var _iteratorNormalCompletion3 = true;
-    var _didIteratorError3 = false;
-    var _iteratorError3 = undefined;
-
-    try {
-      for (var _iterator3 = controlNames[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-        var name = _step3.value;
-
-        var control = form[name];
-        control.$setViewValue(undefined);
-      }
-    } catch (err) {
-      _didIteratorError3 = true;
-      _iteratorError3 = err;
-    } finally {
-      try {
-        if (!_iteratorNormalCompletion3 && _iterator3.return) {
-          _iterator3.return();
-        }
-      } finally {
-        if (_didIteratorError3) {
-          throw _iteratorError3;
-        }
-      }
-    }
-
-    $scope.firstname = '';
-    $scope.lastname = '';
-    $scope.email = '';
-    $scope.username = '';
-    $scope.password = '';
-    $scope.uploadme.src = '';
-    $scope.confirm = '';
-  };
-  //master function that handles signing up a user. takes in callback (reset) that will be fired off if there is an issue signing up the user.
-  $scope.createUser = function (first_name, last_name, username, email, facebook_id, google_id, password, photo, cb, form) {
-    signupSrvc.createUser(first_name, last_name, username, email, facebook_id, google_id, password, photo).then(function (res) {
-      if (res.status === 200) {
-        loginSrvc.login(username, password).then(function (res) {
-          $rootScope.$broadcast('createUser');
-          $state.go('user');
-        });
-      }
-    }, function (err) {
-      if (err) {
-        alert('There was a problem signing you up. Usernames must be unique. Please try again.');
-        cb(form);
-      }
-    });
-  };
-});
-
 angular.module('nWatch').controller('userCtrl', function ($scope, userSrvc, $timeout, uploadFile) {
   $scope.hasInfo = true;
   //invokes on page load to grab the req.session.user, also passed to updateInfo
@@ -2635,5 +2582,69 @@ angular.module('nWatch').controller('userCtrl', function ($scope, userSrvc, $tim
       $scope.thumbnail = {};
       $scope.message = false;
     }
+  };
+});
+
+angular.module('nWatch').controller('signupCtrl', function ($scope, signupSrvc, $state, loginSrvc, $rootScope) {
+  $scope.uploadme = {};
+  $scope.uploadme.src = "app/img/profilepicture/default_picture.jpg";
+  $scope.face = null;
+  $scope.google = null;
+  //callback function that resets signup form. Gets fired off if there was an issue signing someone up
+  $scope.reset = function (form) {
+    form.$setPristine();
+    form.$setUntouched();
+    var controlNames = Object.keys(form).filter(function (key) {
+      return key.indexOf('$') !== 0;
+    });
+    var _iteratorNormalCompletion3 = true;
+    var _didIteratorError3 = false;
+    var _iteratorError3 = undefined;
+
+    try {
+      for (var _iterator3 = controlNames[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+        var name = _step3.value;
+
+        var control = form[name];
+        control.$setViewValue(undefined);
+      }
+    } catch (err) {
+      _didIteratorError3 = true;
+      _iteratorError3 = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion3 && _iterator3.return) {
+          _iterator3.return();
+        }
+      } finally {
+        if (_didIteratorError3) {
+          throw _iteratorError3;
+        }
+      }
+    }
+
+    $scope.firstname = '';
+    $scope.lastname = '';
+    $scope.email = '';
+    $scope.username = '';
+    $scope.password = '';
+    $scope.uploadme.src = '';
+    $scope.confirm = '';
+  };
+  //master function that handles signing up a user. takes in callback (reset) that will be fired off if there is an issue signing up the user.
+  $scope.createUser = function (first_name, last_name, username, email, facebook_id, google_id, password, photo, cb, form) {
+    signupSrvc.createUser(first_name, last_name, username, email, facebook_id, google_id, password, photo).then(function (res) {
+      if (res.status === 200) {
+        loginSrvc.login(username, password).then(function (res) {
+          $rootScope.$broadcast('createUser');
+          $state.go('user');
+        });
+      }
+    }, function (err) {
+      if (err) {
+        alert('There was a problem signing you up. Usernames must be unique. Please try again.');
+        cb(form);
+      }
+    });
   };
 });
