@@ -14,5 +14,12 @@ angular.module('nWatch').service('loginSrvc', function($http) {
     })
   }
 
+  this.googleLogin = () => {
+    return $http({
+      method: 'GET',
+      url: '/auth/google'
+    })
+  }
+
 
 })

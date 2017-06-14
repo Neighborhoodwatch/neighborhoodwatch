@@ -1,9 +1,4 @@
 
-.create-date-picker-fix {
-  height: 250px; }
-  .create-date-picker-fix button {
-    margin: 0px; }
-
 .edit-event-time {
   display: flex;
   align-items: center;
@@ -166,12 +161,6 @@
       width: 100%;
       margin-bottom: 15px; } }
 
-#signup-row {
-  margin-top: 60px; }
-
-.signup-title {
-  text-align: center; }
-
 .btn-wide {
   width: 200px; }
 
@@ -219,3 +208,14 @@
 .user-img-fix {
   width: 100%;
   height: auto; }
+
+#signup-row {
+  margin-top: 60px; }
+
+.signup-title {
+  text-align: center; }
+
+.create-date-picker-fix {
+  height: 250px; }
+  .create-date-picker-fix button {
+    margin: 0px; }
