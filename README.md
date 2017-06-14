@@ -15,7 +15,8 @@ Technologies Used
 | JQuery     | Express Routing    |
 | AngularJS | Postgress / Mongoose database |
 | Google Maps API | Multer File Uploader |
-| | Passport Local/Facebook/Google authentication |
+| Bootstrap | Passport Local/Facebook/Google authentication |
+| SASS | |
 
 Developers
 -------------------
