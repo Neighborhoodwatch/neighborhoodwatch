@@ -4,20 +4,6 @@
   .create-date-picker-fix button {
     margin: 0px; }
 
-.edit-event-time {
-  display: flex;
-  align-items: center;
-  justify-content: center; }
-
-.edit-top-margin {
-  margin-top: 15px; }
-
-.edit-event-img {
-  max-width: 250px; }
-  @media (min-width: 768px) {
-    .edit-event-img {
-      max-width: 480px; } }
-
 #events-events-img {
   height: 40vh;
   width: 100vw;
@@ -83,6 +69,20 @@
 
 .events-buttons {
   padding-bottom: 20px; }
+
+.edit-event-time {
+  display: flex;
+  align-items: center;
+  justify-content: center; }
+
+.edit-top-margin {
+  margin-top: 15px; }
+
+.edit-event-img {
+  max-width: 250px; }
+  @media (min-width: 768px) {
+    .edit-event-img {
+      max-width: 480px; } }
 
 @media (min-width: 768px) {
   .navbar .navbar-nav {
