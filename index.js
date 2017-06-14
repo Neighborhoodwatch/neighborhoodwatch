@@ -114,7 +114,7 @@ app.use(passport.session({
     passport.use(new FacebookStrategy({
     clientID: '448384402181550',
     clientSecret: 'cc01914586c904f7ecdef4daa544c066',
-    callbackURL: 'http://localhost:3005/auth/facebook/callback',
+    callbackURL: 'https://neighborhoods.herokuapp.com/auth/facebook/callback',
     profileFields: ['id', 'displayName']
     },
     function(token, refreshToken, profile, done) {
