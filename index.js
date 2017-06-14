@@ -5,7 +5,7 @@ const passport = require('passport');
 const FacebookStrategy = require('passport-facebook').Strategy;
 var GoogleStrategy = require('passport-google-oauth20').Strategy;
 const cors = require('cors');
-// const config = require('./config');
+const config = require('./config');
 const path = require('path')
 // const passport = require('passport');
 
