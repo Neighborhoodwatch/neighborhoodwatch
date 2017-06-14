@@ -9,13 +9,13 @@ Technologies Used
 -------------
 
 | Front End     | Back End |
-| :------- | :---- |:------ |
-| #### <i class="icon-file"></i> HTML 5 | #### <i class="icon-file"></i> Node.js |
-| #### <i class="icon-file"></i> Javascript / ES6    | #### <i class="icon-file"></i> Express   |
-| #### <i class="icon-file"></i> JQuery     | #### <i class="icon-file"></i> Express Routing    |
-|#### <i class="icon-file"></i> AngularJS |#### <i class="icon-file"></i> Postgress / Mongoose database |
-|#### <i class="icon-file"></i> Google Maps API |#### <i class="icon-file"></i> Multer File Uploader |
-| | #### <i class="icon-file"></i> Passport Local/Facebook/Google authentication |
+------------- | -------------
+| HTML 5 | Node.js |
+| Javascript / ES6 | Express   |
+| JQuery     | Express Routing    |
+| AngularJS | Postgress / Mongoose database |
+| Google Maps API | Multer File Uploader |
+| | Passport Local/Facebook/Google authentication |
 
 Developers
 -------------------
