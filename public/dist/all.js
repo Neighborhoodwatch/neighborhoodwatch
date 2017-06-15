@@ -1649,6 +1649,183 @@ angular.module('nWatch').service('userSrvc', function ($http) {
   };
 });
 
+angular.module('nWatch').controller('createEventCtrl', function ($scope, eventSrvc, $log, sessionSrv, typeService, $timeout, uploadFile) {
+  var session = function session() {
+    sessionSrv.session().then(function (res) {
+      if (res.isLoggedIn) {
+        $scope.userId = res.user[0].user_id;
+      }
+      $scope.attending = res.followedEvents;
+      if (res.isLoggedIn) {
+        $scope.hood = res.neighborhood[0].neighborhood_id;
+      }
+    });
+  };
+
+  $scope.lists = [{
+    name: 'Lost Pet',
+    type_id: 1
+  }, {
+    name: 'Damage',
+    type_id: 2
+  }, {
+    name: 'Neighborhood Watch',
+    type_id: 4
+  }, {
+    name: 'Clean-up',
+    type_id: 5
+  }, {
+    name: 'Missing Person',
+    type_id: 6
+  }, {
+    name: 'Meet Up',
+    type_id: 7
+  }, {
+    name: 'Entertainment',
+    type_id: 8
+  }, {
+    name: 'Other',
+    type_id: 3
+  }];
+  $scope.category = $scope.lists[0];
+  $scope.eventImg = "yoyoyo";
+
+  $scope.event = {};
+  $scope.eventCreate = function (event) {
+    event.type_id = $scope.category.type_id;
+    event.event_location_lat = $scope.lat;
+    event.event_location_lon = $scope.long;
+    // we need to update the db for this time. maybe text?
+    event.event_time = $scope.mytime;
+    event.date = $scope.dt.toDateString();
+    event.photo = $scope.event.photo;
+    event.created_by = $scope.userId;
+    if ($scope.userId) {
+      event.neighborhood_id = $scope.hood;
+    }
+    eventSrvc.save(event);
+  };
+
+  //photo upload
+  $scope.file = {};
+  $scope.message = false;
+  $scope.alert = '';
+  $scope.defaultUrl = 'app/img/dandelion.jpg';
+
+  $scope.Submit = function () {
+    $scope.uploading = true;
+    uploadFile.upload($scope.file).then(function (data) {
+      if (data.data.success) {
+        $scope.uploading = false;
+        $scope.alert = 'alert alert-success';
+        $scope.message = data.data.message;
+        $scope.file = {};
+      } else {
+        $scope.uploading = false;
+        $scope.alert = 'alert alert-danger';
+        $scope.message = data.data.message;
+        $scope.file = {};
+      }
+    });
+  };
+
+  $scope.photoChanged = function (files) {
+    if (files.length > 0 && files[0].name.match(/\.(png|jpeg|jpg)$/)) {
+      $scope.uploading = true;
+      var file = files[0];
+      var fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+      fileReader.onload = function (e) {
+        $timeout(function () {
+          $scope.thumbnail = {};
+          $scope.thumbnail.dataUrl = e.target.result;
+          $scope.event.photo = 'app/img/' + file.name || $scope.defaultUrl;
+          $scope.uploading = false;
+          $scope.message = false;
+        });
+      };
+    } else {
+      $scope.thumbnail = {};
+      $scope.message = false;
+    }
+  };
+  //end photo upload
+
+  // ui--bootstrap date js
+  $scope.today = function () {
+    $scope.dt = new Date();
+  };
+  $scope.today();
+
+  $scope.options = {
+    customClass: getDayClass,
+    minDate: new Date(),
+    showWeeks: true
+  };
+
+  // Disable weekend selection
+  function disabled(data) {
+    var date = data.date,
+        mode = data.mode;
+    return mode === 'day' && (date.getDay() === 0 || date.getDay() === 6);
+  }
+
+  $scope.setDate = function (year, month, day) {
+    $scope.dt = new Date(year, month, day);
+  };
+
+  var tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  var afterTomorrow = new Date(tomorrow);
+  afterTomorrow.setDate(tomorrow.getDate() + 1);
+  $scope.events = [{
+    date: tomorrow,
+    status: 'full'
+  }, {
+    date: afterTomorrow,
+    status: 'partially'
+  }];
+
+  function getDayClass(data) {
+    var date = data.date,
+        mode = data.mode;
+    if (mode === 'day') {
+      var dayToCheck = new Date(date).setHours(0, 0, 0, 0);
+
+      for (var i = 0; i < $scope.events.length; i++) {
+        var currentDay = new Date($scope.events[i].date).setHours(0, 0, 0, 0);
+
+        if (dayToCheck === currentDay) {
+          return $scope.events[i].status;
+        }
+      }
+    }
+    return '';
+  }
+  // time picker
+  $scope.mytime = new Date();
+
+  $scope.hstep = 1;
+  $scope.mstep = 15;
+
+  $scope.ismeridian = true;
+  $scope.toggleMode = function () {
+    $scope.ismeridian = !$scope.ismeridian;
+  };
+
+  $scope.update = function () {
+    var d = new Date();
+    d.setHours(14);
+    d.setMinutes(0);
+    $scope.mytime = d;
+  };
+
+  $scope.changed = function () {
+    $log.log('Time changed to: ' + $scope.mytime);
+  };
+  session();
+});
+
 angular.module('nWatch').controller('adminCtrl', function ($scope) {
   $scope.to = "argggghhhhh";
 });
@@ -2045,183 +2222,6 @@ angular.module('nWatch').controller('eventsCtrl', function ($scope, eventSrvc, e
   getFol();
 });
 
-angular.module('nWatch').controller('createEventCtrl', function ($scope, eventSrvc, $log, sessionSrv, typeService, $timeout, uploadFile) {
-  var session = function session() {
-    sessionSrv.session().then(function (res) {
-      if (res.isLoggedIn) {
-        $scope.userId = res.user[0].user_id;
-      }
-      $scope.attending = res.followedEvents;
-      if (res.isLoggedIn) {
-        $scope.hood = res.neighborhood[0].neighborhood_id;
-      }
-    });
-  };
-
-  $scope.lists = [{
-    name: 'Lost Pet',
-    type_id: 1
-  }, {
-    name: 'Damage',
-    type_id: 2
-  }, {
-    name: 'Neighborhood Watch',
-    type_id: 4
-  }, {
-    name: 'Clean-up',
-    type_id: 5
-  }, {
-    name: 'Missing Person',
-    type_id: 6
-  }, {
-    name: 'Meet Up',
-    type_id: 7
-  }, {
-    name: 'Entertainment',
-    type_id: 8
-  }, {
-    name: 'Other',
-    type_id: 3
-  }];
-  $scope.category = $scope.lists[0];
-  $scope.eventImg = "yoyoyo";
-
-  $scope.event = {};
-  $scope.eventCreate = function (event) {
-    event.type_id = $scope.category.type_id;
-    event.event_location_lat = $scope.lat;
-    event.event_location_lon = $scope.long;
-    // we need to update the db for this time. maybe text?
-    event.event_time = $scope.mytime;
-    event.date = $scope.dt.toDateString();
-    event.photo = $scope.event.photo;
-    event.created_by = $scope.userId;
-    if ($scope.userId) {
-      event.neighborhood_id = $scope.hood;
-    }
-    eventSrvc.save(event);
-  };
-
-  //photo upload
-  $scope.file = {};
-  $scope.message = false;
-  $scope.alert = '';
-  $scope.defaultUrl = 'app/img/dandelion.jpg';
-
-  $scope.Submit = function () {
-    $scope.uploading = true;
-    uploadFile.upload($scope.file).then(function (data) {
-      if (data.data.success) {
-        $scope.uploading = false;
-        $scope.alert = 'alert alert-success';
-        $scope.message = data.data.message;
-        $scope.file = {};
-      } else {
-        $scope.uploading = false;
-        $scope.alert = 'alert alert-danger';
-        $scope.message = data.data.message;
-        $scope.file = {};
-      }
-    });
-  };
-
-  $scope.photoChanged = function (files) {
-    if (files.length > 0 && files[0].name.match(/\.(png|jpeg|jpg)$/)) {
-      $scope.uploading = true;
-      var file = files[0];
-      var fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-      fileReader.onload = function (e) {
-        $timeout(function () {
-          $scope.thumbnail = {};
-          $scope.thumbnail.dataUrl = e.target.result;
-          $scope.event.photo = 'app/img/' + file.name || $scope.defaultUrl;
-          $scope.uploading = false;
-          $scope.message = false;
-        });
-      };
-    } else {
-      $scope.thumbnail = {};
-      $scope.message = false;
-    }
-  };
-  //end photo upload
-
-  // ui--bootstrap date js
-  $scope.today = function () {
-    $scope.dt = new Date();
-  };
-  $scope.today();
-
-  $scope.options = {
-    customClass: getDayClass,
-    minDate: new Date(),
-    showWeeks: true
-  };
-
-  // Disable weekend selection
-  function disabled(data) {
-    var date = data.date,
-        mode = data.mode;
-    return mode === 'day' && (date.getDay() === 0 || date.getDay() === 6);
-  }
-
-  $scope.setDate = function (year, month, day) {
-    $scope.dt = new Date(year, month, day);
-  };
-
-  var tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() + 1);
-  var afterTomorrow = new Date(tomorrow);
-  afterTomorrow.setDate(tomorrow.getDate() + 1);
-  $scope.events = [{
-    date: tomorrow,
-    status: 'full'
-  }, {
-    date: afterTomorrow,
-    status: 'partially'
-  }];
-
-  function getDayClass(data) {
-    var date = data.date,
-        mode = data.mode;
-    if (mode === 'day') {
-      var dayToCheck = new Date(date).setHours(0, 0, 0, 0);
-
-      for (var i = 0; i < $scope.events.length; i++) {
-        var currentDay = new Date($scope.events[i].date).setHours(0, 0, 0, 0);
-
-        if (dayToCheck === currentDay) {
-          return $scope.events[i].status;
-        }
-      }
-    }
-    return '';
-  }
-  // time picker
-  $scope.mytime = new Date();
-
-  $scope.hstep = 1;
-  $scope.mstep = 15;
-
-  $scope.ismeridian = true;
-  $scope.toggleMode = function () {
-    $scope.ismeridian = !$scope.ismeridian;
-  };
-
-  $scope.update = function () {
-    var d = new Date();
-    d.setHours(14);
-    d.setMinutes(0);
-    $scope.mytime = d;
-  };
-
-  $scope.changed = function () {
-    $log.log('Time changed to: ' + $scope.mytime);
-  };
-  session();
-});
-
 angular.module('nWatch').controller('homeCtrl', function ($scope, eventSrvc, userSrvc) {
   eventSrvc.getEvents().then(function (res) {
     $scope.events = res;
@@ -2411,6 +2411,88 @@ angular.module('nWatch').controller('newNeighborhoodCtrl', function ($scope, nei
       }
     });
   };
+});
+
+angular.module('nWatch').controller('hoodCtrl', function ($scope, neighborhoodSrvc, authSrvc) {
+
+  $scope.leaveNeighborhood = function (id) {
+    var neighborhood_id = null;
+    neighborhoodSrvc.updateUserNeighborhood(id, neighborhood_id).then(function (res) {
+      $scope.noNeighborhood = true;
+    });
+  };
+  // Will delete these two calls once I can actually grab data from the database
+  //Sets whether or not user is logged in and whether or not user has neighborhood
+  $scope.getSession = function () {
+    neighborhoodSrvc.getSession().then(function (res) {
+      var data = res.data;
+      $scope.neighborhood = data.neighborhood[0];
+      $scope.user = data.user[0];
+      if (data.neighborhood.length === 0) {
+        $scope.noNeighborhood = true;
+      } else if (data.neighborhood.length > 0) {
+        $scope.noNeighborhood = false;
+      }
+      if ($scope.user.neighborhood_id) {
+        var _id = $scope.user.neighborhood_id;
+        var getNeighborhoodEvents = function getNeighborhoodEvents(id) {
+          neighborhoodSrvc.getEvents(id).then(function (res) {
+            var data = res.data;
+            if (data.length === 0) {
+              $scope.hasNeighborhoodEvents = false;
+            } else {
+              $scope.hasNeighborhoodEvents = true;
+              $scope.neighborhoodEvents = data;
+            }
+          });
+        };
+        getNeighborhoodEvents(_id);
+      }
+      ////map addition
+      var neighId = $scope.user.neighborhood_id;
+      //getting the neighbothoods city and state
+      var neighCity = $scope.neighborhood.city;
+      var neighState = $scope.neighborhood.state;
+      var neighAdd = neighCity + ', ' + neighState;
+      //sending city/state to service to gen long late
+      neighborhoodSrvc.getEvents(neighId).then(function (res) {
+        var data = res.data;
+        var locations = data.map(function (obj) {
+          return [obj.title, Number(obj.event_location_lat), Number(obj.event_location_lon)];
+        });
+        neighborhoodSrvc.getMaps(neighAdd).then(function (res) {
+          //grabbing long lat from googe assigning them to lat lng vars
+          var lata = res.data.results[0].geometry.location.lat;
+          var lnga = res.data.results[0].geometry.location.lng;
+          var myLatLng = { lat: lata, lng: lnga };
+          //generateing map bassed off long lat from google
+          var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 13,
+            center: myLatLng
+          });
+          var infowindow = new google.maps.InfoWindow({});
+
+          var marker, i;
+
+          for (i = 0; i < locations.length; i++) {
+            marker = new google.maps.Marker({
+              position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+              map: map
+            });
+
+            google.maps.event.addListener(marker, 'click', function (marker, i) {
+              return function () {
+                infowindow.setContent(locations[i][0]);
+                infowindow.open(map, marker);
+              };
+            }(marker, i));
+          }
+        });
+      });
+      // mapp addition
+    });
+  };
+  $scope.getSession();
 });
 
 angular.module('nWatch').controller('signupCtrl', function ($scope, signupSrvc, $state, loginSrvc, $rootScope) {
@@ -2654,86 +2736,4 @@ angular.module('nWatch').controller('userCtrl', function ($scope, userSrvc, $tim
       $scope.message = false;
     }
   };
-});
-
-angular.module('nWatch').controller('hoodCtrl', function ($scope, neighborhoodSrvc, authSrvc) {
-
-  $scope.leaveNeighborhood = function (id) {
-    var neighborhood_id = null;
-    neighborhoodSrvc.updateUserNeighborhood(id, neighborhood_id).then(function (res) {
-      $scope.noNeighborhood = true;
-    });
-  };
-  // Will delete these two calls once I can actually grab data from the database
-  //Sets whether or not user is logged in and whether or not user has neighborhood
-  $scope.getSession = function () {
-    neighborhoodSrvc.getSession().then(function (res) {
-      var data = res.data;
-      $scope.neighborhood = data.neighborhood[0];
-      $scope.user = data.user[0];
-      if (data.neighborhood.length === 0) {
-        $scope.noNeighborhood = true;
-      } else if (data.neighborhood.length > 0) {
-        $scope.noNeighborhood = false;
-      }
-      if ($scope.user.neighborhood_id) {
-        var _id = $scope.user.neighborhood_id;
-        var getNeighborhoodEvents = function getNeighborhoodEvents(id) {
-          neighborhoodSrvc.getEvents(id).then(function (res) {
-            var data = res.data;
-            if (data.length === 0) {
-              $scope.hasNeighborhoodEvents = false;
-            } else {
-              $scope.hasNeighborhoodEvents = true;
-              $scope.neighborhoodEvents = data;
-            }
-          });
-        };
-        getNeighborhoodEvents(_id);
-      }
-      ////map addition
-      var neighId = $scope.user.neighborhood_id;
-      //getting the neighbothoods city and state
-      var neighCity = $scope.neighborhood.city;
-      var neighState = $scope.neighborhood.state;
-      var neighAdd = neighCity + ', ' + neighState;
-      //sending city/state to service to gen long late
-      neighborhoodSrvc.getEvents(neighId).then(function (res) {
-        var data = res.data;
-        var locations = data.map(function (obj) {
-          return [obj.title, Number(obj.event_location_lat), Number(obj.event_location_lon)];
-        });
-        neighborhoodSrvc.getMaps(neighAdd).then(function (res) {
-          //grabbing long lat from googe assigning them to lat lng vars
-          var lata = res.data.results[0].geometry.location.lat;
-          var lnga = res.data.results[0].geometry.location.lng;
-          var myLatLng = { lat: lata, lng: lnga };
-          //generateing map bassed off long lat from google
-          var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 13,
-            center: myLatLng
-          });
-          var infowindow = new google.maps.InfoWindow({});
-
-          var marker, i;
-
-          for (i = 0; i < locations.length; i++) {
-            marker = new google.maps.Marker({
-              position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-              map: map
-            });
-
-            google.maps.event.addListener(marker, 'click', function (marker, i) {
-              return function () {
-                infowindow.setContent(locations[i][0]);
-                infowindow.open(map, marker);
-              };
-            }(marker, i));
-          }
-        });
-      });
-      // mapp addition
-    });
-  };
-  $scope.getSession();
 });

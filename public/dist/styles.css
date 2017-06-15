@@ -98,7 +98,8 @@
 .home-events {
   background-color: #968f88;
   height: 135px;
-  color: #F5F5F5; }
+  color: #F5F5F5;
+  overflow: hidden; }
 
 .home-about {
   color: #F5F5F5; }
@@ -219,3 +220,7 @@
 .user-img-fix {
   width: 100%;
   height: auto; }
+
+.user-event-text {
+  height: 60px;
+  overflow: hidden; }
