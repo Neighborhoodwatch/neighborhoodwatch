@@ -13,7 +13,7 @@ CREATE TABLE users (
         last_name    varchar,
         username    varchar unique,
          email varchar,
-        facebook_id    bigint unique,
+        facebook_id    bigint,
         google_id    varchar unique,
        password    varchar(20),
     photo     text,
@@ -48,4 +48,20 @@ following_id serial primary key,
     attending text
 );
 create unique index unique_neighborhood on neighborhood (name, city, state);
+INSERT INTO type (name, isscheduled, type_id)
+VALUES ('Lost Pet', false, 1);
+INSERT INTO type (name, isscheduled, type_id)
+VALUES ('Damage', false, 2);
+INSERT INTO type (name, isscheduled, type_id)
+VALUES ('Other', false, 3);
+INSERT INTO type (name, isscheduled, type_id)
+VALUES ('Neighborhood Watch', false, 4);
+INSERT INTO type (name, isscheduled, type_id)
+VALUES ('Clean-up', false, 5);
+INSERT INTO type (name, isscheduled, type_id)
+VALUES ('Missing Person', false, 6);
+INSERT INTO type (name, isscheduled, type_id)
+VALUES ('Meet Up', false, 7);
+INSERT INTO type (name, isscheduled, type_id)
+VALUES ('Entertainnment', false, 8);
 -->
