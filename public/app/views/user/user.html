@@ -32,8 +32,12 @@
                                 <label>Photo</label>
                                 <input class="form-control" ng-model="user.photo" placeholder="{{user.photo}}"></input>
                             </div>
-                            <button class="btn btn-success" ng-click="updateInfo(user.user_id, user.first_name, user.last_name, user.username, user.email, user.photo, getUser)">Save Profile</button>
-                            <button class="btn btn-default" ng-click="cancelChanges()">Cancel Changes</button>
+                            <div class="form-group">
+                                <label>Password</label>
+                                <input type="password" class="form-control" ng-model="user.password"></input>
+                            </div>
+                            <button class="btn btn-success" ng-click="updateInfo(user.user_id, user.first_name, user.last_name, user.username, user.email, facebookId, user.photo, user.password, getUser)">Save Profile</button>
+                            <button class="btn btn-default" ng-click="cancelChanges()" ng-disabled="facebookUser">Cancel Changes</button>
                         </form>
                         <div ng-hide="hasInfo" class="row" style="margin-top:10px;"><div class="col-sm-12 user-panel-margin-bottom">
                           <div ng-show="uploading" class="progress">

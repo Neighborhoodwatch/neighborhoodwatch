@@ -23,5 +23,6 @@ router.get('/current', usersCtrl.getCurrentUser);
 router.get('/login/:username/:password', usersCtrl.signin)
 router.get('/auth/checklogin', usersCtrl.checkLoggedIn)
 router.get('/authenticate/google', usersCtrl.googleAuth)
+router.get('/authenticate/facebook', usersCtrl.facebookAuth)
 
 module.exports = router;

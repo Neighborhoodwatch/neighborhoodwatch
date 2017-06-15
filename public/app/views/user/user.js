@@ -1,4 +1,4 @@
-angular.module('nWatch').controller('userCtrl', function($scope, userSrvc, $timeout, uploadFile) {
+angular.module('nWatch').controller('userCtrl', function($scope, userSrvc, $timeout, uploadFile, $rootScope) {
   $scope.hasInfo = true
   //invokes on page load to grab the req.session.user, also passed to updateInfo
   $scope.compileUserInfo = (id, cb) => {
@@ -14,6 +14,14 @@ angular.module('nWatch').controller('userCtrl', function($scope, userSrvc, $time
   $scope.getSession = () => {
     userSrvc.getSession().then(function(res) {
       let data = res.data
+      $scope.facebookId = data.user[0].facebook_id
+      if(data.facebookUser === true) {
+        $scope.hasInfo = false
+        $scope.previous_id = data.user[0].user_id
+        $scope.facebookUser = true
+        $rootScope.$broadcast('facebook-user')
+        alert('Please update your profile information and set a password')
+      }
       $scope.user = data.user[0]
       $scope.usernameNoUpdate = $scope.user.username
       $scope.neighborhood = data.neighborhood[0]
@@ -46,18 +54,75 @@ angular.module('nWatch').controller('userCtrl', function($scope, userSrvc, $time
   //This function fires when update my info gets clicked and shows the update html
   $scope.update = () => {$scope.hasInfo = !$scope.hasInfo}
   //When user clicks save profile, it updates their info in the database, then reruns all the functions that are loaded on page initialization to reset the session and grab it and reload the page
-  $scope.updateInfo = function(user_id, first_name, last_name, username, email, photo, cb) {
-    userSrvc.updateInfo(user_id, first_name, last_name, username, email, photo).then(function(res) {
-      $scope.hasInfo = !$scope.hasInfo
-      cb($scope.compileUserInfo, $scope.getSession)
-    }, function(err) {
-      if(err.data.code === '23505') {
-        alert('Unable to update info. Username matched a previous record. Please pick a different username.')
-        $scope.user.username = $scope.usernameNoUpdate
-      } else {
-        alert('Something went wrong on update. Please try again.')
-      }
-    })
+  $scope.updateInfo = function(user_id, first_name, last_name, username, email, facebook_id, photo, password, cb) {
+    if($scope.facebookUser === true) {
+      userSrvc.getUserEmail(email).then(function(res) {
+        let data = res.data
+        if(data.length > 0) {
+          let user_id = data[0].user_id
+          userSrvc.updateInfo(user_id, first_name, last_name, username, email, facebook_id, photo, password).then(function(res) {
+            var previous_id = $scope.previous_id
+            if(previous_id) {
+              userSrvc.deletefacebook(previous_id).then(function(res) {
+                $rootScope.$broadcast('facebook-not-user')
+                $scope.facebookUser = false
+                $scope.hasInfo = !$scope.hasInfo
+                cb($scope.compileUserInfo, $scope.getSession)
+              })
+            } else {
+
+              userSrvc.updatedfacebook().then(function(res) {
+                $rootScope.$broadcast('facebook-not-user')
+                $scope.facebookUser = false
+                $scope.hasInfo = !$scope.hasInfo
+                cb($scope.compileUserInfo, $scope.getSession)
+              })
+            }
+          }, function(err) {
+            if(err.data.code === '23505') {
+              alert('Unable to update info. Username matched a previous record. Please pick a different username.')
+              $scope.user.username = $scope.usernameNoUpdate
+            } else {
+              alert('Something went wrong on update. Please try again.')
+            }
+          })
+        } else {
+          userSrvc.updateInfo(user_id, first_name, last_name, username, email, facebook_id, photo, password).then(function(res) {
+
+              userSrvc.updatedfacebook().then(function(res) {
+                $rootScope.$broadcast('facebook-not-user')
+                $scope.facebookUser = false
+                $scope.hasInfo = !$scope.hasInfo
+                cb($scope.compileUserInfo, $scope.getSession)
+              })
+
+          }, function(err) {
+            if(err.data.code === '23505') {
+              alert('Unable to update info. Username matched a previous record. Please pick a different username.')
+              $scope.user.username = $scope.usernameNoUpdate
+            } else {
+              alert('Something went wrong on update. Please try again.')
+            }
+          })
+        }
+      })
+    } else {
+
+      userSrvc.updateInfo(user_id, first_name, last_name, username, email, facebook_id, photo, password).then(function(res) {
+        userSrvc.updatedfacebook().then(function(res) {
+          $scope.facebookUser = false
+          $scope.hasInfo = !$scope.hasInfo
+          cb($scope.compileUserInfo, $scope.getSession)
+        })
+      }, function(err) {
+        if(err.data.code === '23505') {
+          alert('Unable to update info. Username matched a previous record. Please pick a different username.')
+          $scope.user.username = $scope.usernameNoUpdate
+        } else {
+          alert('Something went wrong on update. Please try again.')
+        }
+      })
+    }
   }
 
   $scope.cancelChanges = () => {

@@ -1,15 +1,13 @@
-angular.module('nWatch').controller('loginCtrl', function($scope, one, loginSrvc, $state, $rootScope) {
-
-  $scope.facebookLogin = () => {
-    loginSrvc.googleLogin().then(function(res) {
-      console.log(res)
+angular.module('nWatch').controller('loginCtrl', function($scope, one, loginSrvc, $state, $rootScope, userSrvc) {
+  $scope.getSession = () => {
+    userSrvc.getSession().then(function(res) {
+      let data = res.data
+      if(data.googleUser === false) {
+        alert('You must sign up before you can login with Google')
+      }
     })
   }
-  // $scope.googleLogin = () => {
-  //   loginSrvc.googleLogin().then(function(res) {
-  //     console.log(res)
-  //   })
-  // }
+  $scope.getSession()
   //Callback function passed to login function that gets fired off if there was a problem with logging in...Will reset the form
   $scope.reset = function(form) {
     form.$setPristine();
