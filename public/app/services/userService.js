@@ -1,7 +1,7 @@
 
 angular.module('nWatch').service('userSrvc', function($http) {
 
-  this.updateInfo = (user_id, first_name, last_name, username, email, photo) => {
+  this.updateInfo = (user_id, first_name, last_name, username, email, facebook_id, photo, password) => {
     return $http({
       method: 'PUT',
       url: `/api/users/${user_id}`,
@@ -10,7 +10,9 @@ angular.module('nWatch').service('userSrvc', function($http) {
         last_name,
         username,
         email,
-        photo
+        facebook_id,
+        photo,
+        password
       }
     })
   }
@@ -96,6 +98,24 @@ angular.module('nWatch').service('userSrvc', function($http) {
     return $http({
       method: 'GET',
       url: '/whoami'
+    })
+  }
+  this.updatedfacebook = () => {
+    return $http({
+      method: 'GET',
+      url: `/updatedfacebook`
+    })
+  }
+  this.deletefacebook = (id) => {
+    return $http({
+      method: 'DELETE',
+      url: `/deletefacebook/${id}`
+    })
+  }
+  this.getUserEmail = (email) => {
+    return $http({
+      method: 'GET',
+      url: `/facebookemail/${email}`
     })
   }
 })

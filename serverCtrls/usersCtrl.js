@@ -88,7 +88,7 @@ module.exports = {
     var user_id = req.params.id;
     var user = req.body;
 
-    db.update_user([user.first_name, user.last_name, user.username, user.email, user.photo, user_id], (err, resp) => {
+    db.update_user([user.first_name, user.last_name, user.username, user.email, user.facebook_id, user.password, user.photo, user_id], (err, resp) => {
         if (err) {
             res.status(420).json(err);
         } else {
@@ -190,25 +190,51 @@ module.exports = {
         if(resp.length === 0) {
 
           db.get_google_email(primary_email, (err, response) => {
-
             if(err) {
               res.status(420).json(err)
             } else if(response.length > 0) {
               let user = response[0]
               db.update_google_id([google_id, user.user_id], (err, response) => {
                 if(err) {
-                } else {
-                  let user = response[0]
-                  res.send(user)
+                  res.status(420).json(err)
+                } else if(response.length > 0){
+                  req.session.user = response
+                  req.session.isLoggedIn = true
+                  res.redirect('/#!/user')
                 }
               })
+            } else {
+              req.session.googleUser = false
+              res.redirect('/#!/login')
             }
           })
         } else if (resp.length > 0) {
-          let user = resp[0]
-          res.send(user)
+          req.session.user = resp
+          req.session.isLoggedIn = true
+          res.redirect('/#!/user')
         }
       }
+    })
+  },
+  //Facebook auth functions
+  facebookAuth: (req, res, next) => {
+    var db = req.app.get('db')
+    var profile = req.user
+    db.get_facebook_user(profile.id, function(err, user) {
+        if (user.length === 0) {
+            db.create_facebook_user([profile.displayName, profile.id],
+
+            function(err, user) {
+              req.session.user = user
+              req.session.isLoggedIn = true
+              req.session.facebookUser = true
+              res.redirect('/#!/user')
+            })
+        } else if(user.length > 0){
+          req.session.user = user
+          req.session.isLoggedIn = true
+          res.redirect('/#!/user')
+        }
     })
   }
 }

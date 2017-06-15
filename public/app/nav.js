@@ -17,6 +17,12 @@ angular.module('nWatch').controller('navCtrl',function($scope, $location, $state
     $scope.$on('login', function(event, array) {
       $scope.checkLogin()
     })
+    $scope.$on('facebook-user', function(event, arr) {
+      $scope.facebookUser = true
+    })
+    $scope.$on('facebook-not-user', function(event, arr) {
+      $scope.facebookUser = false
+    })
     //Listens for the createUser function to fire off in signupCtrl and then fires of checklogin to set isLoggedIn to true
     $scope.$on('createUser', function(event, array) {
       $scope.checkLogin()

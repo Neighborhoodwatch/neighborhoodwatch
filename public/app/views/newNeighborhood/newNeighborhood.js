@@ -3,6 +3,7 @@ angular.module('nWatch').controller('newNeighborhoodCtrl', function($scope, neig
   $scope.updateUsersNeighborhood = (neighborhood_id) => {
     neighborhoodSrvc.getSession().then(function(resp) {
       var session = resp.data
+      console.log(session)
       var user_id = session.user[0].user_id
       neighborhoodSrvc.joinNeighborhood(neighborhood_id, user_id).then(function(resp) {
         userSrvc.getUser(user_id).then(function(resp) {

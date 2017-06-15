@@ -203,6 +203,12 @@ angular.module('nWatch').controller('navCtrl', function ($scope, $location, $sta
   $scope.$on('login', function (event, array) {
     $scope.checkLogin();
   });
+  $scope.$on('facebook-user', function (event, arr) {
+    $scope.facebookUser = true;
+  });
+  $scope.$on('facebook-not-user', function (event, arr) {
+    $scope.facebookUser = false;
+  });
   //Listens for the createUser function to fire off in signupCtrl and then fires of checklogin to set isLoggedIn to true
   $scope.$on('createUser', function (event, array) {
     $scope.checkLogin();
@@ -1524,7 +1530,7 @@ angular.module('uploadFileService', []).service('uploadFile', function ($http) {
 
 angular.module('nWatch').service('userSrvc', function ($http) {
 
-  this.updateInfo = function (user_id, first_name, last_name, username, email, photo) {
+  this.updateInfo = function (user_id, first_name, last_name, username, email, facebook_id, photo, password) {
     return $http({
       method: 'PUT',
       url: '/api/users/' + user_id,
@@ -1533,7 +1539,9 @@ angular.module('nWatch').service('userSrvc', function ($http) {
         last_name: last_name,
         username: username,
         email: email,
-        photo: photo
+        facebook_id: facebook_id,
+        photo: photo,
+        password: password
       }
     });
   };
@@ -1621,320 +1629,28 @@ angular.module('nWatch').service('userSrvc', function ($http) {
       url: '/whoami'
     });
   };
+  this.updatedfacebook = function () {
+    return $http({
+      method: 'GET',
+      url: '/updatedfacebook'
+    });
+  };
+  this.deletefacebook = function (id) {
+    return $http({
+      method: 'DELETE',
+      url: '/deletefacebook/' + id
+    });
+  };
+  this.getUserEmail = function (email) {
+    return $http({
+      method: 'GET',
+      url: '/facebookemail/' + email
+    });
+  };
 });
 
 angular.module('nWatch').controller('adminCtrl', function ($scope) {
   $scope.to = "argggghhhhh";
-});
-
-angular.module('nWatch').controller('createEventCtrl', function ($scope, eventSrvc, $log, sessionSrv, typeService, $timeout, uploadFile) {
-  var session = function session() {
-    sessionSrv.session().then(function (res) {
-      if (res.isLoggedIn) {
-        $scope.userId = res.user[0].user_id;
-      }
-      $scope.attending = res.followedEvents;
-      if (res.isLoggedIn) {
-        $scope.hood = res.neighborhood[0].neighborhood_id;
-      }
-    });
-  };
-
-  $scope.lists = [{
-    name: 'Lost Pet',
-    type_id: 1
-  }, {
-    name: 'Damage',
-    type_id: 2
-  }, {
-    name: 'Neighborhood Watch',
-    type_id: 4
-  }, {
-    name: 'Clean-up',
-    type_id: 5
-  }, {
-    name: 'Missing Person',
-    type_id: 6
-  }, {
-    name: 'Meet Up',
-    type_id: 7
-  }, {
-    name: 'Entertainment',
-    type_id: 8
-  }, {
-    name: 'Other',
-    type_id: 3
-  }];
-  $scope.category = $scope.lists[0];
-  $scope.eventImg = "yoyoyo";
-
-  $scope.event = {};
-  $scope.eventCreate = function (event) {
-    event.type_id = $scope.category.type_id;
-    event.event_location_lat = $scope.lat;
-    event.event_location_lon = $scope.long;
-    // we need to update the db for this time. maybe text?
-    event.event_time = $scope.mytime;
-    event.date = $scope.dt.toDateString();
-    event.photo = $scope.event.photo;
-    event.created_by = $scope.userId;
-    if ($scope.userId) {
-      event.neighborhood_id = $scope.hood;
-    }
-    eventSrvc.save(event);
-  };
-
-  //photo upload
-  $scope.file = {};
-  $scope.message = false;
-  $scope.alert = '';
-  $scope.defaultUrl = 'app/img/dandelion.jpg';
-
-  $scope.Submit = function () {
-    $scope.uploading = true;
-    uploadFile.upload($scope.file).then(function (data) {
-      if (data.data.success) {
-        $scope.uploading = false;
-        $scope.alert = 'alert alert-success';
-        $scope.message = data.data.message;
-        $scope.file = {};
-      } else {
-        $scope.uploading = false;
-        $scope.alert = 'alert alert-danger';
-        $scope.message = data.data.message;
-        $scope.file = {};
-      }
-    });
-  };
-
-  $scope.photoChanged = function (files) {
-    if (files.length > 0 && files[0].name.match(/\.(png|jpeg|jpg)$/)) {
-      $scope.uploading = true;
-      var file = files[0];
-      var fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-      fileReader.onload = function (e) {
-        $timeout(function () {
-          $scope.thumbnail = {};
-          $scope.thumbnail.dataUrl = e.target.result;
-          $scope.event.photo = 'app/img/' + file.name || $scope.defaultUrl;
-          $scope.uploading = false;
-          $scope.message = false;
-        });
-      };
-    } else {
-      $scope.thumbnail = {};
-      $scope.message = false;
-    }
-  };
-  //end photo upload
-
-  // ui--bootstrap date js
-  $scope.today = function () {
-    $scope.dt = new Date();
-  };
-  $scope.today();
-
-  $scope.options = {
-    customClass: getDayClass,
-    minDate: new Date(),
-    showWeeks: true
-  };
-
-  // Disable weekend selection
-  function disabled(data) {
-    var date = data.date,
-        mode = data.mode;
-    return mode === 'day' && (date.getDay() === 0 || date.getDay() === 6);
-  }
-
-  $scope.setDate = function (year, month, day) {
-    $scope.dt = new Date(year, month, day);
-  };
-
-  var tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() + 1);
-  var afterTomorrow = new Date(tomorrow);
-  afterTomorrow.setDate(tomorrow.getDate() + 1);
-  $scope.events = [{
-    date: tomorrow,
-    status: 'full'
-  }, {
-    date: afterTomorrow,
-    status: 'partially'
-  }];
-
-  function getDayClass(data) {
-    var date = data.date,
-        mode = data.mode;
-    if (mode === 'day') {
-      var dayToCheck = new Date(date).setHours(0, 0, 0, 0);
-
-      for (var i = 0; i < $scope.events.length; i++) {
-        var currentDay = new Date($scope.events[i].date).setHours(0, 0, 0, 0);
-
-        if (dayToCheck === currentDay) {
-          return $scope.events[i].status;
-        }
-      }
-    }
-    return '';
-  }
-  // time picker
-  $scope.mytime = new Date();
-
-  $scope.hstep = 1;
-  $scope.mstep = 15;
-
-  $scope.ismeridian = true;
-  $scope.toggleMode = function () {
-    $scope.ismeridian = !$scope.ismeridian;
-  };
-
-  $scope.update = function () {
-    var d = new Date();
-    d.setHours(14);
-    d.setMinutes(0);
-    $scope.mytime = d;
-  };
-
-  $scope.changed = function () {
-    $log.log('Time changed to: ' + $scope.mytime);
-  };
-  session();
-});
-
-angular.module('nWatch').controller('eventsCtrl', function ($scope, eventSrvc, event, $stateParams, sessionSrv) {
-  var eventId = $stateParams.eventId;
-  $scope.event = event[0];
-  var lat = Number(event[0].event_location_lat);
-  var long = Number(event[0].event_location_lon);
-  var myLatLng = { lat: lat, lng: long };
-
-  var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 17,
-    center: myLatLng
-  });
-  var marker = new google.maps.Marker({
-    position: myLatLng,
-    map: map,
-    title: 'Hello World!'
-  });
-  function add(name, arr) {
-    var id = arr.length + 1;
-    var found = arr.some(function (el) {
-      return el.user_id === name;
-    });
-    if (!found) {
-      return true;
-    } else if (found) {
-      return false;
-    }
-  }
-
-  var getFol = function getFol() {
-    eventSrvc.getFollowers(eventId).then(function (res) {
-      $scope.followers = res;
-      $scope.attStatus = function (res) {
-        if (res.attending === "yes") {
-          return "alert-success";
-        } else if (res.attending === "maybe") {
-          return "alert-warning";
-        } else if (res.attending === "no") {
-          return "alert-danger";
-        }
-      };
-    });
-  };
-  var session = function session() {
-    sessionSrv.session().then(function (res) {
-      $scope.buttons = res.isLoggedIn;
-      if (res.isLoggedIn == true) {
-        $scope.userId = res.user[0].user_id;
-      }
-      $scope.attending = res.followedEvents;
-    });
-  };
-  $scope.yes = function () {
-    var yes = {
-      user_id: $scope.userId,
-      attending: "yes"
-    };
-    var mFE = $scope.attending;
-    var tEF = $scope.followers;
-    if (tEF == undefined || tEF.length == 0 || add(yes.user_id, tEF)) {
-      eventSrvc.postFollowers(eventId, yes.user_id, yes.attending).then(function (res) {
-        session();
-        getFol();
-      });
-    }
-    for (var i = 0; i < tEF.length; i++) {
-      var correctFol = [];
-      if (tEF[i].user_id == yes.user_id) {
-        correctFol.push(tEF[i]);
-        if (correctFol.attending !== "yes") {
-          eventSrvc.updateFollowers(eventId, yes.user_id, yes.attending, correctFol[0].following_id).then(function (res) {
-            session();
-            getFol();
-          });
-        }
-      }
-    }
-  };
-  $scope.maybe = function () {
-    var maybe = {
-      user_id: $scope.userId,
-      attending: "maybe"
-    };
-    var mFE = $scope.attending;
-    var tEF = $scope.followers;
-    if (tEF == undefined || tEF.length == 0 || add(maybe.user_id, tEF)) {
-      eventSrvc.postFollowers(eventId, maybe.user_id, maybe.attending).then(function (res) {
-        session();
-        getFol();
-      });
-    }
-    for (var i = 0; i < tEF.length; i++) {
-      var correctFol = [];
-      if (tEF[i].user_id == maybe.user_id) {
-        correctFol.push(tEF[i]);
-        if (correctFol.attending !== "maybe") {
-          eventSrvc.updateFollowers(eventId, maybe.user_id, maybe.attending, correctFol[0].following_id).then(function (res) {
-            session();
-            getFol();
-          });
-        }
-      }
-    }
-  };
-  $scope.no = function () {
-    var no = {
-      user_id: $scope.userId,
-      attending: "no"
-    };
-    var mFE = $scope.attending;
-    var tEF = $scope.followers;
-    if (tEF == undefined || tEF.length == 0 || add(no.user_id, tEF)) {
-      eventSrvc.postFollowers(eventId, no.user_id, no.attending).then(function (res) {
-        session();
-        getFol();
-      });
-    }
-    for (var i = 0; i < tEF.length; i++) {
-      var correctFol = [];
-      if (tEF[i].user_id == no.user_id) {
-        correctFol.push(tEF[i]);
-        if (correctFol.attending !== "no") {
-          eventSrvc.updateFollowers(eventId, no.user_id, no.attending, correctFol[0].following_id).then(function (res) {
-            session();
-            getFol();
-          });
-        }
-      }
-    }
-  };
-  session();
-  getFol();
 });
 
 angular.module('nWatch').controller('editEventCtrl', function ($scope, eventSrvc, $log, sessionSrv, $stateParams, myEvent, $timeout, uploadFile) {
@@ -2196,6 +1912,316 @@ angular.module('nWatch').controller('editEventCtrl', function ($scope, eventSrvc
   session();
 });
 
+angular.module('nWatch').controller('eventsCtrl', function ($scope, eventSrvc, event, $stateParams, sessionSrv) {
+  var eventId = $stateParams.eventId;
+  $scope.event = event[0];
+  var lat = Number(event[0].event_location_lat);
+  var long = Number(event[0].event_location_lon);
+  var myLatLng = { lat: lat, lng: long };
+
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 17,
+    center: myLatLng
+  });
+  var marker = new google.maps.Marker({
+    position: myLatLng,
+    map: map,
+    title: 'Hello World!'
+  });
+  function add(name, arr) {
+    var id = arr.length + 1;
+    var found = arr.some(function (el) {
+      return el.user_id === name;
+    });
+    if (!found) {
+      return true;
+    } else if (found) {
+      return false;
+    }
+  }
+
+  var getFol = function getFol() {
+    eventSrvc.getFollowers(eventId).then(function (res) {
+      $scope.followers = res;
+      $scope.attStatus = function (res) {
+        if (res.attending === "yes") {
+          return "alert-success";
+        } else if (res.attending === "maybe") {
+          return "alert-warning";
+        } else if (res.attending === "no") {
+          return "alert-danger";
+        }
+      };
+    });
+  };
+  var session = function session() {
+    sessionSrv.session().then(function (res) {
+      $scope.buttons = res.isLoggedIn;
+      if (res.isLoggedIn == true) {
+        $scope.userId = res.user[0].user_id;
+      }
+      $scope.attending = res.followedEvents;
+    });
+  };
+  $scope.yes = function () {
+    var yes = {
+      user_id: $scope.userId,
+      attending: "yes"
+    };
+    var mFE = $scope.attending;
+    var tEF = $scope.followers;
+    if (tEF == undefined || tEF.length == 0 || add(yes.user_id, tEF)) {
+      eventSrvc.postFollowers(eventId, yes.user_id, yes.attending).then(function (res) {
+        session();
+        getFol();
+      });
+    }
+    for (var i = 0; i < tEF.length; i++) {
+      var correctFol = [];
+      if (tEF[i].user_id == yes.user_id) {
+        correctFol.push(tEF[i]);
+        if (correctFol.attending !== "yes") {
+          eventSrvc.updateFollowers(eventId, yes.user_id, yes.attending, correctFol[0].following_id).then(function (res) {
+            session();
+            getFol();
+          });
+        }
+      }
+    }
+  };
+  $scope.maybe = function () {
+    var maybe = {
+      user_id: $scope.userId,
+      attending: "maybe"
+    };
+    var mFE = $scope.attending;
+    var tEF = $scope.followers;
+    if (tEF == undefined || tEF.length == 0 || add(maybe.user_id, tEF)) {
+      eventSrvc.postFollowers(eventId, maybe.user_id, maybe.attending).then(function (res) {
+        session();
+        getFol();
+      });
+    }
+    for (var i = 0; i < tEF.length; i++) {
+      var correctFol = [];
+      if (tEF[i].user_id == maybe.user_id) {
+        correctFol.push(tEF[i]);
+        if (correctFol.attending !== "maybe") {
+          eventSrvc.updateFollowers(eventId, maybe.user_id, maybe.attending, correctFol[0].following_id).then(function (res) {
+            session();
+            getFol();
+          });
+        }
+      }
+    }
+  };
+  $scope.no = function () {
+    var no = {
+      user_id: $scope.userId,
+      attending: "no"
+    };
+    var mFE = $scope.attending;
+    var tEF = $scope.followers;
+    if (tEF == undefined || tEF.length == 0 || add(no.user_id, tEF)) {
+      eventSrvc.postFollowers(eventId, no.user_id, no.attending).then(function (res) {
+        session();
+        getFol();
+      });
+    }
+    for (var i = 0; i < tEF.length; i++) {
+      var correctFol = [];
+      if (tEF[i].user_id == no.user_id) {
+        correctFol.push(tEF[i]);
+        if (correctFol.attending !== "no") {
+          eventSrvc.updateFollowers(eventId, no.user_id, no.attending, correctFol[0].following_id).then(function (res) {
+            session();
+            getFol();
+          });
+        }
+      }
+    }
+  };
+  session();
+  getFol();
+});
+
+angular.module('nWatch').controller('createEventCtrl', function ($scope, eventSrvc, $log, sessionSrv, typeService, $timeout, uploadFile) {
+  var session = function session() {
+    sessionSrv.session().then(function (res) {
+      if (res.isLoggedIn) {
+        $scope.userId = res.user[0].user_id;
+      }
+      $scope.attending = res.followedEvents;
+      if (res.isLoggedIn) {
+        $scope.hood = res.neighborhood[0].neighborhood_id;
+      }
+    });
+  };
+
+  $scope.lists = [{
+    name: 'Lost Pet',
+    type_id: 1
+  }, {
+    name: 'Damage',
+    type_id: 2
+  }, {
+    name: 'Neighborhood Watch',
+    type_id: 4
+  }, {
+    name: 'Clean-up',
+    type_id: 5
+  }, {
+    name: 'Missing Person',
+    type_id: 6
+  }, {
+    name: 'Meet Up',
+    type_id: 7
+  }, {
+    name: 'Entertainment',
+    type_id: 8
+  }, {
+    name: 'Other',
+    type_id: 3
+  }];
+  $scope.category = $scope.lists[0];
+  $scope.eventImg = "yoyoyo";
+
+  $scope.event = {};
+  $scope.eventCreate = function (event) {
+    event.type_id = $scope.category.type_id;
+    event.event_location_lat = $scope.lat;
+    event.event_location_lon = $scope.long;
+    // we need to update the db for this time. maybe text?
+    event.event_time = $scope.mytime;
+    event.date = $scope.dt.toDateString();
+    event.photo = $scope.event.photo;
+    event.created_by = $scope.userId;
+    if ($scope.userId) {
+      event.neighborhood_id = $scope.hood;
+    }
+    eventSrvc.save(event);
+  };
+
+  //photo upload
+  $scope.file = {};
+  $scope.message = false;
+  $scope.alert = '';
+  $scope.defaultUrl = 'app/img/dandelion.jpg';
+
+  $scope.Submit = function () {
+    $scope.uploading = true;
+    uploadFile.upload($scope.file).then(function (data) {
+      if (data.data.success) {
+        $scope.uploading = false;
+        $scope.alert = 'alert alert-success';
+        $scope.message = data.data.message;
+        $scope.file = {};
+      } else {
+        $scope.uploading = false;
+        $scope.alert = 'alert alert-danger';
+        $scope.message = data.data.message;
+        $scope.file = {};
+      }
+    });
+  };
+
+  $scope.photoChanged = function (files) {
+    if (files.length > 0 && files[0].name.match(/\.(png|jpeg|jpg)$/)) {
+      $scope.uploading = true;
+      var file = files[0];
+      var fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+      fileReader.onload = function (e) {
+        $timeout(function () {
+          $scope.thumbnail = {};
+          $scope.thumbnail.dataUrl = e.target.result;
+          $scope.event.photo = 'app/img/' + file.name || $scope.defaultUrl;
+          $scope.uploading = false;
+          $scope.message = false;
+        });
+      };
+    } else {
+      $scope.thumbnail = {};
+      $scope.message = false;
+    }
+  };
+  //end photo upload
+
+  // ui--bootstrap date js
+  $scope.today = function () {
+    $scope.dt = new Date();
+  };
+  $scope.today();
+
+  $scope.options = {
+    customClass: getDayClass,
+    minDate: new Date(),
+    showWeeks: true
+  };
+
+  // Disable weekend selection
+  function disabled(data) {
+    var date = data.date,
+        mode = data.mode;
+    return mode === 'day' && (date.getDay() === 0 || date.getDay() === 6);
+  }
+
+  $scope.setDate = function (year, month, day) {
+    $scope.dt = new Date(year, month, day);
+  };
+
+  var tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  var afterTomorrow = new Date(tomorrow);
+  afterTomorrow.setDate(tomorrow.getDate() + 1);
+  $scope.events = [{
+    date: tomorrow,
+    status: 'full'
+  }, {
+    date: afterTomorrow,
+    status: 'partially'
+  }];
+
+  function getDayClass(data) {
+    var date = data.date,
+        mode = data.mode;
+    if (mode === 'day') {
+      var dayToCheck = new Date(date).setHours(0, 0, 0, 0);
+
+      for (var i = 0; i < $scope.events.length; i++) {
+        var currentDay = new Date($scope.events[i].date).setHours(0, 0, 0, 0);
+
+        if (dayToCheck === currentDay) {
+          return $scope.events[i].status;
+        }
+      }
+    }
+    return '';
+  }
+  // time picker
+  $scope.mytime = new Date();
+
+  $scope.hstep = 1;
+  $scope.mstep = 15;
+
+  $scope.ismeridian = true;
+  $scope.toggleMode = function () {
+    $scope.ismeridian = !$scope.ismeridian;
+  };
+
+  $scope.update = function () {
+    var d = new Date();
+    d.setHours(14);
+    d.setMinutes(0);
+    $scope.mytime = d;
+  };
+
+  $scope.changed = function () {
+    $log.log('Time changed to: ' + $scope.mytime);
+  };
+  session();
+});
+
 angular.module('nWatch').controller('homeCtrl', function ($scope, eventSrvc, userSrvc) {
   eventSrvc.getEvents().then(function (res) {
     $scope.events = res;
@@ -2246,18 +2272,16 @@ angular.module('nWatch').controller('homeCtrl', function ($scope, eventSrvc, use
   $scope.category = $scope.lists[0];
 });
 
-angular.module('nWatch').controller('loginCtrl', function ($scope, one, loginSrvc, $state, $rootScope) {
-
-  $scope.facebookLogin = function () {
-    loginSrvc.googleLogin().then(function (res) {
-      console.log(res);
+angular.module('nWatch').controller('loginCtrl', function ($scope, one, loginSrvc, $state, $rootScope, userSrvc) {
+  $scope.getSession = function () {
+    userSrvc.getSession().then(function (res) {
+      var data = res.data;
+      if (data.googleUser === false) {
+        alert('You must sign up before you can login with Google');
+      }
     });
   };
-  // $scope.googleLogin = () => {
-  //   loginSrvc.googleLogin().then(function(res) {
-  //     console.log(res)
-  //   })
-  // }
+  $scope.getSession();
   //Callback function passed to login function that gets fired off if there was a problem with logging in...Will reset the form
   $scope.reset = function (form) {
     form.$setPristine();
@@ -2314,6 +2338,321 @@ angular.module('nWatch').controller('loginCtrl', function ($scope, one, loginSrv
         $scope.password = '';
       }
     });
+  };
+});
+
+angular.module('nWatch').controller('newNeighborhoodCtrl', function ($scope, neighborhoodSrvc, $state, userSrvc) {
+  //callback function invoked by saveNeighborhood that gets invoked if neighborhood creation was successful that updates users neighborhood and updates session then routes to user view
+  $scope.updateUsersNeighborhood = function (neighborhood_id) {
+    neighborhoodSrvc.getSession().then(function (resp) {
+      var session = resp.data;
+      console.log(session);
+      var user_id = session.user[0].user_id;
+      neighborhoodSrvc.joinNeighborhood(neighborhood_id, user_id).then(function (resp) {
+        userSrvc.getUser(user_id).then(function (resp) {
+          $state.go('user');
+        });
+      });
+    });
+  };
+  //This is a callback function passed to saveNeighborhood on save neighborhood button submit that is used to reset the form if there was an error creating the neighborhood
+  $scope.reset = function (form) {
+    form.$setPristine();
+    form.$setUntouched();
+    var controlNames = Object.keys(form).filter(function (key) {
+      return key.indexOf('$') !== 0;
+    });
+    var _iteratorNormalCompletion2 = true;
+    var _didIteratorError2 = false;
+    var _iteratorError2 = undefined;
+
+    try {
+      for (var _iterator2 = controlNames[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+        var name = _step2.value;
+
+        var control = form[name];
+        control.$setViewValue(undefined);
+      }
+    } catch (err) {
+      _didIteratorError2 = true;
+      _iteratorError2 = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion2 && _iterator2.return) {
+          _iterator2.return();
+        }
+      } finally {
+        if (_didIteratorError2) {
+          throw _iteratorError2;
+        }
+      }
+    }
+
+    $scope.neighborhoodName = '';
+    $scope.city = '';
+    $scope.state = '';
+  };
+  //Function that is invoked when save neighborhood is clicked..If neighborhood was created it invokes updateUsersNeighborhood which updates the users neighborhood to newly created neighborhood and then routes back to user view
+  $scope.saveNeighborhood = function (name, city, state, cb, cb2, form) {
+    neighborhoodSrvc.createNeighborhood(name, city, state).then(function (res) {
+      var data = res.data[0];
+      var neighborhood_id = data.neighborhood_id;
+      if (res.status === 200 && res.data !== "Could not create neighborhood") {
+
+        cb2(neighborhood_id);
+      } else if (res.data === "Could not create neighborhood") {
+        alert('Failed to create neighborhood. Neighborhood name must be unique');
+        cb(form);
+      }
+    }, function (err) {
+      if (err.status === 420) {
+        alert('Failed to create neighborhood. Neighborhood name must be unique');
+        cb(form);
+      }
+    });
+  };
+});
+
+angular.module('nWatch').controller('signupCtrl', function ($scope, signupSrvc, $state, loginSrvc, $rootScope) {
+  $scope.uploadme = {};
+  $scope.uploadme.src = "app/img/profilepicture/default_picture.jpg";
+  $scope.face = null;
+  $scope.google = null;
+  //callback function that resets signup form. Gets fired off if there was an issue signing someone up
+  $scope.reset = function (form) {
+    form.$setPristine();
+    form.$setUntouched();
+    var controlNames = Object.keys(form).filter(function (key) {
+      return key.indexOf('$') !== 0;
+    });
+    var _iteratorNormalCompletion3 = true;
+    var _didIteratorError3 = false;
+    var _iteratorError3 = undefined;
+
+    try {
+      for (var _iterator3 = controlNames[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+        var name = _step3.value;
+
+        var control = form[name];
+        control.$setViewValue(undefined);
+      }
+    } catch (err) {
+      _didIteratorError3 = true;
+      _iteratorError3 = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion3 && _iterator3.return) {
+          _iterator3.return();
+        }
+      } finally {
+        if (_didIteratorError3) {
+          throw _iteratorError3;
+        }
+      }
+    }
+
+    $scope.firstname = '';
+    $scope.lastname = '';
+    $scope.email = '';
+    $scope.username = '';
+    $scope.password = '';
+    $scope.uploadme.src = '';
+    $scope.confirm = '';
+  };
+  //master function that handles signing up a user. takes in callback (reset) that will be fired off if there is an issue signing up the user.
+  $scope.createUser = function (first_name, last_name, username, email, facebook_id, google_id, password, photo, cb, form) {
+    signupSrvc.createUser(first_name, last_name, username, email, facebook_id, google_id, password, photo).then(function (res) {
+      if (res.status === 200) {
+        loginSrvc.login(username, password).then(function (res) {
+          $rootScope.$broadcast('createUser');
+          $state.go('user');
+        });
+      }
+    }, function (err) {
+      if (err) {
+        alert('There was a problem signing you up. Usernames must be unique. Please try again.');
+        cb(form);
+      }
+    });
+  };
+});
+
+angular.module('nWatch').controller('userCtrl', function ($scope, userSrvc, $timeout, uploadFile, $rootScope) {
+  $scope.hasInfo = true;
+  //invokes on page load to grab the req.session.user, also passed to updateInfo
+  $scope.compileUserInfo = function (id, cb) {
+    userSrvc.getCreatedEvents(id).then(function (res) {
+      userSrvc.getFollowedEvents(id).then(function (res) {
+        userSrvc.getUserNeighborhood(id).then(function (res) {
+          cb();
+        });
+      });
+    });
+  };
+  //Grabs the session object
+  $scope.getSession = function () {
+    userSrvc.getSession().then(function (res) {
+      var data = res.data;
+      $scope.facebookId = data.user[0].facebook_id;
+      if (data.facebookUser === true) {
+        $scope.hasInfo = false;
+        $scope.previous_id = data.user[0].user_id;
+        $scope.facebookUser = true;
+        $rootScope.$broadcast('facebook-user');
+        alert('Please update your profile information and set a password');
+      }
+      $scope.user = data.user[0];
+      $scope.usernameNoUpdate = $scope.user.username;
+      $scope.neighborhood = data.neighborhood[0];
+      $scope.followedEvents = data.followedEvents;
+      $scope.createdEvents = data.createdEvents;
+      if ($scope.createdEvents.length === 0) {
+        $scope.hasCreated = false;
+      } else if ($scope.createdEvents.length > 0) {
+        $scope.hasCreated = true;
+      }
+      if ($scope.followedEvents.length === 0) {
+        $scope.isFollowing = false;
+      } else if ($scope.followedEvents.length > 0) {
+        $scope.isFollowing = true;
+      }
+    });
+  };
+  //Gets user that just logged in, then invokes compileUserInfo passing the user id that was just grabbed and passes the second callback which is grab session
+  $scope.getUser = function (cb1, cb2) {
+    userSrvc.getCurrentUser().then(function (res) {
+      var data = res.data.user[0];
+      var user_id = data.user_id;
+      $scope.thumbnail = {};
+      $scope.thumbnail.dataUrl = data.photo;
+      cb1(user_id, cb2);
+    });
+  };
+  $scope.getUser($scope.compileUserInfo, $scope.getSession);
+
+  //This function fires when update my info gets clicked and shows the update html
+  $scope.update = function () {
+    $scope.hasInfo = !$scope.hasInfo;
+  };
+  //When user clicks save profile, it updates their info in the database, then reruns all the functions that are loaded on page initialization to reset the session and grab it and reload the page
+  $scope.updateInfo = function (user_id, first_name, last_name, username, email, facebook_id, photo, password, cb) {
+    if ($scope.facebookUser === true) {
+      userSrvc.getUserEmail(email).then(function (res) {
+        var data = res.data;
+        if (data.length > 0) {
+          var _user_id = data[0].user_id;
+          userSrvc.updateInfo(_user_id, first_name, last_name, username, email, facebook_id, photo, password).then(function (res) {
+            var previous_id = $scope.previous_id;
+            if (previous_id) {
+              userSrvc.deletefacebook(previous_id).then(function (res) {
+                $rootScope.$broadcast('facebook-not-user');
+                $scope.facebookUser = false;
+                $scope.hasInfo = !$scope.hasInfo;
+                cb($scope.compileUserInfo, $scope.getSession);
+              });
+            } else {
+
+              userSrvc.updatedfacebook().then(function (res) {
+                $rootScope.$broadcast('facebook-not-user');
+                $scope.facebookUser = false;
+                $scope.hasInfo = !$scope.hasInfo;
+                cb($scope.compileUserInfo, $scope.getSession);
+              });
+            }
+          }, function (err) {
+            if (err.data.code === '23505') {
+              alert('Unable to update info. Username matched a previous record. Please pick a different username.');
+              $scope.user.username = $scope.usernameNoUpdate;
+            } else {
+              alert('Something went wrong on update. Please try again.');
+            }
+          });
+        } else {
+          userSrvc.updateInfo(user_id, first_name, last_name, username, email, facebook_id, photo, password).then(function (res) {
+
+            userSrvc.updatedfacebook().then(function (res) {
+              $rootScope.$broadcast('facebook-not-user');
+              $scope.facebookUser = false;
+              $scope.hasInfo = !$scope.hasInfo;
+              cb($scope.compileUserInfo, $scope.getSession);
+            });
+          }, function (err) {
+            if (err.data.code === '23505') {
+              alert('Unable to update info. Username matched a previous record. Please pick a different username.');
+              $scope.user.username = $scope.usernameNoUpdate;
+            } else {
+              alert('Something went wrong on update. Please try again.');
+            }
+          });
+        }
+      });
+    } else {
+
+      userSrvc.updateInfo(user_id, first_name, last_name, username, email, facebook_id, photo, password).then(function (res) {
+        userSrvc.updatedfacebook().then(function (res) {
+          $scope.facebookUser = false;
+          $scope.hasInfo = !$scope.hasInfo;
+          cb($scope.compileUserInfo, $scope.getSession);
+        });
+      }, function (err) {
+        if (err.data.code === '23505') {
+          alert('Unable to update info. Username matched a previous record. Please pick a different username.');
+          $scope.user.username = $scope.usernameNoUpdate;
+        } else {
+          alert('Something went wrong on update. Please try again.');
+        }
+      });
+    }
+  };
+
+  $scope.cancelChanges = function () {
+    $scope.hasInfo = !$scope.hasInfo;
+  };
+
+  //File upload functions
+  $scope.file = {};
+  $scope.message = false;
+  $scope.alert = '';
+  $scope.defaultUrl = 'app/img/profilepicture/default_picture.jpg';
+  $scope.defaultEventUrl = 'app/img/dandelion.jpg';
+
+  $scope.Submit = function () {
+    $scope.uploading = true;
+    uploadFile.upload($scope.file).then(function (data) {
+      if (data.data.success) {
+        $scope.uploading = false;
+        $scope.alert = 'alert alert-success';
+        $scope.message = data.data.message;
+        $scope.file = {};
+      } else {
+        $scope.uploading = false;
+        $scope.alert = 'alert alert-danger';
+        $scope.message = data.data.message;
+        $scope.file = {};
+      }
+    });
+  };
+
+  $scope.photoChanged = function (files) {
+    if (files.length > 0 && files[0].name.match(/\.(png|jpeg|jpg)$/)) {
+      $scope.uploading = true;
+      var file = files[0];
+      var fileReader = new FileReader();
+
+      fileReader.readAsDataURL(file);
+      fileReader.onload = function (e) {
+        $timeout(function () {
+          $scope.thumbnail = {};
+          $scope.thumbnail.dataUrl = e.target.result;
+          $scope.user.photo = 'app/img/' + file.name || $scope.defaultUrl;
+          $scope.uploading = false;
+          $scope.message = false;
+        });
+      };
+    } else {
+      $scope.thumbnail = {};
+      $scope.message = false;
+    }
   };
 });
 
@@ -2397,254 +2736,4 @@ angular.module('nWatch').controller('hoodCtrl', function ($scope, neighborhoodSr
     });
   };
   $scope.getSession();
-});
-
-angular.module('nWatch').controller('newNeighborhoodCtrl', function ($scope, neighborhoodSrvc, $state, userSrvc) {
-  //callback function invoked by saveNeighborhood that gets invoked if neighborhood creation was successful that updates users neighborhood and updates session then routes to user view
-  $scope.updateUsersNeighborhood = function (neighborhood_id) {
-    neighborhoodSrvc.getSession().then(function (resp) {
-      var session = resp.data;
-      var user_id = session.user[0].user_id;
-      neighborhoodSrvc.joinNeighborhood(neighborhood_id, user_id).then(function (resp) {
-        userSrvc.getUser(user_id).then(function (resp) {
-          $state.go('user');
-        });
-      });
-    });
-  };
-  //This is a callback function passed to saveNeighborhood on save neighborhood button submit that is used to reset the form if there was an error creating the neighborhood
-  $scope.reset = function (form) {
-    form.$setPristine();
-    form.$setUntouched();
-    var controlNames = Object.keys(form).filter(function (key) {
-      return key.indexOf('$') !== 0;
-    });
-    var _iteratorNormalCompletion2 = true;
-    var _didIteratorError2 = false;
-    var _iteratorError2 = undefined;
-
-    try {
-      for (var _iterator2 = controlNames[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-        var name = _step2.value;
-
-        var control = form[name];
-        control.$setViewValue(undefined);
-      }
-    } catch (err) {
-      _didIteratorError2 = true;
-      _iteratorError2 = err;
-    } finally {
-      try {
-        if (!_iteratorNormalCompletion2 && _iterator2.return) {
-          _iterator2.return();
-        }
-      } finally {
-        if (_didIteratorError2) {
-          throw _iteratorError2;
-        }
-      }
-    }
-
-    $scope.neighborhoodName = '';
-    $scope.city = '';
-    $scope.state = '';
-  };
-  //Function that is invoked when save neighborhood is clicked..If neighborhood was created it invokes updateUsersNeighborhood which updates the users neighborhood to newly created neighborhood and then routes back to user view
-  $scope.saveNeighborhood = function (name, city, state, cb, cb2, form) {
-    neighborhoodSrvc.createNeighborhood(name, city, state).then(function (res) {
-      var data = res.data[0];
-      var neighborhood_id = data.neighborhood_id;
-      if (res.status === 200 && res.data !== "Could not create neighborhood") {
-
-        cb2(neighborhood_id);
-      } else if (res.data === "Could not create neighborhood") {
-        alert('Failed to create neighborhood. Neighborhood name must be unique');
-        cb(form);
-      }
-    }, function (err) {
-      if (err.status === 420) {
-        alert('Failed to create neighborhood. Neighborhood name must be unique');
-        cb(form);
-      }
-    });
-  };
-});
-
-angular.module('nWatch').controller('userCtrl', function ($scope, userSrvc, $timeout, uploadFile) {
-  $scope.hasInfo = true;
-  //invokes on page load to grab the req.session.user, also passed to updateInfo
-  $scope.compileUserInfo = function (id, cb) {
-    userSrvc.getCreatedEvents(id).then(function (res) {
-      userSrvc.getFollowedEvents(id).then(function (res) {
-        userSrvc.getUserNeighborhood(id).then(function (res) {
-          cb();
-        });
-      });
-    });
-  };
-  //Grabs the session object
-  $scope.getSession = function () {
-    userSrvc.getSession().then(function (res) {
-      var data = res.data;
-      $scope.user = data.user[0];
-      $scope.usernameNoUpdate = $scope.user.username;
-      $scope.neighborhood = data.neighborhood[0];
-      $scope.followedEvents = data.followedEvents;
-      $scope.createdEvents = data.createdEvents;
-      if ($scope.createdEvents.length === 0) {
-        $scope.hasCreated = false;
-      } else if ($scope.createdEvents.length > 0) {
-        $scope.hasCreated = true;
-      }
-      if ($scope.followedEvents.length === 0) {
-        $scope.isFollowing = false;
-      } else if ($scope.followedEvents.length > 0) {
-        $scope.isFollowing = true;
-      }
-    });
-  };
-  //Gets user that just logged in, then invokes compileUserInfo passing the user id that was just grabbed and passes the second callback which is grab session
-  $scope.getUser = function (cb1, cb2) {
-    userSrvc.getCurrentUser().then(function (res) {
-      var data = res.data.user[0];
-      var user_id = data.user_id;
-      $scope.thumbnail = {};
-      $scope.thumbnail.dataUrl = data.photo;
-      cb1(user_id, cb2);
-    });
-  };
-  $scope.getUser($scope.compileUserInfo, $scope.getSession);
-
-  //This function fires when update my info gets clicked and shows the update html
-  $scope.update = function () {
-    $scope.hasInfo = !$scope.hasInfo;
-  };
-  //When user clicks save profile, it updates their info in the database, then reruns all the functions that are loaded on page initialization to reset the session and grab it and reload the page
-  $scope.updateInfo = function (user_id, first_name, last_name, username, email, photo, cb) {
-    userSrvc.updateInfo(user_id, first_name, last_name, username, email, photo).then(function (res) {
-      $scope.hasInfo = !$scope.hasInfo;
-      cb($scope.compileUserInfo, $scope.getSession);
-    }, function (err) {
-      if (err.data.code === '23505') {
-        alert('Unable to update info. Username matched a previous record. Please pick a different username.');
-        $scope.user.username = $scope.usernameNoUpdate;
-      } else {
-        alert('Something went wrong on update. Please try again.');
-      }
-    });
-  };
-
-  $scope.cancelChanges = function () {
-    $scope.hasInfo = !$scope.hasInfo;
-  };
-
-  //File upload functions
-  $scope.file = {};
-  $scope.message = false;
-  $scope.alert = '';
-  $scope.defaultUrl = 'app/img/profilepicture/default_picture.jpg';
-  $scope.defaultEventUrl = 'app/img/dandelion.jpg';
-
-  $scope.Submit = function () {
-    $scope.uploading = true;
-    uploadFile.upload($scope.file).then(function (data) {
-      if (data.data.success) {
-        $scope.uploading = false;
-        $scope.alert = 'alert alert-success';
-        $scope.message = data.data.message;
-        $scope.file = {};
-      } else {
-        $scope.uploading = false;
-        $scope.alert = 'alert alert-danger';
-        $scope.message = data.data.message;
-        $scope.file = {};
-      }
-    });
-  };
-
-  $scope.photoChanged = function (files) {
-    if (files.length > 0 && files[0].name.match(/\.(png|jpeg|jpg)$/)) {
-      $scope.uploading = true;
-      var file = files[0];
-      var fileReader = new FileReader();
-
-      fileReader.readAsDataURL(file);
-      fileReader.onload = function (e) {
-        $timeout(function () {
-          $scope.thumbnail = {};
-          $scope.thumbnail.dataUrl = e.target.result;
-          $scope.user.photo = 'app/img/' + file.name || $scope.defaultUrl;
-          $scope.uploading = false;
-          $scope.message = false;
-        });
-      };
-    } else {
-      $scope.thumbnail = {};
-      $scope.message = false;
-    }
-  };
-});
-
-angular.module('nWatch').controller('signupCtrl', function ($scope, signupSrvc, $state, loginSrvc, $rootScope) {
-  $scope.uploadme = {};
-  $scope.uploadme.src = "app/img/profilepicture/default_picture.jpg";
-  $scope.face = null;
-  $scope.google = null;
-  //callback function that resets signup form. Gets fired off if there was an issue signing someone up
-  $scope.reset = function (form) {
-    form.$setPristine();
-    form.$setUntouched();
-    var controlNames = Object.keys(form).filter(function (key) {
-      return key.indexOf('$') !== 0;
-    });
-    var _iteratorNormalCompletion3 = true;
-    var _didIteratorError3 = false;
-    var _iteratorError3 = undefined;
-
-    try {
-      for (var _iterator3 = controlNames[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-        var name = _step3.value;
-
-        var control = form[name];
-        control.$setViewValue(undefined);
-      }
-    } catch (err) {
-      _didIteratorError3 = true;
-      _iteratorError3 = err;
-    } finally {
-      try {
-        if (!_iteratorNormalCompletion3 && _iterator3.return) {
-          _iterator3.return();
-        }
-      } finally {
-        if (_didIteratorError3) {
-          throw _iteratorError3;
-        }
-      }
-    }
-
-    $scope.firstname = '';
-    $scope.lastname = '';
-    $scope.email = '';
-    $scope.username = '';
-    $scope.password = '';
-    $scope.uploadme.src = '';
-    $scope.confirm = '';
-  };
-  //master function that handles signing up a user. takes in callback (reset) that will be fired off if there is an issue signing up the user.
-  $scope.createUser = function (first_name, last_name, username, email, facebook_id, google_id, password, photo, cb, form) {
-    signupSrvc.createUser(first_name, last_name, username, email, facebook_id, google_id, password, photo).then(function (res) {
-      if (res.status === 200) {
-        loginSrvc.login(username, password).then(function (res) {
-          $rootScope.$broadcast('createUser');
-          $state.go('user');
-        });
-      }
-    }, function (err) {
-      if (err) {
-        alert('There was a problem signing you up. Usernames must be unique. Please try again.');
-        cb(form);
-      }
-    });
-  };
 });

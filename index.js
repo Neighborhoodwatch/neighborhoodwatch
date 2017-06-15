@@ -89,7 +89,30 @@ app.get('/logout', function(req, res, done) {
 app.get('/img', function(req, res, next) {
   res.send("uploads")
 })
-
+app.get('/updatedfacebook', function(req, res, next) {
+    req.session.facebookUser = false
+      res.send(req.session)
+})
+app.delete('/deletefacebook/:id', function(req, res, next) {
+  var id = req.params.id
+  db.delete_user(id, (err, resp) => {
+    req.session.facebookUser = false
+    if(err) {
+      res.status(420).json(err)
+    } else {
+      res.send(req.session)
+    }
+  })
+})
+app.get('/facebookemail/:email', function(req, res, next) {
+  db.get_user_email(req.params.email, (err, resp) => {
+    if(err) {
+      res.status(420).json(err)
+    } else {
+      res.send(resp)
+    }
+  })
+})
 //Passport code moved here for now...//
 passport.serializeUser(function(user, done) {
       done(null, user);
@@ -112,33 +135,33 @@ app.use(passport.session({
 //FACEBOOK
 //NOTE: I have facebook setup to respond to API calls @: localhost:3005
     passport.use(new FacebookStrategy({
-    clientID: '448384402181550',
-    clientSecret: 'cc01914586c904f7ecdef4daa544c066',
+    clientID: process.env.clientID,
+    clientSecret: process.env.clientSecret,
     callbackURL: 'https://neighborhoods.herokuapp.com/auth/facebook/callback',
-    profileFields: ['id', 'displayName']
+    // callbackURL: 'http://localhost:3200/auth/facebook/callback',
+    profileFields: ['id', 'displayName', 'email']
     },
     function(token, refreshToken, profile, done) {
-        console.log('facebook profile', profile)
-        db.get_facebook_user({facebook_id: profile.id}, function(err, user) {
-            if (!user) {
-                console.log('CREATING USER:');
-                db.create_facebook_user([profile.displayName, profile.id],
-
-                function(err, user) {
-                    return done(err, user, {scope: 'all'});
-                })
-            } else {
-            return done(err, user);
-            }
-        })
+      return done(null, profile)
+        // db.get_facebook_user({facebook_id: profile.id}, function(err, user) {
+        //     if (!user) {
+        //         db.create_facebook_user([profile.displayName, profile.id],
+        //
+        //         function(err, user) {
+        //             return done(err, user, {scope: 'all'});
+        //         })
+        //     } else {
+        //     return done(err, user);
+        //     }
+        // })
     }));
 
     app.get('/auth/facebook', passport.authenticate('facebook'));
     app.get('/auth/facebook/callback',
         passport.authenticate('facebook', {
-                              failureRedirect: '/#/failureLogin'
+                              failureRedirect: '/#!/login'
     }), function(req, res, next) {
-            res.redirect('/')
+            res.redirect('/authenticate/facebook')
     });
 //google oAuth20
 // look at this article before setting up the ID and SECRET
@@ -146,16 +169,15 @@ app.use(passport.session({
 // then navigate here to obtain CLIENT_ID and SECRET: https://console.cloud.google.com/home/dashboard
 ////////////////////////////////////////////////
 const port = process.env.PORT || config.PORT || 3000;
-const GOOGLE_CLIENT_ID = "127014654196-tvcq3j7qq9c54c4v48mlvnmdg5b2vnn5.apps.googleusercontent.com";
-const GOOGLE_CLIENT_SECRET = "grAndUwDvY-eTcL84F-nW_aG";
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 //
 passport.use(new GoogleStrategy({
    clientID: GOOGLE_CLIENT_ID,
    clientSecret: GOOGLE_CLIENT_SECRET,
-   callbackURL: 'http://localhost:3200/auth/google/callback'
+   callbackURL: 'https://neighborhoods.herokuapp.com/auth/google/callback'
  },
  function(accessToken, refreshToken, profile, done) {
-   console.log(profile)
    return done(null, profile)
  }
 ));
@@ -169,7 +191,8 @@ app.get('/auth/google/callback',
  });
 //google auth routes
 app.get('/authenticate/google', userSession, userEandN, isLoggedIn, users)
-
+//Facebook auth routes
+app.get('/authenticate/facebook', userSession, userEandN, isLoggedIn, users)
 
 app.listen(port, () => {
   console.log(`sup from port ${port}`);
